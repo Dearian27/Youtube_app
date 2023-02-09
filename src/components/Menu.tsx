@@ -17,8 +17,9 @@ import FlagIcon from '@mui/icons-material/Flag';
 
 const Container = styled.div`
   flex: 1;
-  color: white;
-  background-color: #202020;
+  color: ${({ theme }) => theme.text};
+  background-color: ${({ theme }) => theme.bgLighter};
+  transition: background-color 0.25s ease-in-out;
   height: 100vh;
   font-size: 14px;
   position: sticky;
@@ -46,31 +47,35 @@ const Item = styled.div`
   cursor: pointer;
   gap: 15px;
   padding: 10px 0px;
+  user-select: none;
 `
 const Hr = styled.hr`
-  /* height: 1px; */
-  border: 1px solid white;
-  opacity: 0.1;
+  /* border: 1px solid white; */
+  border: 1px solid ${({ theme }) => theme.hrColor};
+  transition:  0.25s ease-in-out;
   margin: 10px 0;
 `
 const H3 = styled.h3`
   font-weight: 700;
-  color: white;
-  opacity: 0.5;
+  color: ${({ theme }) => theme.textSoft};
+  transition:  0.25s ease-in-out;
+  opacity: 0.7;
   margin-bottom: 10px;
   text-transform: uppercase;
 `
 const H4 = styled.h4`
   font-weight: 500;
-  color: white;
+  color: ${({ theme }) => theme.textSoft};
+  transition:  2s ease-in-out;
   margin-bottom: 10px;
   font-family: 'Poppins';
 `
-const Button = styled.button`
-  border: 1px solid lightblue;
+export const Button = styled.button`
+  border: 1px solid ${({ theme }) => theme.blueShade};
   border-radius: 5px;
   background-color: transparent;
-  color: lightblue;
+  color: ${({ theme }) => theme.blueShade};
+  transition:  2s ease-in-out;
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -84,8 +89,13 @@ const Button = styled.button`
     outline: none;
   }
 `
+interface MenuProps {
+  darkMode: boolean;
+  setDarkMode: (darkMode: boolean) => void;
+}
 
-const Menu = () => {
+
+const Menu: React.FC<MenuProps> = ({ darkMode, setDarkMode }) => {
   const isAuth = false;
 
   return (
@@ -144,7 +154,7 @@ const Menu = () => {
         <Item>
           <FlagIcon />Report
         </Item>
-        <Item>
+        <Item onClick={() => setDarkMode(!darkMode)}>
           <SettingsBrightnessIcon />Light Mode
         </Item>
       </Wrapper>
