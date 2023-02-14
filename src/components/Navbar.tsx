@@ -3,11 +3,13 @@ import styled from 'styled-components';
 import { Button } from './Menu'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SearchIcon from '@mui/icons-material/Search';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   position: sticky;
   top: 0;
   background-color: ${({ theme }) => theme.bgLighter};
+  transition: background-color 0.25s ease-in-out;
   height: 56px;
 `
 const Wrapper = styled.div`
@@ -40,17 +42,23 @@ const Input = styled.input`
   }
 `
 
+interface NavBarProps {
+  darkMode: boolean;
+}
 
-const Navbar = () => {
+const Navbar: React.FC<NavBarProps> = ({ darkMode }) => {
+
+  const navigate = useNavigate();
+
   return (
     <Container>
       <Wrapper>
         <Search>
           <Input type="text" placeholder="Search" />
-          <SearchIcon />
+          <SearchIcon style={{ fill: `${darkMode ? "white" : "black"}` }} />
         </Search>
 
-        <Button>
+        <Button onClick={() => navigate('/signin')}>
           <AccountCircleIcon />
           Sign in
         </Button>

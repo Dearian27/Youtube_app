@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import Card from "../components/Card";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -7,21 +9,29 @@ const Container = styled.div`
   flex-wrap: wrap;
 `
 
+interface videoI {
+  id: string;
+  title: string;
+  url: string;
+}
+
 const Home: React.FC = () => {
+
+
+
   return (
-    <div>
-      <h1>Home</h1>
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-    </div>
+    <Container>
+      <Card type={"lg"} />
+      <Card type={"lg"} />
+      <Card type={"lg"} />
+      <Card type={"lg"} />
+      <Card type={"lg"} />
+      <Card type={"lg"} />
+      <Card type={"lg"} />
+      <Card type={"lg"} />
+      <Card type={"lg"} />
+      <Card type={"lg"} />
+    </Container>
   )
 }
 

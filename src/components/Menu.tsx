@@ -14,6 +14,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SettingsBrightnessIcon from '@mui/icons-material/SettingsBrightness';
 import FlagIcon from '@mui/icons-material/Flag';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
   flex: 1;
@@ -27,35 +28,43 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-  padding: 18px 26px;
-`
+  padding: 18px 0px;
+  `
 
 const Logo = styled.div`
+  padding: 0px 26px;
+  color: ${({ theme }) => theme.text};
   display: flex;
   align-items: center;
   gap: 5px;
   font-weight: bold;
   margin-bottom: 10px;
+  text-decoration: none;
 `
 const Img = styled.img`
   height: 32px;
-
 `
 const Item = styled.div`
+  /* width: ; */
+  
   display: flex;
   align-items: center;
   cursor: pointer;
   gap: 15px;
-  padding: 10px 0px;
+  padding: 10px 26px;
   user-select: none;
-`
+  transition: background-color 0.25s ease-in-out;
+  &:hover {
+    background-color: ${({ theme }) => theme.hrColor};
+  }
+  `
 const Hr = styled.hr`
-  /* border: 1px solid white; */
   border: 1px solid ${({ theme }) => theme.hrColor};
   transition:  0.25s ease-in-out;
-  margin: 10px 0;
-`
+  margin: 10px 26px;
+  `
 const H3 = styled.h3`
+  margin: 0px 26px;
   font-weight: 700;
   color: ${({ theme }) => theme.textSoft};
   transition:  0.25s ease-in-out;
@@ -64,6 +73,7 @@ const H3 = styled.h3`
   text-transform: uppercase;
 `
 const H4 = styled.h4`
+  margin: 0px 26px;
   font-weight: 500;
   color: ${({ theme }) => theme.textSoft};
   transition:  2s ease-in-out;
@@ -71,11 +81,14 @@ const H4 = styled.h4`
   font-family: 'Poppins';
 `
 export const Button = styled.button`
+  margin: 0px 26px;
+  
   border: 1px solid ${({ theme }) => theme.blueShade};
   border-radius: 5px;
   background-color: transparent;
   color: ${({ theme }) => theme.blueShade};
   transition:  2s ease-in-out;
+  transition:  background-color 0.4s ease-in-out;
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -84,7 +97,9 @@ export const Button = styled.button`
   cursor: pointer;
   font-size: 15px;
   text-transform: uppercase;
-
+  &:hover {
+    background-color: ${({ theme }) => theme.blueShade}44;
+  }
   &:focus {
     outline: none;
   }
@@ -101,10 +116,12 @@ const Menu: React.FC<MenuProps> = ({ darkMode, setDarkMode }) => {
   return (
     <Container>
       <Wrapper>
-        <Logo>
-          <Img src={LogoFile} />
-          Metube
-        </Logo>
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <Logo>
+            <Img src={LogoFile} />
+            Metube
+          </Logo>
+        </Link>
 
         <Item>
           <HomeIcon />Home
@@ -126,10 +143,12 @@ const Menu: React.FC<MenuProps> = ({ darkMode, setDarkMode }) => {
           !isAuth &&
           <><Hr />
             <H4>Sign in to like, comment videos and subscribe.</H4>
-            <Button>
-              <AccountCircleIcon />
-              Sign in
-            </Button>
+            <Link to="/signin" style={{ textDecoration: "none" }}>
+              <Button>
+                <AccountCircleIcon />
+                Sign in
+              </Button>
+            </Link>
           </>
         }
 
@@ -155,7 +174,7 @@ const Menu: React.FC<MenuProps> = ({ darkMode, setDarkMode }) => {
           <FlagIcon />Report
         </Item>
         <Item onClick={() => setDarkMode(!darkMode)}>
-          <SettingsBrightnessIcon />Light Mode
+          <SettingsBrightnessIcon />{darkMode ? "Light" : "Dark"} Mode
         </Item>
       </Wrapper>
     </Container>
