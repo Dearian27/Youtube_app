@@ -5,8 +5,12 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import { darkTheme } from "../utils/Theme";
 import Comments from "../components/Comments";
-import Card from "../components/Card";
-
+import Card, { channelType } from "../components/Card";
+import { useLocation, useParams } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import axios from '../utils/axios';
+import { videoI } from "./Home";
+import { format } from 'timeago.js';
 
 const Container = styled.div`
     display: flex;
@@ -68,7 +72,7 @@ const ChannelInfo = styled.div`
   display: flex;
   gap: 20px;
 `
-const Image = styled.img`
+const ImageIcon = styled.img`
   height: 50px;
   width: 50px;
   border-radius: 50%;
@@ -102,6 +106,37 @@ const Subscribe = styled.button`
 `
 
 const Video: React.FC = () => {
+
+  const params = useParams();
+  const { id } = params;
+
+  const [videoUrl, setVideoUrl] = useState<string>();
+  const [channel, setChannel] = useState<channelType>(null);
+  const [video, setVideo] = useState<videoI>();
+
+  const fetchChannel = async () => {
+    const { data } = await axios.get(`/users/${video?.userId}/`);
+    setChannel(data);
+  }
+
+  const fetchVideo = async () => {
+    const { data } = await axios.get(`/videos/find/${id}/`);
+    setVideo(data);
+    setVideoUrl(data.videoUrl);
+
+    fetchChannel();
+  }
+
+  const addView = async () => {
+    await axios.put(`/videos/view/${id}`);
+    return;
+  }
+
+  useEffect(() => {
+    fetchVideo();
+    addView();
+  }, [])
+
   return (
     <Container>
       <Content>
@@ -109,22 +144,25 @@ const Video: React.FC = () => {
           <iframe
             width="100%"
             height="555px"
-            src="https://www.youtube.com/embed/yIaXoop8gl4"
-            title="video player"
+            src={video?.videoUrl} //https://www.youtube.com/embed/yIaXoop8gl4
+            title={video?.title}
             frameBorder="0"
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
+            scrolling="no"
+          // style={{ backgroundRepeat: "no-repeat", backgroundSize: "contain", background: `${video?.videoUrl ? "none" : "url('https://miro.medium.com/max/800/1*hFwwQAW45673VGKrMPE2qQ.png')"}` }}
           ></iframe>
+          {/* <iframe src="https://archive.org/embed/TMNT-2003" width="640" height="480" frameBorder="0" allowFullScreen></iframe> */}
           <Title>
-            The video fdfafds dfsaf
+            {video?.title}
           </Title>
           <Details>
             <Info>
-              606,000 views • 1 day ago
+              {video?.views} views • {video?.createdAt && format(video?.createdAt)}
             </Info>
             <Buttons>
-              <Button><ThumbDownAltOutlinedIcon style={{ fill: "black" }} />34</Button>
-              <Button><ThumbUpAltOutlinedIcon />0</Button>
+              <Button><ThumbUpAltOutlinedIcon />34</Button>
+              <Button><ThumbDownAltOutlinedIcon style={{ fill: "black" }} />0</Button>
               <Button><ReplyIcon style={{ height: "30px", width: "30px", }} />share</Button>
               <Button><AddTaskIcon />save</Button>
             </Buttons>
@@ -133,11 +171,11 @@ const Video: React.FC = () => {
         <Hr />
         <Channel>
           <ChannelInfo>
-            <Image src="https://yt3.ggpht.com/FfMduny7Y5_hyUl-GrXLNsTF_hTckVTU-PCXo6_WJEjuZw6FhwhaVb4BJ0WWntRtGQyu8-6ZBA=s48-c-k-c0x00ffffff-no-rj" />
+            <ImageIcon src="https://yt3.ggpht.com/FfMduny7Y5_hyUl-GrXLNsTF_hTckVTU-PCXo6_WJEjuZw6FhwhaVb4BJ0WWntRtGQyu8-6ZBA=s48-c-k-c0x00ffffff-no-rj" />
             <ChannelDetail>
-              <ChannelName> 24 канал</ChannelName>
-              <ChannelCounter> 200K subscribers</ChannelCounter>
-              <Description> Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque molestiae placeat voluptates, veritatis deleniti laboriosam similique, quaerat quasi aut doloribus, id qui dolores illum nihil nam accusamus fugiat dicta atque.</Description>
+              <ChannelName>{channel?.name}</ChannelName>
+              <ChannelCounter> {channel?.subscribers} subscribers</ChannelCounter>
+              <Description>{video?.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
           <Subscribe>Subscribe</Subscribe>
@@ -145,10 +183,10 @@ const Video: React.FC = () => {
         <Comments />
       </Content>
       <Recommendations>
+        {/* <Card type="sm" />
         <Card type="sm" />
         <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
+        <Card type="sm" /> */}
       </Recommendations>
     </Container >
   )

@@ -1,5 +1,9 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { videoI } from "../pages/Home";
+import { format } from 'timeago.js';
+import axios from "../utils/axios";
 
 interface layoutProps {
 	type: string;
@@ -54,19 +58,44 @@ const Info = styled.div`
 
 interface CardProps {
 	type: string;
+	video: videoI;
 }
 
-const Card: React.FC<CardProps> = ({ type }) => {
+export type channelType = {
+	createdAt: string;
+	email: string;
+	name: string;
+	password: string;
+	subscribedUsers: string[];
+	subscribers: number;
+	updatedAt: string;
+	__v: number;
+	_id: string;
+} | null;
+
+const Card: React.FC<CardProps> = ({ type, video }) => {
+
+	const [channel, setChannel] = useState<channelType>(null);
+
+	const fetchChannel = async () => {
+		const { data } = await axios.get(`/users/${video.userId}`);
+		setChannel(data);
+	}
+
+	useEffect(() => {
+		fetchChannel();
+	}, [video])
+
 	return (
-		<Link to="/video/test" style={{ textDecoration: "none" }}>
+		<Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
 			<Container type={type}>
-				<Image type={type} src="" />
+				<Image type={type} src={video?.imgUrl} />
 				<Details type={type}>
-					<ChannelImage type={type} src="" />
+					<ChannelImage type={type} src={""} />
 					<Texts>
-						<Title>Test video</Title>
-						<ChannelName>Dearian</ChannelName>
-						<Info>606,000 views • 1 day ago</Info>
+						<Title>{video ? video?.title : "test video"}</Title>
+						<ChannelName>{channel?.name || "User"}</ChannelName>
+						<Info>{video.views} views • {format(video.createdAt, "")}</Info>  {/*1 day ago */}
 					</Texts>
 				</Details>
 			</Container>

@@ -6,6 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
+  z-index: 5;
   position: sticky;
   top: 0;
   background-color: ${({ theme }) => theme.bgLighter};

@@ -9,7 +9,7 @@ const Container = styled.div`
   height: calc(100vh - 55px);
   color: ${({ theme }) => theme.text};
   `
-const Wrapper = styled.div`
+const Wrapper = styled.form`
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -34,6 +34,11 @@ const Input = styled.input`
   background-color: transparent;
   width: 100%;
   font-size: 15px;
+  transition: background-color 0.4s ease-in-out;
+  &:focus {
+    outline: none;
+    background-color: #0000000F;
+  }
 `
 const Button = styled.button`
   border-radius: 3px;
@@ -54,21 +59,24 @@ const More = styled.div`
 
 const SignUp: React.FC = () => {
 
-  //   const [email, setEmail] = React.useState('')
-  //   const [password, setPassword] = React.useState('')
-  //   const [error, setError] = React.useState('')
-  //   const [loading, setLoading] = React.useState(false)
+  const [email, setEmail] = React.useState<string>('');
+  const [password, setPassword] = React.useState<string>('');
+  const [confirmP, setConfirmP] = React.useState<string>('');
+  const [name, setName] = React.useState<string>('');
+
+
 
   return (
     <Container>
-      <Wrapper>
+      <Wrapper onSubmit={(e) => e.preventDefault()}>
         <Title>Sign Up</Title>
         <Subtitle>We are really happy to see you again!</Subtitle>
-        <Input type='text' placeholder='name' />
-        <Input type='email' placeholder='email' />
-        <Input type='password' placeholder='password' />
+        <Input onChange={(el) => setName(el.target.value)} value={name} type='text' placeholder='name' />
+        <Input onChange={(el) => setEmail(el.target.value)} value={email} type='email' placeholder='email' />
+        <Input onChange={(el) => setPassword(el.target.value)} value={password} type='password' placeholder='enter password' />
+        <Input onChange={(el) => setConfirmP(el.target.value)} value={confirmP} type='password' placeholder='confirm the password' />
         <Subtitle>Already have an <Link style={{ color: "lightblue" }} to="/signin">account</Link>?</Subtitle>
-        <Button>Sign Up</Button>
+        <Button type='submit'>Sign Up</Button>
         <More>English(USA)</More>
       </Wrapper>
     </Container>

@@ -1,6 +1,9 @@
+import axios from '../utils/axios'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import { logIn, setAuth } from '../redux/slices/userSlice'
+import { useDispatch } from 'react-redux/es/exports'
 
 const Container = styled.div`
   display: flex;
@@ -9,7 +12,7 @@ const Container = styled.div`
   height: calc(100vh - 55px);
   color: ${({ theme }) => theme.text};
 `
-const Wrapper = styled.div`
+const Wrapper = styled.form`
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -54,18 +57,30 @@ const More = styled.div`
 
 const SignIn: React.FC = () => {
 
-  //   const [email, setEmail] = React.useState('')
-  //   const [password, setPassword] = React.useState('')
-  //   const [error, setError] = React.useState('')
-  //   const [loading, setLoading] = React.useState(false)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [email, setEmail] = React.useState<string>('');
+  const [password, setPassword] = React.useState<string>('');
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      logIn({ email, password });
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    } finally {
+      console.log('Success');
+    }
+  }
 
   return (
     <Container>
-      <Wrapper>
+      <Wrapper onSubmit={handleSubmit}>
         <Title>Sign In</Title>
         <Subtitle>Wellcome to Metube!</Subtitle>
-        <Input type='email' placeholder='email' />
-        <Input type='password' placeholder='password' />
+        <Input value={email} onChange={(event) => setEmail(event.target.value)} type='email' placeholder='email' />
+        <Input value={password} onChange={(event) => setPassword(event.target.value)} type='password' placeholder='password' />
         <Subtitle>Have no <Link style={{ color: "lightblue" }} to="/signup">account</Link>?</Subtitle>
         <Button>Sign In</Button>
         <More>English(USA)</More>

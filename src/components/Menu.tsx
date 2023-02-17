@@ -15,6 +15,8 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import SettingsBrightnessIcon from '@mui/icons-material/SettingsBrightness';
 import FlagIcon from '@mui/icons-material/Flag';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
 const Container = styled.div`
   flex: 1;
@@ -46,7 +48,7 @@ const Img = styled.img`
 `
 const Item = styled.div`
   /* width: ; */
-  
+  color: ${({ theme }) => theme.text};
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -111,7 +113,9 @@ interface MenuProps {
 
 
 const Menu: React.FC<MenuProps> = ({ darkMode, setDarkMode }) => {
-  const isAuth = false;
+
+  const isAuth: any = useSelector((state: any) => state.user.isAuth);
+  // const { isAuth } = useSelector((state: RootState) => state.user)
 
   return (
     <Container>
@@ -123,15 +127,21 @@ const Menu: React.FC<MenuProps> = ({ darkMode, setDarkMode }) => {
           </Logo>
         </Link>
 
-        <Item>
-          <HomeIcon />Home
-        </Item>
-        <Item>
-          <ExploreIcon />Explore
-        </Item>
-        <Item>
-          <SubscriptionsIcon />Subscriptions
-        </Item>
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <Item>
+            <HomeIcon />Home
+          </Item>
+        </Link>
+        <Link to="trends" style={{ textDecoration: "none" }}>
+          <Item>
+            <ExploreIcon />Explore
+          </Item>
+        </Link>
+        <Link to="subscriptions" style={{ textDecoration: "none" }}>
+          <Item>
+            <SubscriptionsIcon />Subscriptions
+          </Item>
+        </Link>
         <Hr />
         <Item>
           <LibraryAddIcon />Library

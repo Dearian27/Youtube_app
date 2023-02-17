@@ -1,36 +1,55 @@
 import styled from "styled-components";
 import Card from "../components/Card";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../utils/axios";
 
 const Container = styled.div`
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   flex-wrap: wrap;
+  column-gap: 20px;
+  position: absolute;
 `
 
-interface videoI {
-  id: string;
+export interface videoI {
+  createdAt: string;
+  desc: string;
+  dislikes: string[];
+  imgUrl: string;
+  likes: string[];
+  tags: string[];
   title: string;
-  url: string;
+  updatedAt: string;
+  userId: string;
+  videoUrl: string;
+  views: number;
+  __v: number;
+  _id: string;
 }
 
-const Home: React.FC = () => {
+interface HomePropsI {
+  type: string;
+}
 
+const Home: React.FC<HomePropsI> = ({ type }) => {
 
+  const [videos, setVideos] = useState<videoI[]>([]);
+
+  const fetchVideos = async () => {
+    const { data } = await axios.get(`/videos/${type}`);
+    // console.log(data);
+    setVideos(data);
+  }
+
+  useEffect(() => {
+    fetchVideos();
+  }, [type])
 
   return (
     <Container>
-      <Card type={"lg"} />
-      <Card type={"lg"} />
-      <Card type={"lg"} />
-      <Card type={"lg"} />
-      <Card type={"lg"} />
-      <Card type={"lg"} />
-      <Card type={"lg"} />
-      <Card type={"lg"} />
-      <Card type={"lg"} />
-      <Card type={"lg"} />
+      {videos.map((video) => {
+        return <Card key={video._id} video={video} type="lg" />
+      })}
     </Container>
   )
 }
