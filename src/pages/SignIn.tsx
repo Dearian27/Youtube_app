@@ -65,7 +65,7 @@ const SignIn: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      logIn({ email, password });
+      dispatch(logIn({ email, password }));
       navigate('/');
     } catch (error) {
       console.log(error);

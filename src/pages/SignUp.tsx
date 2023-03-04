@@ -1,6 +1,8 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useRef } from 'react'
+import { useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import { signUp } from '../redux/slices/userSlice'
 
 const Container = styled.div`
   display: flex;
@@ -59,22 +61,47 @@ const More = styled.div`
 
 const SignUp: React.FC = () => {
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [email, setEmail] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
   const [confirmP, setConfirmP] = React.useState<string>('');
   const [name, setName] = React.useState<string>('');
 
+  const pswdRef = useRef<HTMLInputElement>(null);
+  const confPswdRef = useRef<HTMLInputElement>(null);
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (password !== confirmP) {
+
+      // pswdRef.current?.style?.borderColor = "red";
+      pswdRef.current?.focus();
+      return;
+    } else {
+      // pswdRef.current?.style?.borderColor = "red";
+    }
+    try {
+      dispatch(signUp({ name, email, password }));
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    } finally {
+      console.log('Success');
+    }
+
+  }
 
   return (
     <Container>
-      <Wrapper onSubmit={(e) => e.preventDefault()}>
+      <Wrapper onSubmit={handleSubmit}>
         <Title>Sign Up</Title>
         <Subtitle>We are really happy to see you again!</Subtitle>
         <Input onChange={(el) => setName(el.target.value)} value={name} type='text' placeholder='name' />
         <Input onChange={(el) => setEmail(el.target.value)} value={email} type='email' placeholder='email' />
-        <Input onChange={(el) => setPassword(el.target.value)} value={password} type='password' placeholder='enter password' />
-        <Input onChange={(el) => setConfirmP(el.target.value)} value={confirmP} type='password' placeholder='confirm the password' />
+        <Input ref={pswdRef} onChange={(el) => setPassword(el.target.value)} value={password} type='password' placeholder='enter password' />
+        <Input ref={confPswdRef} onChange={(el) => setConfirmP(el.target.value)} value={confirmP} type='password' placeholder='confirm the password' />
         <Subtitle>Already have an <Link style={{ color: "lightblue" }} to="/signin">account</Link>?</Subtitle>
         <Button type='submit'>Sign Up</Button>
         <More>English(USA)</More>

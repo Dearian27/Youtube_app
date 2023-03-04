@@ -4,6 +4,9 @@ import { Button } from './Menu'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router-dom';
+import { RootState } from '../redux/store';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import VideoCallOutlinedIcon from '@mui/icons-material/VideoCallOutlined';
 
 const Container = styled.div`
   z-index: 5;
@@ -43,13 +46,34 @@ const Input = styled.input`
   }
 `
 
-interface NavBarProps {
+const User = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.text};
+`
+const Avatar = styled.div`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #999;
+`
+const UserName = styled.span`
+  font-size: 18px;
+`
+
+
+type NavBarProps = {
   darkMode: boolean;
 }
 
 const Navbar: React.FC<NavBarProps> = ({ darkMode }) => {
 
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const { isAuth, user } = useAppSelector(state => state.user);
 
   return (
     <Container>
@@ -58,11 +82,18 @@ const Navbar: React.FC<NavBarProps> = ({ darkMode }) => {
           <Input type="text" placeholder="Search" />
           <SearchIcon style={{ fill: `${darkMode ? "white" : "black"}` }} />
         </Search>
-
-        <Button onClick={() => navigate('/signin')}>
-          <AccountCircleIcon />
-          Sign in
-        </Button>
+        {isAuth !== true ?
+          <Button onClick={() => navigate('/signin')}>
+            <AccountCircleIcon />
+            Sign in
+          </Button>
+          :
+          <User>
+            <VideoCallOutlinedIcon style={{ height: "100%" }} />
+            <UserName>{user.name}</UserName>
+            <Avatar />
+          </User>
+        }
       </Wrapper>
     </Container>
   )
