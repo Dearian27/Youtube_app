@@ -19,6 +19,6 @@ declare module "\*.json" {
 }
 
 declare module "@mui/icons-material/*" {
-  const content: React.FC;
+  const content: any;
   export default content;
 }
