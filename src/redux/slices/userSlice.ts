@@ -16,11 +16,21 @@ const initialState: userState = {
   isLoading: false,
 }
 
+export const signInWithGoogle: any = createAsyncThunk("/auth/google", 
+  async (name, email) => {
+    try {
+      const { data } = await axios.post('/auth/google', { name, email});
+      setAuth(true);
+      return data;
+    }catch(error) {
+      console.log(error)
+    }
+})
+
 export const logIn: any = createAsyncThunk ("/auth/signin", 
   async ({email, password}:{email: string; password: string;}) => {
   try { 
     const { data } = await axios.post('/auth/signin', { email, password });
-    console.log(data);
     setAuth(true);
     return data;
   } catch (err) {

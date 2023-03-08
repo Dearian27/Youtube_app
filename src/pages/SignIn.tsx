@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { logIn, setAuth } from '../redux/slices/userSlice'
 import { useDispatch } from 'react-redux/es/exports'
+import { auth, provider } from '../firebase';
+import { signInWithPopup } from 'firebase/auth'
 
 const Container = styled.div`
   display: flex;
@@ -62,6 +64,22 @@ const SignIn: React.FC = () => {
   const [email, setEmail] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
 
+  const signInWithGoogle = async () => {
+    signInWithPopup(auth, provider)
+      .then(async (result) => {
+        console.log(result);
+        const res = await axios.post("/auth/google", {
+          email: result.user.email,
+          name: result.user.displayName,
+          img: result.user.photoURL
+        })
+        console.log(res)
+        // navigate('/');
+      }).catch((error) => {
+        console.log(error);
+      })
+  }
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
@@ -82,7 +100,8 @@ const SignIn: React.FC = () => {
         <Input value={email} onChange={(event) => setEmail(event.target.value)} type='email' placeholder='email' />
         <Input value={password} onChange={(event) => setPassword(event.target.value)} type='password' placeholder='password' />
         <Subtitle>Have no <Link style={{ color: "lightblue" }} to="/signup">account</Link>?</Subtitle>
-        <Button>Sign In</Button>
+        <Button type='submit'>Sign in</Button>
+        <Button type='button' onClick={signInWithGoogle}>Sign in with Google</Button>
         <More>English(USA)</More>
       </Wrapper>
     </Container>
