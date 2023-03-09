@@ -2,7 +2,7 @@ import axios from '../utils/axios'
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { logIn, setAuth } from '../redux/slices/userSlice'
+import { logIn, setAuth, signInGoogle } from '../redux/slices/userSlice'
 import { useDispatch } from 'react-redux/es/exports'
 import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth'
@@ -66,15 +66,13 @@ const SignIn: React.FC = () => {
 
   const signInWithGoogle = async () => {
     signInWithPopup(auth, provider)
-      .then(async (result) => {
-        console.log(result);
-        const res = await axios.post("/auth/google", {
+      .then(async (result: any) => {
+        dispatch(signInGoogle({
           email: result.user.email,
           name: result.user.displayName,
           img: result.user.photoURL
-        })
-        console.log(res)
-        // navigate('/');
+        }))
+        navigate('/');
       }).catch((error) => {
         console.log(error);
       })

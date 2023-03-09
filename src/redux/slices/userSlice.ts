@@ -2,25 +2,26 @@ import { AsyncThunk, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import type { PayloadAction } from '@reduxjs/toolkit'
 import axios from '../../utils/axios';
 
-type userState = {
+type userStateParams = {
   isAuth: boolean;
   user: any;
   isError: boolean;
   isLoading: boolean;
 }
 
-const initialState: userState = {
+const initialState: userStateParams = {
   isAuth: false,
   user: null,
   isError: false,
   isLoading: false,
 }
 
-export const signInWithGoogle: any = createAsyncThunk("/auth/google", 
-  async (name, email) => {
+export const signInGoogle: any = createAsyncThunk("/auth/google", 
+  async ({name, email}: {name: string; email: string}) => {
     try {
       const { data } = await axios.post('/auth/google', { name, email});
       setAuth(true);
+      console.log(data, "success")
       return data;
     }catch(error) {
       console.log(error)
@@ -98,6 +99,24 @@ const userSlice = createSlice({
       // state.isError = false;
     },
     [signUp.rejected]: (state, action:PayloadAction<any>) => {
+      state.isLoading = false;
+      state.isError = true;
+      console.log("rejected");
+    },
+
+    
+    [signInGoogle.pending]: (state: userStateParams, action: PayloadAction<any>) => {
+      console.log("pending");
+      state.isLoading = true;
+    },
+    [signInGoogle.fulfilled]: (state:any, action:PayloadAction<any>) => {
+      state.user = action.payload;
+      state.isAuth = true;
+      state.isLoading = false;
+      console.log("fulfilled");
+      // state.isError = false;
+    },
+    [signInGoogle.rejected]: (state, action:PayloadAction<any>) => {
       state.isLoading = false;
       state.isError = true;
       console.log("rejected");

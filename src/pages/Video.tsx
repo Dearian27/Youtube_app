@@ -11,6 +11,8 @@ import { useState, useEffect } from 'react';
 import axios from '../utils/axios';
 import { videoI } from "./Home";
 import { format } from 'timeago.js';
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 const Container = styled.div`
     display: flex;
@@ -106,6 +108,8 @@ const Subscribe = styled.button`
 `
 
 const Video: React.FC = () => {
+
+  const currentUser = useSelector((state: RootState) => state.video.user);
 
   const params = useParams();
   const { id } = params;
