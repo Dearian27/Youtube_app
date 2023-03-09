@@ -13,6 +13,8 @@ import { videoI } from "./Home";
 import { format } from 'timeago.js';
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import { fetchVideoData } from "../redux/slices/videosSlice";
+import { useAppDispatch } from "../hooks";
 
 const Container = styled.div`
     display: flex;
@@ -109,27 +111,12 @@ const Subscribe = styled.button`
 
 const Video: React.FC = () => {
 
-  const currentUser = useSelector((state: RootState) => state.video.user);
-
+  const { user } = useSelector((state: RootState) => state.user);
+  const { currentVideo, currentChannel } = useSelector((state: RootState) => state.video);
+  console.log(currentVideo, currentChannel);
+  const dispatch = useAppDispatch();
   const params = useParams();
   const { id } = params;
-
-  const [videoUrl, setVideoUrl] = useState<string>();
-  const [channel, setChannel] = useState<channelType>(null);
-  const [video, setVideo] = useState<videoI>();
-
-  const fetchChannel = async () => {
-    const { data } = await axios.get(`/users/${video?.userId}/`);
-    setChannel(data);
-  }
-
-  const fetchVideo = async () => {
-    const { data } = await axios.get(`/videos/find/${id}/`);
-    setVideo(data);
-    setVideoUrl(data.videoUrl);
-
-    fetchChannel();
-  }
 
   const addView = async () => {
     await axios.put(`/videos/view/${id}`);
@@ -137,9 +124,11 @@ const Video: React.FC = () => {
   }
 
   useEffect(() => {
-    fetchVideo();
-    addView();
-  }, [])
+    console.log("in use effect")
+    dispatch(fetchVideoData(id));
+    // addView();
+  }, [id])
+  // }, [])
 
   return (
     <Container>
@@ -148,21 +137,19 @@ const Video: React.FC = () => {
           <iframe
             width="100%"
             height="555px"
-            src={video?.videoUrl} //https://www.youtube.com/embed/yIaXoop8gl4
-            title={video?.title}
+            src={currentVideo?.videoUrl} //https://www.youtube.com/embed/yIaXoop8gl4
+            title={currentVideo?.title}
             frameBorder="0"
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             scrolling="no"
-          // style={{ backgroundRepeat: "no-repeat", backgroundSize: "contain", background: `${video?.videoUrl ? "none" : "url('https://miro.medium.com/max/800/1*hFwwQAW45673VGKrMPE2qQ.png')"}` }}
           ></iframe>
-          {/* <iframe src="https://archive.org/embed/TMNT-2003" width="640" height="480" frameBorder="0" allowFullScreen></iframe> */}
           <Title>
-            {video?.title}
+            {currentVideo?.title}
           </Title>
           <Details>
             <Info>
-              {video?.views} views • {video?.createdAt && format(video?.createdAt)}
+              {currentVideo?.views} views • {currentVideo?.createdAt && format(currentVideo?.createdAt)}
             </Info>
             <Buttons>
               <Button><ThumbUpAltOutlinedIcon />34</Button>
@@ -177,9 +164,9 @@ const Video: React.FC = () => {
           <ChannelInfo>
             <ImageIcon src="https://yt3.ggpht.com/FfMduny7Y5_hyUl-GrXLNsTF_hTckVTU-PCXo6_WJEjuZw6FhwhaVb4BJ0WWntRtGQyu8-6ZBA=s48-c-k-c0x00ffffff-no-rj" />
             <ChannelDetail>
-              <ChannelName>{channel?.name}</ChannelName>
-              <ChannelCounter> {channel?.subscribers} subscribers</ChannelCounter>
-              <Description>{video?.desc}</Description>
+              <ChannelName>{currentChannel?.name || "loading..."}</ChannelName>
+              <ChannelCounter> {currentChannel?.subscribers} {currentChannel?.subscribers === 1 ? "subscriber" : "subscribers"}</ChannelCounter>
+              <Description>{currentVideo?.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
           <Subscribe>Subscribe</Subscribe>
