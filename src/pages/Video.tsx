@@ -15,6 +15,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { fetchVideoData } from "../redux/slices/videosSlice";
 import { useAppDispatch } from "../hooks";
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
 const Container = styled.div`
     display: flex;
@@ -113,7 +115,6 @@ const Video: React.FC = () => {
 
   const { user } = useSelector((state: RootState) => state.user);
   const { currentVideo, currentChannel } = useSelector((state: RootState) => state.video);
-  console.log(currentVideo, currentChannel);
   const dispatch = useAppDispatch();
   const params = useParams();
   const { id } = params;
