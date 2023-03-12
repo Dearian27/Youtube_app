@@ -17,6 +17,7 @@ import { fetchVideoData } from "../redux/slices/videosSlice";
 import { useAppDispatch } from "../hooks";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import { dislikeVideo, likeVideo } from "../redux/slices/videosSlice";
 
 const Container = styled.div`
     display: flex;
@@ -124,6 +125,23 @@ const Video: React.FC = () => {
     return;
   }
 
+  const likeHandler = async () => {
+    try {
+      await axios.put(`/users/like/${params.id}`);
+      // dispatch(likeVideo({ videoId: id }))
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  const dislikeHandler = async () => {
+    try {
+      dispatch(dislikeVideo({ videoId: id }))
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
   useEffect(() => {
     console.log("in use effect")
     dispatch(fetchVideoData(id));
@@ -153,8 +171,29 @@ const Video: React.FC = () => {
               {currentVideo?.views} views • {currentVideo?.createdAt && format(currentVideo?.createdAt)}
             </Info>
             <Buttons>
-              <Button><ThumbUpAltOutlinedIcon />34</Button>
-              <Button><ThumbDownAltOutlinedIcon style={{ fill: "black" }} />0</Button>
+              <Button onClick={likeHandler}>
+                {currentVideo?.likes?.includes(user) ?
+                  <>
+                    <ThumbUpIcon /> {currentVideo?.likes?.length}
+                  </>
+                  :
+                  <>
+                    <ThumbUpAltOutlinedIcon /> {currentVideo?.likes?.length}
+                  </>
+                }
+              </Button>
+              <Button onClick={dislikeHandler}>
+                {currentVideo?.dislikes?.includes(user) ?
+                  <>
+                    <ThumbDownIcon />{currentVideo?.dislikes?.length}
+                  </>
+                  :
+                  <>
+                    <ThumbDownAltOutlinedIcon style={{ fill: "black" }} />
+                    {currentVideo?.dislikes?.length}
+                  </>
+                }
+              </Button>
               <Button><ReplyIcon style={{ height: "30px", width: "30px", }} />share</Button>
               <Button><AddTaskIcon />save</Button>
             </Buttons>

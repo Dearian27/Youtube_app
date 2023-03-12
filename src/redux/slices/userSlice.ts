@@ -51,7 +51,6 @@ export const signUp:any = createAsyncThunk ("/auth/signin",
   }
 }) 
 
-
 const userSlice = createSlice({
   name: "user",
   initialState,
