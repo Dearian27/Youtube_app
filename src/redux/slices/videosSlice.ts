@@ -32,7 +32,7 @@ export const fetchVideoData: any = createAsyncThunk("/video/fetch", async (id:nu
 export const likeVideo: any = createAsyncThunk ("/like/video",
   async ({videoId}: {videoId: string}) => {
     try{
-      await axios.post(`/users/like/${videoId}`);
+      await axios.put(`/users/like/${videoId}`);
     }catch(error) {
       console.log(error);
     }
@@ -42,7 +42,7 @@ export const likeVideo: any = createAsyncThunk ("/like/video",
   export const dislikeVideo: any = createAsyncThunk ("/dislike/video",
   async ({videoId}: {videoId: string}) => {
     try{
-      await axios.post(`/users/dislike/${videoId}`);
+      await axios.put(`/users/dislike/${videoId}`);
     }catch(error) {
       console.log(error);
     }

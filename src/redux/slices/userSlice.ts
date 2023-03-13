@@ -83,55 +83,40 @@ const userSlice = createSlice({
   },
   extraReducers: {
     [logIn.pending]: (state:any, action: PayloadAction<any>) => {
-      console.log("pending");
       state.isLoading = true;
     },
     [logIn.fulfilled]: (state:any, action:PayloadAction<any>) => {
-      state.user = action.payload;
+      state.user = action.payload.user;
       state.isAuth = true;
       state.isLoading = false;
-      console.log("fulfilled");
-      // state.isError = false;
     },
     [logIn.rejected]: (state, action:PayloadAction<any>) => {
       state.isLoading = false;
       state.isError = true;
-      console.log("rejected");
     },
-
     [signUp.pending]: (state:any, action: PayloadAction<any>) => {
-      console.log("pending");
       state.isLoading = true;
     },
     [signUp.fulfilled]: (state:any, action:PayloadAction<any>) => {
-      state.user = action.payload;
+      state.user = action.payload.user;
       state.isAuth = true;
       state.isLoading = false;
-      console.log("fulfilled");
-      // state.isError = false;
     },
     [signUp.rejected]: (state, action:PayloadAction<any>) => {
       state.isLoading = false;
       state.isError = true;
-      console.log("rejected");
-    },
-
-    
+    },   
     [signInGoogle.pending]: (state: userStateParams, action: PayloadAction<any>) => {
-      console.log("pending");
       state.isLoading = true;
     },
     [signInGoogle.fulfilled]: (state:any, action:PayloadAction<any>) => {
-      state.user = action.payload;
+      state.user = action.payload.user;
       state.isAuth = true;
       state.isLoading = false;
-      console.log("fulfilled");
-      // state.isError = false;
     },
     [signInGoogle.rejected]: (state, action:PayloadAction<any>) => {
       state.isLoading = false;
       state.isError = true;
-      console.log("rejected");
     },
   }
 })

@@ -120,6 +120,7 @@ const Video: React.FC = () => {
   const params = useParams();
   const { id } = params;
 
+  console.log("user", user)
   const addView = async () => {
     await axios.put(`/videos/view/${id}`);
     return;
@@ -127,8 +128,7 @@ const Video: React.FC = () => {
 
   const likeHandler = async () => {
     try {
-      await axios.put(`/users/like/${params.id}`);
-      // dispatch(likeVideo({ videoId: id }))
+      dispatch(likeVideo({ videoId: id }))
     } catch (error) {
       console.log(error)
     }
@@ -136,8 +136,11 @@ const Video: React.FC = () => {
 
   const dislikeHandler = async () => {
     try {
-      await axios.put(`/users/dislike/${params.id}`);
-      // dispatch(dislikeVideo({ videoId: id }))
+      dispatch(dislikeVideo({
+        videoId: id,
+        isLiked: currentVideo?.likes?.includes(user._id),
+        isDisLiked: currentVideo?.dislikes?.includes(user._id)
+      }))
     } catch (error) {
       console.log(error)
     }
@@ -146,9 +149,6 @@ const Video: React.FC = () => {
   useEffect(() => {
     dispatch(fetchVideoData(id));
     // addView();
-
-    console.log(currentVideo?.likes)
-    console.log(currentVideo?.likes?.length)
   }, [id, dispatch])
   // }, [])
 
@@ -176,7 +176,7 @@ const Video: React.FC = () => {
             </Info>
             <Buttons>
               <Button onClick={likeHandler}>
-                {currentVideo?.likes?.includes(user) ?
+                {currentVideo?.likes?.includes(user._id) ?
                   <>
                     <ThumbUpIcon /> {currentVideo?.likes?.length}
                   </>
@@ -187,7 +187,7 @@ const Video: React.FC = () => {
                 }
               </Button>
               <Button onClick={dislikeHandler}>
-                {currentVideo?.dislikes?.includes(user) ?
+                {currentVideo?.dislikes?.includes(user._id) ?
                   <>
                     <ThumbDownIcon />{currentVideo?.dislikes?.length}
                   </>
