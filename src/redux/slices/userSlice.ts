@@ -20,6 +20,10 @@ export const signInGoogle: any = createAsyncThunk("/auth/google",
   async ({name, email}: {name: string; email: string}) => {
     try {
       const { data } = await axios.post('/auth/google', { name, email});
+      if (data.token) {
+        window.localStorage.setItem('token', data.token)
+      }
+      
       setAuth(true);
       console.log(data, "success")
       return data;
@@ -32,6 +36,10 @@ export const logIn: any = createAsyncThunk ("/auth/signin",
   async ({email, password}:{email: string; password: string;}) => {
   try { 
     const { data } = await axios.post('/auth/signin', { email, password });
+    if (data.token) {
+      window.localStorage.setItem('token', data.token)
+    }
+
     setAuth(true);
     return data;
   } catch (err) {
@@ -43,7 +51,12 @@ export const signUp:any = createAsyncThunk ("/auth/signin",
   async ({name, email, password}:{name: string, email: string; password: string;}) => {
   try { 
     const { data } = await axios.post('/auth/signup', { name, email, password });
-    console.log(data);
+    // console.log(data);
+
+    if (data.token) {
+      window.localStorage.setItem('token', data.token)
+    }
+
     setAuth(true);
     return data;
   } catch (err) {

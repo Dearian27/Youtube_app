@@ -136,18 +136,22 @@ const Video: React.FC = () => {
 
   const dislikeHandler = async () => {
     try {
-      dispatch(dislikeVideo({ videoId: id }))
+      await axios.put(`/users/dislike/${params.id}`);
+      // dispatch(dislikeVideo({ videoId: id }))
     } catch (error) {
       console.log(error)
     }
   };
 
   useEffect(() => {
-    console.log("in use effect")
     dispatch(fetchVideoData(id));
     // addView();
-  }, [id])
+
+    console.log(currentVideo?.likes)
+    console.log(currentVideo?.likes?.length)
+  }, [id, dispatch])
   // }, [])
+
 
   return (
     <Container>

@@ -20,7 +20,6 @@ const initialState: videoStateParams = {
 
 
 export const fetchVideoData: any = createAsyncThunk("/video/fetch", async (id:number) => {
-  console.log("fetching video")
   try{
     const videoRes = await axios.get(`/videos/find/${id}/`);
     const channelRes = await axios.get(`/users/${videoRes.data?.userId}/`);
@@ -33,17 +32,17 @@ export const fetchVideoData: any = createAsyncThunk("/video/fetch", async (id:nu
 export const likeVideo: any = createAsyncThunk ("/like/video",
   async ({videoId}: {videoId: string}) => {
     try{
-      await axios.put(`/users/like/${videoId}`);
+      await axios.post(`/users/like/${videoId}`);
     }catch(error) {
       console.log(error);
     }
   }
-)
-
-export const dislikeVideo: any = createAsyncThunk ("/dislike/video",
+  )
+  
+  export const dislikeVideo: any = createAsyncThunk ("/dislike/video",
   async ({videoId}: {videoId: string}) => {
     try{
-      await axios.put(`/users/dislike/${videoId}`);
+      await axios.post(`/users/dislike/${videoId}`);
     }catch(error) {
       console.log(error);
     }
@@ -58,20 +57,36 @@ const videosSlice = createSlice({
   },
   extraReducers: {
     [fetchVideoData.pending]: (state:any) => {
-      console.log("pending");
       state.isLoading = true;
     },
     [fetchVideoData.fulfilled]: (state:any, action:PayloadAction<any>) => {
-      console.log("fulfilled", action.payload);
       state.currentVideo = action.payload.video;
       state.currentChannel = action.payload.channel;
       state.isLoading = false;
-      console.log("fulfilled");
     },
     [fetchVideoData.rejected]: (state: any, action:PayloadAction<any>) => {
       state.isLoading = false;
       state.isError = true;
-      console.log("rejected");
+    },
+    [likeVideo.pending]: (state:any) => {
+      state.isLoading = true;
+    },
+    [likeVideo.fulfilled]: (state:any, action:PayloadAction<any>) => {
+      state.isLoading = false;
+    },
+    [likeVideo.rejected]: (state: any, action:PayloadAction<any>) => {
+      state.isLoading = false;
+      state.isError = true;
+    },
+    [dislikeVideo.pending]: (state:any) => {
+      state.isLoading = true;
+    },
+    [dislikeVideo.fulfilled]: (state:any, action:PayloadAction<any>) => {
+      state.isLoading = false;
+    },
+    [dislikeVideo.rejected]: (state: any, action:PayloadAction<any>) => {
+      state.isLoading = false;
+      state.isError = true;
     },
   }
 })

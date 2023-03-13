@@ -10,6 +10,7 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import store from './redux/store'
 import { Provider } from 'react-redux'
+import './App.css';
 
 const Container = styled.div`
   display: flex;

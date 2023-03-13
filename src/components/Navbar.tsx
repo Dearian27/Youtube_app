@@ -17,6 +17,7 @@ const Container = styled.div`
   height: 56px;
 `
 const Wrapper = styled.div`
+  box-sizing: border-box;
   position: relative;
   display: flex;
   align-items: center;
