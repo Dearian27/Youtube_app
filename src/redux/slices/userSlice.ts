@@ -20,8 +20,9 @@ export const signInGoogle: any = createAsyncThunk("/auth/google",
   async ({name, email}: {name: string; email: string}) => {
     try {
       const { data } = await axios.post('/auth/google', { name, email});
+      console.log(data);
       if (data.token) {
-        window.localStorage.setItem('token', data.token)
+        // window.localStorage.setItem('token', data.token)
       }
       
       setAuth(true);
@@ -36,8 +37,10 @@ export const logIn: any = createAsyncThunk ("/auth/signin",
   async ({email, password}:{email: string; password: string;}) => {
   try { 
     const { data } = await axios.post('/auth/signin', { email, password });
+    console.log(data);
     if (data.token) {
-      window.localStorage.setItem('token', data.token)
+      console.log(data.token, " token")
+      // window.localStorage.setItem('token', data.token)
     }
 
     setAuth(true);
@@ -47,7 +50,7 @@ export const logIn: any = createAsyncThunk ("/auth/signin",
   }
 }) 
 
-export const signUp:any = createAsyncThunk ("/auth/signin", 
+export const signUp:any = createAsyncThunk ("/auth/signup", 
   async ({name, email, password}:{name: string, email: string; password: string;}) => {
   try { 
     const { data } = await axios.post('/auth/signup', { name, email, password });
@@ -86,7 +89,7 @@ const userSlice = createSlice({
       state.isLoading = true;
     },
     [logIn.fulfilled]: (state:any, action:PayloadAction<any>) => {
-      state.user = action.payload.user;
+      state.user = action.payload;
       state.isAuth = true;
       state.isLoading = false;
     },

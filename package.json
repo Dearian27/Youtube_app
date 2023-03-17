@@ -1,4 +1,5 @@
 {
+  "proxy": "http://localhost:8800/api/",
   "name": "client-side",
   "private": true,
   "version": "0.0.0",

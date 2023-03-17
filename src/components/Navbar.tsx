@@ -91,7 +91,7 @@ const Navbar: React.FC<NavBarProps> = ({ darkMode }) => {
           :
           <User>
             <VideoCallOutlinedIcon style={{ height: "100%" }} />
-            <UserName>{user.name}</UserName>
+            <UserName>{user?.name}</UserName>
             <Avatar />
           </User>
         }
