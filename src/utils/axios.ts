@@ -1,14 +1,23 @@
 import axios from "axios";
 
 const instance = axios.create({
-  // "proxy": "http://localhost:8800/api/"
   baseURL: 'http://localhost:8800/api',
-  withCredentials: true
-  // crossDomain: true,
-
-  // withCredentials: true
+  withCredentials: true,
+  headers: {
+    'Cache-Control': 'no-cache',
+    'Pragma': 'no-cache',
+    'Access-Control-Allow-Origin': 'http://localhost:5173',
+    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Content-Type': 'application/json',
+  },
 })
 
+  instance.interceptors.response.use(response => {
+    return response;
+  }, error => {
+    return Promise.reject(error);
+  });
 // instance.interceptors.request.use((config) => {
 //   config.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
 //   return config;
