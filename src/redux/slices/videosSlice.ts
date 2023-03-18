@@ -53,7 +53,18 @@ const videosSlice = createSlice({
   name: 'video',
   initialState,
   reducers: {
-
+    setLike: (state, action: PayloadAction<string>) => {
+      state.currentVideo.likes.push(action.payload);
+      state.currentVideo.dislikes = state.currentVideo.dislikes.filter(
+        (userId: string) => userId !== action.payload
+      );
+    },
+    setDislike: (state, action: PayloadAction<string>) => {
+      state.currentVideo.dislikes.push(action.payload);
+      state.currentVideo.likes = state.currentVideo.likes.filter(
+        (userId: string) => userId !== action.payload
+      );
+    },
   },
   extraReducers: {
     [fetchVideoData.pending]: (state:any) => {
@@ -92,4 +103,5 @@ const videosSlice = createSlice({
 })
 
 
+export const {setLike, setDislike} = videosSlice.actions;
 export default videosSlice.reducer;

@@ -13,7 +13,7 @@ import { videoI } from "./Home";
 import { format } from 'timeago.js';
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { fetchVideoData } from "../redux/slices/videosSlice";
+import { fetchVideoData, setDislike, setLike } from "../redux/slices/videosSlice";
 import { useAppDispatch } from "../hooks";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
@@ -120,7 +120,6 @@ const Video: React.FC = () => {
   const params = useParams();
   const { id } = params;
 
-  console.log("user", user)
   const addView = async () => {
     await axios.put(`/videos/view/${id}`);
     return;
@@ -128,6 +127,7 @@ const Video: React.FC = () => {
 
   const likeHandler = async () => {
     try {
+      dispatch(setLike(user._id));
       dispatch(likeVideo({ videoId: id }))
     } catch (error) {
       console.log(error)
@@ -136,11 +136,8 @@ const Video: React.FC = () => {
 
   const dislikeHandler = async () => {
     try {
-      dispatch(dislikeVideo({
-        videoId: id,
-        isLiked: currentVideo?.likes?.includes(user._id),
-        isDisLiked: currentVideo?.dislikes?.includes(user._id)
-      }))
+      dispatch(setDislike(user._id));
+      dispatch(dislikeVideo({ videoId: id }))
     } catch (error) {
       console.log(error)
     }
@@ -213,7 +210,7 @@ const Video: React.FC = () => {
               <Description>{currentVideo?.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
-          <Subscribe>Subscribe</Subscribe>
+          <Subscribe>{currentChannel.subscribedUsers.includes(user._id) ? "Subscribed" : "Subscribe"}</Subscribe>
         </Channel>
         <Comments />
       </Content>

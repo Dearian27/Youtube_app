@@ -1,4 +1,4 @@
-import { AsyncThunk, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { AsyncThunk, createAsyncThunk, createSlice, current } from "@reduxjs/toolkit"
 import type { PayloadAction } from '@reduxjs/toolkit'
 import axios from '../../utils/axios';
 
@@ -82,7 +82,7 @@ const userSlice = createSlice({
     },
     setError: (state, action: PayloadAction<boolean>) => {
       state.isError = action.payload
-    },
+    }
   },
   extraReducers: {
     [logIn.pending]: (state:any, action: PayloadAction<any>) => {
