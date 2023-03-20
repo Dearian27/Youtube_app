@@ -1,6 +1,7 @@
 import { AsyncThunk, createAsyncThunk, createSlice, current } from "@reduxjs/toolkit"
 import type { PayloadAction } from '@reduxjs/toolkit'
 import axios from '../../utils/axios';
+import { setSubscribers } from "./videosSlice";
 
 type userStateParams = {
   isAuth: boolean;
@@ -82,7 +83,18 @@ const userSlice = createSlice({
     },
     setError: (state, action: PayloadAction<boolean>) => {
       state.isError = action.payload
-    }
+    },
+    setSubscribe: (state, action: PayloadAction<string>) => {  // payload === currentChannel._id
+      if(state.user.subscribedUsers.includes(action.payload)) {
+        state.user.subscribedUsers = state.user.subscribedUsers.filter(
+          (userId: string) => userId !== action.payload
+        );
+        setSubscribers(-1);
+      } else {
+        state.user.subscribedUsers.push(action.payload);
+        setSubscribers(1);
+      }
+    },
   },
   extraReducers: {
     [logIn.pending]: (state:any, action: PayloadAction<any>) => {
@@ -124,5 +136,5 @@ const userSlice = createSlice({
   }
 })
 
-export const { setAuth } = userSlice.actions;
+export const { setAuth, setSubscribe } = userSlice.actions;
 export default userSlice.reducer;

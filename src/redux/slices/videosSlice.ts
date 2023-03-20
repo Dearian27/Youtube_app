@@ -36,13 +36,35 @@ export const likeVideo: any = createAsyncThunk ("/like/video",
     }catch(error) {
       console.log(error);
     }
-  }
-  )
+})
   
-  export const dislikeVideo: any = createAsyncThunk ("/dislike/video",
+export const dislikeVideo: any = createAsyncThunk ("/dislike/video",
   async ({videoId}: {videoId: string}) => {
     try{
       await axios.put(`/users/dislike/${videoId}`);
+    }catch(error) {
+      console.log(error);
+    }
+  }
+)
+
+export const subscribeChannel: any = createAsyncThunk("/subscribe/channel",
+  async (channelId: string) => {
+    try{
+      await axios.put(`/users/subscribe/${channelId}`);
+    }catch(error) {
+      console.log(error);
+    }
+    finally {
+      console.log("Subscribed to channel")
+    }
+  }
+)
+
+export const unsubscribeChannel: any = createAsyncThunk("/unsubscribe/channel",
+  async (channelId: string) => {
+    try{
+      await axios.put(`/users/unsubscribe/${channelId}`);
     }catch(error) {
       console.log(error);
     }
@@ -65,6 +87,9 @@ const videosSlice = createSlice({
         (userId: string) => userId !== action.payload
       );
     },
+    setSubscribers: (state, action: PayloadAction<number>) => {
+      state.currentChannel.subscribers += action.payload;
+    }
   },
   extraReducers: {
     [fetchVideoData.pending]: (state:any) => {
@@ -79,29 +104,21 @@ const videosSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
     },
-    [likeVideo.pending]: (state:any) => {
-      state.isLoading = true;
-    },
-    [likeVideo.fulfilled]: (state:any, action:PayloadAction<any>) => {
-      state.isLoading = false;
-    },
     [likeVideo.rejected]: (state: any, action:PayloadAction<any>) => {
-      state.isLoading = false;
       state.isError = true;
     },
-    [dislikeVideo.pending]: (state:any) => {
-      state.isLoading = true;
-    },
-    [dislikeVideo.fulfilled]: (state:any, action:PayloadAction<any>) => {
-      state.isLoading = false;
-    },
     [dislikeVideo.rejected]: (state: any, action:PayloadAction<any>) => {
-      state.isLoading = false;
+      state.isError = true;
+    },
+    [subscribeChannel.rejected]: (state: any, action:PayloadAction<any>) => {
+      state.isError = true;
+    },   
+    [unsubscribeChannel.rejected]: (state: any, action:PayloadAction<any>) => {
       state.isError = true;
     },
   }
 })
 
 
-export const {setLike, setDislike} = videosSlice.actions;
+export const {setLike, setDislike, setSubscribers} = videosSlice.actions;
 export default videosSlice.reducer;
