@@ -13,12 +13,12 @@ import { videoI } from "./Home";
 import { format } from 'timeago.js';
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { fetchVideoData, setDislike, setLike } from "../redux/slices/videosSlice";
+import { fetchVideoData, setDislike, setLike, setSubscribers } from "../redux/slices/videosSlice";
 import { useAppDispatch } from "../hooks";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import { dislikeVideo, likeVideo, subscribeChannel, unsubscribeChannel } from "../redux/slices/videosSlice";
-import { setSubscribe } from "../redux/slices/userSlice";
+import { setSubscribe, setUnsubscribe } from "../redux/slices/userSlice";
 
 const Container = styled.div`
     display: flex;
@@ -127,11 +127,18 @@ const Video: React.FC = () => {
   }
 
   const subscribeHandler = async () => {
-    dispatch(setSubscribe(currentChannel._id));
     if (user.subscribedUsers.includes(currentChannel._id)) {
       dispatch(unsubscribeChannel(currentChannel._id))
     } else {
       dispatch(subscribeChannel(currentChannel._id))
+    }
+    if (user.subscribedUsers.includes(currentChannel._id)) {
+      dispatch(setUnsubscribe(currentChannel._id));
+      dispatch(setSubscribers(-1));
+    }
+    else {
+      dispatch(setSubscribe(currentChannel._id));
+      dispatch(setSubscribers(1));
     }
   }
 
@@ -220,7 +227,7 @@ const Video: React.FC = () => {
               <Description>{currentVideo?.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
-          <Subscribe onClick={subscribeHandler}>{user.subscribedUsers.includes(user._id) ? "Subscribed" : "Subscribe"}</Subscribe>
+          <Subscribe onClick={subscribeHandler}>{user.subscribedUsers.includes(currentChannel._id) ? "Subscribed" : "Subscribe"}</Subscribe>
         </Channel>
         <Comments />
       </Content>

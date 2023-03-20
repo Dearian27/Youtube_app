@@ -85,15 +85,12 @@ const userSlice = createSlice({
       state.isError = action.payload
     },
     setSubscribe: (state, action: PayloadAction<string>) => {  // payload === currentChannel._id
-      if(state.user.subscribedUsers.includes(action.payload)) {
-        state.user.subscribedUsers = state.user.subscribedUsers.filter(
-          (userId: string) => userId !== action.payload
-        );
-        setSubscribers(-1);
-      } else {
         state.user.subscribedUsers.push(action.payload);
-        setSubscribers(1);
-      }
+    },
+    setUnsubscribe: (state, action: PayloadAction<string>) => {  
+      state.user.subscribedUsers = state.user.subscribedUsers.filter(
+        (userId: string) => userId !== action.payload
+      );
     },
   },
   extraReducers: {
@@ -136,5 +133,5 @@ const userSlice = createSlice({
   }
 })
 
-export const { setAuth, setSubscribe } = userSlice.actions;
+export const { setAuth, setSubscribe, setUnsubscribe } = userSlice.actions;
 export default userSlice.reducer;
