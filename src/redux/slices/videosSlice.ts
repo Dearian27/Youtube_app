@@ -84,6 +84,17 @@ export const fetchCommentsData: any = createAsyncThunk("/comments",
     }
 })
 
+export const addComment: any = createAsyncThunk("/comments/add",
+  async ({videoId, text}: {videoId: string;  text: string}) => {
+    try {
+      const {data} = await axios.post(`/comments/${videoId}`, {text: text});
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+)
+
 const videosSlice = createSlice({
   name: 'video',
   initialState,
@@ -133,6 +144,12 @@ const videosSlice = createSlice({
       state.comments = action.payload;
     },
     [fetchCommentsData.rejected]: (state: any, action:PayloadAction<any>) => {
+      state.isError = true;
+    },
+    [addComment.fulfilled]: (state:any, action:PayloadAction<any>) => {
+      state.comments.unshift(action.payload);
+    },
+    [addComment.rejected]: (state: any, action:PayloadAction<any>) => {
       state.isError = true;
     },
   }

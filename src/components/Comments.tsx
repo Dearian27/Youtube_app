@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import Comment from "./Comment";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { fetchCommentsData } from "../redux/slices/videosSlice";
-import { useParams } from "react-router-dom";
+import { addComment, fetchCommentsData } from "../redux/slices/videosSlice";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 
@@ -46,26 +46,38 @@ const Buttons = styled.div`
   gap: 10px;
 `
 const Button = styled.button`
+  cursor: pointer;
   padding: 10px 24px;
   font-weight: 600;
   font-size: 18px;
   border: none;
   border-radius: 50px;
   background-color: transparent;
+  color: #2c2c2c;
 
   &:disabled {
-    background-color: #F2F2F2;
+    cursor: unset;
+    background-color: #F2F2F2 !important;
+    color: #8d8d8d;
+
+    &:hover {
+      background-color: #F2F2F2!important;
+      color: #8d8d8d;
+    }
   }
   &:hover {
     background-color: #dfdfdf;
+    color: black;
   }
 `
-
 const Comments = () => {
 
+  const { isAuth } = useSelector((state: RootState) => state.user);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const params = useParams();
-
+  const commentInput = useRef(null);
+  const [commentText, setCommentText] = useState("");
   const { comments } = useSelector((state: RootState) => state.video)
   const getComments = () => {
     dispatch(fetchCommentsData(params.id));
@@ -73,25 +85,34 @@ const Comments = () => {
 
   const createComment = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    if (!isAuth) {
+      navigate('/signin')
+      return;
+    };
+    setCommentText('');
+    dispatch(addComment({ videoId: params.id, text: commentText }));
   }
 
   useEffect(() => {
     getComments();
   }, [])
+
   return (
     <Container>
       <NewComment>
         <Avatar src="https://yt3.ggpht.com/ytc/AL5GRJUOhe9c1D67-yLQEkT2EqyRclI5V3EOTANZQXmt=s48-c-k-c0x00ffffff-no-rj" />
         <InputForm onSubmit={createComment}>
-          <Input placeholder="Add a comment..." />
+          <Input onChange={(event) => { setCommentText(event?.target?.value) }} value={commentText} ref={commentInput} placeholder="Add a comment..." />
           <Buttons>
-            <Button type="button" onClick={() => { }}>Cancel</Button>
-            <Button disabled={true} type="submit">Submit</Button>
+            <Button type="button" onClick={() => { setCommentText('') }}>Cancel</Button>
+            <Button style={{
+              backgroundColor: `${commentText && "#7e90f5"}`,
+              color: `${commentText && "white"}`,
+            }} disabled={!commentText} type="submit">Submit</Button>
           </Buttons>
         </InputForm>
       </NewComment>
-      {comments.map((comment: any, id: number) => { //!FIX ME
+      {comments?.map((comment: any, id: number) => { //!FIX ME
         return <Comment key={id} comment={comment} />
       })
       }

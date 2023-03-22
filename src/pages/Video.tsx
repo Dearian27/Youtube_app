@@ -6,7 +6,7 @@ import AddTaskIcon from '@mui/icons-material/AddTask';
 import { darkTheme } from "../utils/Theme";
 import Comments from "../components/Comments";
 import Card, { channelType } from "../components/Card";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import axios from '../utils/axios';
 import { videoI } from "./Home";
@@ -105,7 +105,8 @@ const Description = styled.p`
 
 const Video: React.FC = () => {
 
-  const { user } = useSelector((state: RootState) => state.user);
+  const navigate = useNavigate();
+  const { user, isAuth } = useSelector((state: RootState) => state.user);
   const { currentVideo, currentChannel } = useSelector((state: RootState) => state.video);
   const dispatch = useAppDispatch();
   const params = useParams();
@@ -117,6 +118,10 @@ const Video: React.FC = () => {
   }
 
   const subscribeHandler = async () => {
+    if (!isAuth) {
+      navigate('/signin')
+      return;
+    };
     if (user.subscribedUsers.includes(currentChannel._id)) {
       dispatch(unsubscribeChannel(currentChannel._id))
     } else {
@@ -133,6 +138,10 @@ const Video: React.FC = () => {
   }
 
   const likeHandler = async () => {
+    if (!isAuth) {
+      navigate('/signin')
+      return;
+    };
     try {
       dispatch(setLike(user._id));
       dispatch(likeVideo({ videoId: id }))
@@ -142,6 +151,10 @@ const Video: React.FC = () => {
   };
 
   const dislikeHandler = async () => {
+    if (!isAuth) {
+      navigate('/signin')
+      return;
+    };
     try {
       dispatch(setDislike(user._id));
       dispatch(dislikeVideo({ videoId: id }))
@@ -158,8 +171,8 @@ const Video: React.FC = () => {
 
 
   const Subscribe = styled.button`
-    background-color: ${user.subscribedUsers.includes(currentChannel._id) ? "#dfdfdf" : "#cc1a00"};
-    color: ${user.subscribedUsers.includes(currentChannel._id) ? "#a8a8a8" : "#fff"};
+    background-color: ${user?.subscribedUsers?.includes(currentChannel._id) ? "#dfdfdf" : "#cc1a00"};
+    color: ${user?.subscribedUsers?.includes(currentChannel._id) ? "#a8a8a8" : "#fff"};
     font-weight: 700;
     border: none;
     border-radius: 3px;
@@ -192,7 +205,7 @@ const Video: React.FC = () => {
             </Info>
             <Buttons>
               <Button onClick={likeHandler}>
-                {currentVideo?.likes?.includes(user._id) ?
+                {currentVideo?.likes?.includes(user?._id) ?
                   <>
                     <ThumbUpIcon /> {currentVideo?.likes?.length}
                   </>
@@ -203,7 +216,7 @@ const Video: React.FC = () => {
                 }
               </Button>
               <Button onClick={dislikeHandler}>
-                {currentVideo?.dislikes?.includes(user._id) ?
+                {currentVideo?.dislikes?.includes(user?._id) ?
                   <>
                     <ThumbDownIcon />{currentVideo?.dislikes?.length}
                   </>
@@ -230,7 +243,7 @@ const Video: React.FC = () => {
             </ChannelDetail>
           </ChannelInfo>
           <Subscribe onClick={subscribeHandler}>
-            {user.subscribedUsers.includes(currentChannel._id) ? "Subscribed" : "Subscribe"}
+            {user?.subscribedUsers?.includes(currentChannel._id) ? "Subscribed" : "Subscribe"}
           </Subscribe>
         </Channel>
         <Comments />

@@ -56,7 +56,8 @@ const Comment: React.FC<CommentProps> = ({ comment }) => {
             {comment?.createdAt && format(comment?.createdAt)}
           </Date>
         </Name>
-        <Text>{comment.text}</Text>
+        <Text>{comment?.text}</Text>
+        {/* //! ? */}
       </Details>
     </Container>
   )

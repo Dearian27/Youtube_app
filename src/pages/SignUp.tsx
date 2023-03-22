@@ -98,10 +98,10 @@ const SignUp: React.FC = () => {
       <Wrapper onSubmit={handleSubmit}>
         <Title>Sign Up</Title>
         <Subtitle>We are really happy to see you again!</Subtitle>
-        <Input onChange={(el) => setName(el.target.value)} value={name} type='text' placeholder='name' />
-        <Input onChange={(el) => setEmail(el.target.value)} value={email} type='email' placeholder='email' />
-        <Input ref={pswdRef} onChange={(el) => setPassword(el.target.value)} value={password} type='password' placeholder='enter password' />
-        <Input ref={confPswdRef} onChange={(el) => setConfirmP(el.target.value)} value={confirmP} type='password' placeholder='confirm the password' />
+        <Input onChange={(e) => setName(e.target.value)} value={name} type='text' placeholder='name' />
+        <Input onChange={(e) => setEmail(e.target.value)} value={email} type='email' placeholder='email' />
+        <Input ref={pswdRef} onChange={(e) => setPassword(e.target.value)} value={password} type='password' placeholder='enter password' />
+        <Input ref={confPswdRef} onChange={(e) => setConfirmP(e.target.value)} value={confirmP} type='password' placeholder='confirm the password' />
         <Subtitle>Already have an <Link style={{ color: "lightblue" }} to="/signin">account</Link>?</Subtitle>
         <Button type='submit'>Sign Up</Button>
         <More>English(USA)</More>
