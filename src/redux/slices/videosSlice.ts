@@ -3,17 +3,20 @@ import axios from '../../utils/axios';
 
 type videoType = any;
 type channelType = any;
+type commentType = any;
 
 type videoStateParams = {
   currentVideo: null | videoType;
+  currentChannel: null | channelType,
+  comments: null | commentType,
   isLoading: boolean;
   isError: boolean;
-  currentChannel: null | channelType,
 }
 
 const initialState: videoStateParams = {
   currentVideo: null,
   currentChannel: null,
+  comments: null,
   isLoading: false,
   isError: false,
 }
@@ -71,6 +74,16 @@ export const unsubscribeChannel: any = createAsyncThunk("/unsubscribe/channel",
   }
 )
 
+export const fetchCommentsData: any = createAsyncThunk("/comments",
+  async (id) => {
+    try {
+      const {data} = await axios.get(`/comments/${id}`);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+})
+
 const videosSlice = createSlice({
   name: 'video',
   initialState,
@@ -114,6 +127,12 @@ const videosSlice = createSlice({
       state.isError = true;
     },   
     [unsubscribeChannel.rejected]: (state: any, action:PayloadAction<any>) => {
+      state.isError = true;
+    },
+    [fetchCommentsData.fulfilled]: (state:any, action:PayloadAction<any>) => {
+      state.comments = action.payload;
+    },
+    [fetchCommentsData.rejected]: (state: any, action:PayloadAction<any>) => {
       state.isError = true;
     },
   }

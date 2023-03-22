@@ -102,16 +102,6 @@ const ChannelCounter = styled.span`
 `
 const Description = styled.p`
 `
-const Subscribe = styled.button`
-  background-color: #cc1a00;
-  font-weight: 700;
-  color: white;
-  border: none;
-  border-radius: 3px;
-  height: max-content;
-  padding: 10px 20px;
-  cursor: pointer;
-`
 
 const Video: React.FC = () => {
 
@@ -166,6 +156,18 @@ const Video: React.FC = () => {
   }, [id, dispatch])
   // }, [])
 
+
+  const Subscribe = styled.button`
+    background-color: ${user.subscribedUsers.includes(currentChannel._id) ? "#dfdfdf" : "#cc1a00"};
+    color: ${user.subscribedUsers.includes(currentChannel._id) ? "#a8a8a8" : "#fff"};
+    font-weight: 700;
+    border: none;
+    border-radius: 3px;
+    height: max-content;
+    padding: 10px 20px;
+    cursor: pointer;
+    
+  `
 
   return (
     <Container>
@@ -227,7 +229,9 @@ const Video: React.FC = () => {
               <Description>{currentVideo?.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
-          <Subscribe onClick={subscribeHandler}>{user.subscribedUsers.includes(currentChannel._id) ? "Subscribed" : "Subscribe"}</Subscribe>
+          <Subscribe onClick={subscribeHandler}>
+            {user.subscribedUsers.includes(currentChannel._id) ? "Subscribed" : "Subscribe"}
+          </Subscribe>
         </Channel>
         <Comments />
       </Content>
