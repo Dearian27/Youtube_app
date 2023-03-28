@@ -8,8 +8,7 @@ import Home from './pages/Home';
 import Video from './pages/Video';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
-import store from './redux/store'
-import { Provider } from 'react-redux'
+import AddVideo from './pages/AddVideo';
 import './App.css';
 
 const Container = styled.div`
@@ -40,6 +39,7 @@ const App: React.FC = () => {
                   <Route index element={<Home type="random" />} />
                   <Route path='trends' element={<Home type="trend" />} />
                   <Route path='subscriptions' element={<Home type="sub" />} />
+                  <Route path='upload' element={<AddVideo />} />
                   <Route path='signin' element={<SignIn />} />
                   <Route path='signup' element={<SignUp />} />
                   <Route path="video">

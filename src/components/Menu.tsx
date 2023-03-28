@@ -13,6 +13,7 @@ import Newspaper from '@mui/icons-material/Newspaper';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SettingsBrightnessIcon from '@mui/icons-material/SettingsBrightness';
+import VideoCallOutlinedIcon from '@mui/icons-material/VideoCallOutlined';
 import FlagIcon from '@mui/icons-material/Flag';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -23,15 +24,27 @@ const Container = styled.div`
   color: ${({ theme }) => theme.text};
   background-color: ${({ theme }) => theme.bgLighter};
   transition: background-color 0.25s ease-in-out;
-  height: 100vh;
+  height: 100%;
   font-size: 14px;
-  position: sticky;
-  top: 0;
-`;
+  `;
 
 const Wrapper = styled.div`
+  height: 100%;
   padding: 18px 0px;
-  `
+  position: sticky;
+  top: 54px;
+`
+const Metube = styled.div`
+  background-color: ${({ theme }) => theme.bgLighter};
+  position: sticky;
+  padding: 8px 0;
+  top: 0px;
+  z-index: 5;
+
+  &:focus {
+    outline: none;
+  }
+`
 
 const Logo = styled.div`
   padding: 0px 26px;
@@ -114,19 +127,19 @@ interface MenuProps {
 
 const Menu: React.FC<MenuProps> = ({ darkMode, setDarkMode }) => {
 
-  const isAuth: any = useSelector((state: any) => state.user.isAuth);
-  // const { isAuth } = useSelector((state: RootState) => state.user)
+  const { isAuth } = useSelector((state: RootState) => state.user)
 
   return (
     <Container>
-      <Wrapper>
+      <Metube>
         <Link to="/" style={{ textDecoration: "none" }}>
           <Logo>
             <Img src={LogoFile} />
             Metube
           </Logo>
         </Link>
-
+      </Metube>
+      <Wrapper>
         <Link to="/" style={{ textDecoration: "none" }}>
           <Item>
             <HomeIcon />Home
@@ -146,6 +159,11 @@ const Menu: React.FC<MenuProps> = ({ darkMode, setDarkMode }) => {
         <Item>
           <LibraryAddIcon />Library
         </Item>
+        <Link to="upload" style={{ textDecoration: "none" }}>
+          <Item>
+            <VideoCallOutlinedIcon />Add video
+          </Item>
+        </Link>
         <Item>
           <HistoryIcon />History
         </Item>

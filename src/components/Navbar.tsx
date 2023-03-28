@@ -6,7 +6,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../redux/store';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import VideoCallOutlinedIcon from '@mui/icons-material/VideoCallOutlined';
 
 const Container = styled.div`
   z-index: 5;
@@ -41,7 +40,7 @@ const Search = styled.div`
 const Input = styled.input`
   border: none;
   background-color: transparent;
-
+  width: 100%;
   &:focus {
     outline: none;
   }
@@ -81,7 +80,7 @@ const Navbar: React.FC<NavBarProps> = ({ darkMode }) => {
       <Wrapper>
         <Search>
           <Input type="text" placeholder="Search" />
-          <SearchIcon style={{ fill: `${darkMode ? "white" : "black"}` }} />
+          <SearchIcon style={{ cursor: 'pointer', fill: `${darkMode ? "white" : "black"}` }} />
         </Search>
         {isAuth !== true ?
           <Button onClick={() => navigate('/signin')}>
@@ -90,7 +89,6 @@ const Navbar: React.FC<NavBarProps> = ({ darkMode }) => {
           </Button>
           :
           <User>
-            <VideoCallOutlinedIcon style={{ height: "100%" }} />
             <UserName>{user?.name}</UserName>
             <Avatar />
           </User>

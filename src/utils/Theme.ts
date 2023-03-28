@@ -6,6 +6,11 @@ export const lightTheme: any = {
   soft: "#373737",
   blueShade: "#1F51FF",
   hrColor: "#D0D0D0",
+  
+  bgContrast: "#181818",
+  bgLighterContrast: "#202020",
+  textContrast: "white",
+  textSoftContrast: "#aaaaaa",
 }
 
 export const darkTheme: any = {
@@ -16,4 +21,8 @@ export const darkTheme: any = {
   soft: "#f5f5f5",
   blueShade: "lightblue",
   hrColor: "#2F2F2F",
+  bgContrast: "#f9f9f9",
+  bgLighterContrast: "white",
+  textContrast: "black",
+  textSoftContrast: "#606060",
 }
