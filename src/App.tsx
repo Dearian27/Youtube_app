@@ -12,16 +12,23 @@ import AddVideo from './pages/AddVideo';
 import './App.css';
 
 const Container = styled.div`
+  background-color: ${({ theme }) => theme.bg};
+  background-color: #101010;
   display: flex;
-  `
+  height: 100vh;
+  /* overflow: hidden; */
+`
+
 const Main = styled.div`
-flex: 7;
-background-color: ${({ theme }) => theme.bg};
-transition: background-color 0.25s ease-in-out;
-`;
+  background-color: ${({ theme }) => theme.bg};
+  flex: 7;
+  transition: background-color 0.25s ease-in-out;
+  `
 const Wrapper = styled.div`
+  background-color: ${({ theme }) => theme.bg};
+  margin-top: 54px;
   padding: 22px 76px;
-`;
+`
 
 const App: React.FC = () => {
   const [darkMode, setDarkMode] = useState<boolean>(false);

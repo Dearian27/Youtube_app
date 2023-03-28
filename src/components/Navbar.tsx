@@ -9,7 +9,8 @@ import { useAppDispatch, useAppSelector } from '../hooks';
 
 const Container = styled.div`
   z-index: 5;
-  position: sticky;
+  /* position: sticky; */
+  position: fixed;
   top: 0;
   background-color: ${({ theme }) => theme.bgLighter};
   transition: background-color 0.25s ease-in-out;

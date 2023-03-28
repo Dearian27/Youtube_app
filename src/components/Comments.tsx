@@ -54,6 +54,7 @@ const Button = styled.button`
   border-radius: 50px;
   background-color: transparent;
   color: #2c2c2c;
+  transition: background-color 0.4s ease-in, color 0.3s ease-in;
 
   &:disabled {
     cursor: unset;

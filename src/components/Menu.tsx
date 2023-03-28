@@ -24,15 +24,22 @@ const Container = styled.div`
   color: ${({ theme }) => theme.text};
   background-color: ${({ theme }) => theme.bgLighter};
   transition: background-color 0.25s ease-in-out;
-  height: 100%;
+  height: 100vh;
   font-size: 14px;
-  `;
+`
+
+const Fixed = styled.div`
+height: 100vh;
+position: fixed;
+`
 
 const Wrapper = styled.div`
-  height: 100%;
-  padding: 18px 0px;
-  position: sticky;
+  height: 100vh;
+  /* height: 100%; */
+  /* padding: 18px 0px; */
+  /* position: sticky; */
   top: 54px;
+  /* margin-top: 54px; */
 `
 const Metube = styled.div`
   background-color: ${({ theme }) => theme.bgLighter};
@@ -55,12 +62,14 @@ const Logo = styled.div`
   font-weight: bold;
   margin-bottom: 10px;
   text-decoration: none;
-`
+  font-family: 'Poppins';
+  `
 const Img = styled.img`
   height: 32px;
-`
+  `
 const Item = styled.div`
   /* width: ; */
+  font-family: 'Poppins';
   color: ${({ theme }) => theme.text};
   display: flex;
   align-items: center;
@@ -131,80 +140,82 @@ const Menu: React.FC<MenuProps> = ({ darkMode, setDarkMode }) => {
 
   return (
     <Container>
-      <Metube>
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <Logo>
-            <Img src={LogoFile} />
-            Metube
-          </Logo>
-        </Link>
-      </Metube>
-      <Wrapper>
-        <Link to="/" style={{ textDecoration: "none" }}>
+      <Fixed>
+        <Metube>
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <Logo>
+              <Img src={LogoFile} />
+              Metube
+            </Logo>
+          </Link>
+        </Metube>
+        <Wrapper>
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <Item>
+              <HomeIcon />Home
+            </Item>
+          </Link>
+          <Link to="trends" style={{ textDecoration: "none" }}>
+            <Item>
+              <ExploreIcon />Explore
+            </Item>
+          </Link>
+          <Link to="subscriptions" style={{ textDecoration: "none" }}>
+            <Item>
+              <SubscriptionsIcon />Subscriptions
+            </Item>
+          </Link>
+          <Hr />
           <Item>
-            <HomeIcon />Home
+            <LibraryAddIcon />Library
           </Item>
-        </Link>
-        <Link to="trends" style={{ textDecoration: "none" }}>
+          <Link to="upload" style={{ textDecoration: "none" }}>
+            <Item>
+              <VideoCallOutlinedIcon />Add video
+            </Item>
+          </Link>
           <Item>
-            <ExploreIcon />Explore
+            <HistoryIcon />History
           </Item>
-        </Link>
-        <Link to="subscriptions" style={{ textDecoration: "none" }}>
-          <Item>
-            <SubscriptionsIcon />Subscriptions
-          </Item>
-        </Link>
-        <Hr />
-        <Item>
-          <LibraryAddIcon />Library
-        </Item>
-        <Link to="upload" style={{ textDecoration: "none" }}>
-          <Item>
-            <VideoCallOutlinedIcon />Add video
-          </Item>
-        </Link>
-        <Item>
-          <HistoryIcon />History
-        </Item>
-        {
-          !isAuth &&
-          <><Hr />
-            <H4>Sign in to like, comment videos and subscribe.</H4>
-            <Link to="/signin" style={{ textDecoration: "none" }}>
-              <Button>
-                <AccountCircleIcon />
-                Sign in
-              </Button>
-            </Link>
-          </>
-        }
+          {
+            !isAuth &&
+            <><Hr />
+              <H4>Sign in to like, comment videos and subscribe.</H4>
+              <Link to="/signin" style={{ textDecoration: "none" }}>
+                <Button>
+                  <AccountCircleIcon />
+                  Sign in
+                </Button>
+              </Link>
+            </>
+          }
 
-        <Hr />
-        <H3>Best of Metube</H3>
-        <Item>
-          <LibraryMusicIcon />Music
-        </Item>
-        <Item>
-          <SportsSoccerIcon />Sports
-        </Item>
-        <Item>
-          <TheatersIcon />Movie
-        </Item>
-        <Item>
-          <Newspaper />News
-        </Item>
-        <Hr />
-        <Item>
-          <SettingsIcon />Settings
-        </Item>
-        <Item>
-          <FlagIcon />Report
-        </Item>
-        <Item onClick={() => setDarkMode(!darkMode)}>
-          <SettingsBrightnessIcon />{darkMode ? "Light" : "Dark"} Mode
-        </Item>
-      </Wrapper>
+          <Hr />
+          <H3>Best of Metube</H3>
+          <Item>
+            <LibraryMusicIcon />Music
+          </Item>
+          <Item>
+            <SportsSoccerIcon />Sports
+          </Item>
+          <Item>
+            <TheatersIcon />Movie
+          </Item>
+          <Item>
+            <Newspaper />News
+          </Item>
+          <Hr />
+          <Item>
+            <SettingsIcon />Settings
+          </Item>
+          <Item>
+            <FlagIcon />Report
+          </Item>
+          <Item onClick={() => setDarkMode(!darkMode)}>
+            <SettingsBrightnessIcon />{darkMode ? "Light" : "Dark"} Mode
+          </Item>
+        </Wrapper>
+      </Fixed>
     </Container>
   )
 }

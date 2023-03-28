@@ -167,7 +167,6 @@ const Video: React.FC = () => {
     dispatch(fetchVideoData(id));
     // addView();
   }, [id, dispatch])
-  // }, [])
 
 
   const Subscribe = styled.button`
