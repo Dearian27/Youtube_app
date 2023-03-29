@@ -3,14 +3,38 @@ import styled from 'styled-components';
 import { Button } from './Menu'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SearchIcon from '@mui/icons-material/Search';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { RootState } from '../redux/store';
 import { useAppDispatch, useAppSelector } from '../hooks';
+import LogoFile from '../assets/logo.png';
+
+const Metube = styled.div`
+  background-color: ${({ theme }) => theme.bgLighter};
+  z-index: 6;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  &:focus {
+    outline: none;
+  }
+`
+
+const Logo = styled.div`
+  color: ${({ theme }) => theme.text};
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: bold;
+  text-decoration: none;
+  font-family: 'Poppins';
+  `
+const Img = styled.img`
+  height: 32px;
+`
 
 const Container = styled.div`
-  z-index: 5;
-  /* position: sticky; */
-  position: fixed;
+  z-index: 10;
+  position: sticky;
   top: 0;
   background-color: ${({ theme }) => theme.bgLighter};
   transition: background-color 0.25s ease-in-out;
@@ -21,7 +45,8 @@ const Wrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  /* justify-content: flex-end; */
+  justify-content: space-between;
   height: 100%;
   padding: 0 20px;
 `
@@ -79,6 +104,14 @@ const Navbar: React.FC<NavBarProps> = ({ darkMode }) => {
   return (
     <Container>
       <Wrapper>
+        <Metube>
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <Logo>
+              <Img src={LogoFile} />
+              Metube
+            </Logo>
+          </Link>
+        </Metube>
         <Search>
           <Input type="text" placeholder="Search" />
           <SearchIcon style={{ cursor: 'pointer', fill: `${darkMode ? "white" : "black"}` }} />

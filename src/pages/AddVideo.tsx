@@ -1,41 +1,37 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import Tag from '../components/Tag';
 
 const Container = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 90vh;
-  /* height: 100%; */
   color: ${({ theme }) => theme.text};
-  overflow: scroll;
   &::-webkit-scrollbar {
-    display: none;
+    /* display: none; */
   }
 `
 
-const Wrapper = styled.form`
+const Wrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  background-color: ${({ theme }) => theme.bgLighter};
+  /* background-color: ${({ theme }) => theme.bgLighter}; */
   width: auto;
   padding: 20px 30px;
   gap: 10px; 
 `
 const BoxFlex = styled.div`
   display: flex;
-  /* align-items: center; */
   justify-content: space-between;
   width: 100%;
-  background-color: ${({ theme }) => theme.bgLighter};
+  /* background-color: ${({ theme }) => theme.bgLighter}; */
   border-radius: 10px;
   padding: 20px;
-`
+  `
 const BoxVertical = styled.div`
   display: grid;
   align-content: flex-start;
-  /* justify-items: flex-start; */
   gap: 20px;
 `
 
@@ -45,7 +41,8 @@ const Title = styled.input`
   font-family: 'Poppins';
   border: none;
   border-bottom: 3px solid grey;
-  
+  background-color: transparent;
+  color: ${({ theme }) => theme.text};
 
   &:focus {
     outline: none;
@@ -57,9 +54,11 @@ const Description = styled.textarea`
   font-size: 16px;
   width: 400px;
   font-family: 'Poppins';
+  color: ${({ theme }) => theme.text};
   border: none;
   border-bottom: 3px solid grey;
   min-height: 200px;
+  background-color: transparent;
   &:focus {
     outline: none;
   }
@@ -121,7 +120,7 @@ const Img = styled.div`
   width: 400px;
   height: 225px;
   border-radius: 10px;
-  background-color: ${({ theme }) => theme.bg};
+  background-color: ${({ theme }) => theme.bgLighter};
   padding: 10px;
   display: flex;
   align-items: flex-end;
@@ -136,19 +135,64 @@ const SpecifiedTag = styled.div`
   font-size: 16px;
   font-weight: 700;
   color: ${({ theme }) => theme.textSoft};
-  background-color: ${({ theme }) => theme.bg};
-  transition: background-color 0.4s ease -in, color 0.3s ease -in;
+  background-color: ${({ theme }) => theme.inputBg};
+  transition: background-color 0.4s ease-in, color 0.3s ease-in;
 
   &.active {
-    background - color: ${({ theme }) => theme.soft};
+    background-color: ${({ theme }) => theme.soft};
     color: ${({ theme }) => theme.textContrast};
   }
 `
 
-const TagInput = styled.input`
+const Tags = styled.form`
+  display: flex;
+  justify-content: flex-start;
+  gap: 40px;
+  width: 100%;
+  padding: 20px;
+`
+
+const TagsField = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  height: auto;
+  background-color: ${({ theme }) => theme.inputBg};
+  border-radius: 5px;
+  flex: 1;  
+`
+
+const Hash = styled.div`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 5px;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: 'Poppins';
+  color: #757575;
+  padding: 0px 5px;
+  border-right: 4px solid #757575;
+`
+const Input = styled.input`
   border: none;
   background-color: ${({ theme }) => theme.inputBg};
-  botder-radius: 5px;
+  border-radius: 5px;
+  padding: 10px 10px;
+  padding-left: 40px;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: 'Poppins';
+  color: ${({ theme }) => theme.text};
+  
+  &:focus {
+    outline: none;
+  }
+`
+
+const TagInput = styled.div`
+position: relative;
 
 `
 
@@ -164,6 +208,16 @@ const AddVideo: React.FC = () => {
   const [specifiedTag, setSpecifiedTag] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+
+  const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log('wrapper')
+  }
+
+  const addTag = (event: React.FormEvent<HTMLFormElement>) => {
+    console.log('Adding tag')
+    event.preventDefault();
+  }
 
   return (
     <Container>
@@ -187,8 +241,17 @@ const AddVideo: React.FC = () => {
           {sTags.map((tag) => {
             return <SpecifiedTag key={tag} onClick={() => setSpecifiedTag(tag)} className={`${tag === specifiedTag && 'active'} `}>{tag}</SpecifiedTag>
           })}
-          <TagInput type="text" placeholder='#' />
         </BoxFlex>
+        <Tags onSubmit={(event) => addTag(event)}>
+          <TagInput>
+            <Input type="text" />
+            <Hash>#</Hash>
+          </TagInput>
+          <TagsField>
+            <Tag text="rock" />
+            <Tag text="animal rock" />
+          </TagsField>
+        </Tags>
       </Wrapper>
     </Container>
   )
