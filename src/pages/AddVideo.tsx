@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Tag from '../components/Tag';
+import HelpIcon from '@mui/icons-material/Help';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.section`
   display: flex;
@@ -23,12 +25,13 @@ const Wrapper = styled.div`
 `
 const BoxFlex = styled.div`
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  justify-content: space-around;
   width: 100%;
-  /* background-color: ${({ theme }) => theme.bgLighter}; */
   border-radius: 10px;
   padding: 20px;
-  `
+`
+
 const BoxVertical = styled.div`
   display: grid;
   align-content: flex-start;
@@ -161,7 +164,7 @@ const TagsField = styled.div`
   height: auto;
   background-color: ${({ theme }) => theme.inputBg};
   border-radius: 5px;
-  width: 500px;
+  width:  400px;
   min-height: 100px;
   gap: 10px;
   padding: 10px;
@@ -177,14 +180,14 @@ const Hash = styled.div`
   font-family: 'Poppins';
   color: #757575;
   padding: 0px 5px;
-  border-right: 4px solid #757575;
+  /* border-right: 4px solid #757575; */
 `
 const Input = styled.input`
   border: none;
   background-color: ${({ theme }) => theme.inputBg};
   border-radius: 5px;
   padding: 10px 10px;
-  padding-left: 40px;
+  padding-left: 34px;
   font-size: 20px;
   font-weight: 700;
   font-family: 'Poppins';
@@ -195,9 +198,88 @@ const Input = styled.input`
   }
 `
 
+const Tip = styled.span`
+  display: flex;
+  gap: 5px;
+  font-weight: 500;
+  font-family: "Poppins";
+  color: ${({ theme }) => theme.textSoft};
+`
+
+const Tooltip = styled.span`
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; 
+  &:hover .tooltiptext  {
+    visibility: visible;
+  }
+`
+const Tooltiptext = styled.span`
+  visibility: hidden;
+
+  width: 240px;
+  margin-left: -120px; /* Use half of the width (120/2 = 60), to center the tooltip */
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  
+  z-index: 1;
+
+  &:after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent black transparent;
+}
+`
+
 const TagInput = styled.div`
   position: relative;
   display: block;
+`
+
+const SubmitBtn = styled.button`
+  /* align-self: flex-end; */
+  padding: 10px 20px;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: "Poppins";
+  border: none;
+  border-radius: 10px;
+  background-color: #7E90F5;
+  color: white;
+  transition: background-color 0.4s ease-in, color 0.3s ease-in;
+  &:disabled {
+    cursor: unset;
+    background-color: #F2F2F2 !important;
+    color: #8d8d8d;
+
+    &:hover {
+      background-color: #F2F2F2!important;
+      color: #8d8d8d;
+    }
+  }
+`
+const CancelBtn = styled.button`
+  padding: 10px 20px;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: "Poppins";
+  border: none;
+  border-radius: 10px;
+  background-color: transparent !important;
+  color: ${({ theme }) => theme.textSoft};
+  transition: background-color 0.4s ease-in, color 0.3s ease-in;
+  border: 2px solid ${({ theme }) => theme.textSoft};
 `
 
 const sTags: string[] = [
@@ -209,9 +291,9 @@ const sTags: string[] = [
 
 const AddVideo: React.FC = () => {
 
-  const [tags, setTags] = useState<string[]>([]);
+  const navigate = useNavigate();
+  const [tags, setTags] = useState<string[]>(["Music"]);
   const [inputedTag, setInputedTag] = useState<string>("");
-  const [specifiedTag, setSpecifiedTag] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
@@ -221,8 +303,11 @@ const AddVideo: React.FC = () => {
 
   const addTag = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!tags?.includes?.(inputedTag) && inputedTag) {
-      tags.push(inputedTag);
+    let operatedTag = inputedTag.replace(/[^a-zа-яё0-9\s]/gi, '');
+    operatedTag = operatedTag[0].toLowerCase() + operatedTag.slice(1);
+
+    if (!tags?.includes?.(operatedTag) && operatedTag) {
+      tags.push(operatedTag);
       setTags(tags);
       console.log(tags)
     }
@@ -233,13 +318,22 @@ const AddVideo: React.FC = () => {
     setTags(tags.filter(tag => tag !== text));
   }
 
+  const addSTag = (newTag: string) => {
+    let updTags = tags;
+    sTags.map(sTag => {
+      updTags = updTags.filter(tag => tag !== sTag);
+    })
+    updTags.push(newTag);
+    setTags(updTags);
+  }
+
   return (
     <Container>
       <Wrapper>
         <h1>New Video</h1>
         <BoxFlex>
           <BoxVertical>
-            <Title type="text" placeholder="Title" />
+            <Title value={title} onChange={(event) => setTitle(event.target.value)} type="text" placeholder="Title" />
             <Description wrap='on' placeholder="Description" />
           </BoxVertical>
           <BoxVertical>
@@ -251,22 +345,41 @@ const AddVideo: React.FC = () => {
             </Img>
           </BoxVertical>
         </BoxFlex>
-        <BoxFlex style={{ justifyContent: "flex-start", gap: "10px" }}>
+        <BoxFlex style={{ justifyContent: "flex-start", alignItems: "center", gap: "10px" }}>
           {sTags.map((tag) => {
-            return <SpecifiedTag key={tag} onClick={() => setSpecifiedTag(tag)} className={`${tag === specifiedTag && 'active'} `}>{tag}</SpecifiedTag>
+            return <SpecifiedTag key={tag} onClick={() => addSTag(tag)} className={`${tags.includes(tag) && 'active'} `}>{tag}</SpecifiedTag>
           })}
+          <Tip style={{ fontSize: "16px" }}> <span style={{ color: "red" }}>*</span>specified tags
+            <Tooltip>
+              <HelpIcon />
+              <Tooltiptext className="tooltiptext">increases your chances of video promotion  </Tooltiptext>
+            </Tooltip>
+          </Tip>
         </BoxFlex>
         <Tags onSubmit={(event) => addTag(event)}>
-          <TagInput>
-            <Input maxLength={40} onChange={(event) => setInputedTag(event.target.value)} value={inputedTag} type="text" />
-            <Hash>#</Hash>
-          </TagInput>
+          <BoxVertical>
+            <TagInput>
+              <Input maxLength={40} onChange={(event) => setInputedTag(event.target.value)} value={inputedTag} type="text" />
+              <Hash>#</Hash>
+            </TagInput>
+            <Tip>
+              <span style={{ color: "red" }}>*</span>first letter will be lowercased
+            </Tip>
+          </BoxVertical>
           <TagsField>
             {tags.map((tag) => {
               return <Tag key={tag} deleteTag={deleteTag} text={tag} />
             })}
           </TagsField>
         </Tags>
+        <BoxFlex style={{ justifyContent: "flex-end", gap: "30px", paddingRight: "100px" }}>
+          <CancelBtn onClick={() => navigate('/')}>
+            Cancel
+          </CancelBtn>
+          <SubmitBtn disabled={true}>
+            Submit
+          </SubmitBtn>
+        </BoxFlex>
       </Wrapper>
     </Container>
   )
