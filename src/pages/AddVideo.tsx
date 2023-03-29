@@ -147,6 +147,7 @@ const SpecifiedTag = styled.div`
 const Tags = styled.form`
   display: flex;
   justify-content: flex-start;
+  align-items: flex-start;
   gap: 40px;
   width: 100%;
   padding: 20px;
@@ -160,7 +161,10 @@ const TagsField = styled.div`
   height: auto;
   background-color: ${({ theme }) => theme.inputBg};
   border-radius: 5px;
-  flex: 1;  
+  width: 500px;
+  min-height: 100px;
+  gap: 10px;
+  padding: 10px;
 `
 
 const Hash = styled.div`
@@ -192,8 +196,8 @@ const Input = styled.input`
 `
 
 const TagInput = styled.div`
-position: relative;
-
+  position: relative;
+  display: block;
 `
 
 const sTags: string[] = [
@@ -205,18 +209,28 @@ const sTags: string[] = [
 
 const AddVideo: React.FC = () => {
 
+  const [tags, setTags] = useState<string[]>([]);
+  const [inputedTag, setInputedTag] = useState<string>("");
   const [specifiedTag, setSpecifiedTag] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
   const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('wrapper')
   }
 
   const addTag = (event: React.FormEvent<HTMLFormElement>) => {
-    console.log('Adding tag')
     event.preventDefault();
+    if (!tags?.includes?.(inputedTag) && inputedTag) {
+      tags.push(inputedTag);
+      setTags(tags);
+      console.log(tags)
+    }
+    setInputedTag('');
+  }
+
+  const deleteTag = (text: string) => {
+    setTags(tags.filter(tag => tag !== text));
   }
 
   return (
@@ -244,12 +258,13 @@ const AddVideo: React.FC = () => {
         </BoxFlex>
         <Tags onSubmit={(event) => addTag(event)}>
           <TagInput>
-            <Input type="text" />
+            <Input maxLength={40} onChange={(event) => setInputedTag(event.target.value)} value={inputedTag} type="text" />
             <Hash>#</Hash>
           </TagInput>
           <TagsField>
-            <Tag text="rock" />
-            <Tag text="animal rock" />
+            {tags.map((tag) => {
+              return <Tag key={tag} deleteTag={deleteTag} text={tag} />
+            })}
           </TagsField>
         </Tags>
       </Wrapper>
