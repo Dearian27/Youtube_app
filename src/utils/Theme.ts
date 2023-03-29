@@ -8,6 +8,8 @@ export const lightTheme: any = {
   hrColor: "#D0D0D0",
   
   inputBg: "#E8E8E8",
+  inputBgContrast: "#333333",
+
   bgContrast: "#181818",
   bgLighterContrast: "#202020",
   textContrast: "white",
@@ -24,6 +26,8 @@ export const darkTheme: any = {
   hrColor: "#2F2F2F",
   
   inputBg: "#333333",
+  inputBgContrast: "#E8E8E8",
+  
   bgContrast: "#f9f9f9",
   bgLighterContrast: "white",
   textContrast: "black",

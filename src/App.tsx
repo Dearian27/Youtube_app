@@ -15,18 +15,14 @@ const Container = styled.div`
   background-color: ${({ theme }) => theme.bg};
   background-color: #101010;
   display: flex;
-  height: 100vh;
+  /* height: calc(100vh - 54px); */
   /* overflow: hidden; */
 `
 
 const Main = styled.div`
-  background-color: ${({ theme }) => theme.bg};
   flex: 7;
-  transition: background-color 0.25s ease-in-out;
-  `
-const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.bg};
-  margin-top: 54px;
+  transition: background-color 0.25s ease-in-out;
   padding: 22px 76px;
 `
 
@@ -35,29 +31,29 @@ const App: React.FC = () => {
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-      <Container>
-        <BrowserRouter>
+      <BrowserRouter>
+        <Navbar darkMode={darkMode} />
+        <Container>
           <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
           <Main>
-            <Navbar darkMode={darkMode} />
-            <Wrapper>
-              <Routes>
-                <Route path="/" >
-                  <Route index element={<Home type="random" />} />
-                  <Route path='trends' element={<Home type="trend" />} />
-                  <Route path='subscriptions' element={<Home type="sub" />} />
-                  <Route path='upload' element={<AddVideo />} />
-                  <Route path='signin' element={<SignIn />} />
-                  <Route path='signup' element={<SignUp />} />
-                  <Route path="video">
-                    <Route path=":id" element={<Video />} />
-                  </Route>
+            {/* <Wrapper> */}
+            <Routes>
+              <Route path="/" >
+                <Route index element={<Home type="random" />} />
+                <Route path='trends' element={<Home type="trend" />} />
+                <Route path='subscriptions' element={<Home type="sub" />} />
+                <Route path='upload' element={<AddVideo />} />
+                <Route path='signin' element={<SignIn />} />
+                <Route path='signup' element={<SignUp />} />
+                <Route path="video">
+                  <Route path=":id" element={<Video />} />
                 </Route>
-              </Routes>
-            </Wrapper>
+              </Route>
+            </Routes>
+            {/* </Wrapper> */}
           </ Main>
-        </BrowserRouter>
-      </Container>
+        </Container>
+      </BrowserRouter>
     </ThemeProvider>
   )
 }
