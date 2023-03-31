@@ -176,6 +176,7 @@ const Video: React.FC = () => {
     border: none;
     border-radius: 3px;
     height: max-content;
+    font-size: 16px;
     padding: 10px 20px;
     cursor: pointer;
     
@@ -226,8 +227,8 @@ const Video: React.FC = () => {
                   </>
                 }
               </Button>
-              <Button><ReplyIcon style={{ height: "30px", width: "30px", }} />share</Button>
-              <Button><AddTaskIcon />save</Button>
+              <Button><ReplyIcon style={{ height: "30px", width: "30px", }} />Share</Button>
+              <Button><AddTaskIcon />Save</Button>
             </Buttons>
           </Details>
         </VideoWrapper>

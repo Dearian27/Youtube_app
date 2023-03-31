@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, EventHandler, useRef } from 'react';
 import styled from 'styled-components';
 import Tag from '../components/Tag';
 import HelpIcon from '@mui/icons-material/Help';
 import { useNavigate } from 'react-router-dom';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import app from '../firebase';
+import axios from '../utils/axios';
 
 const Container = styled.section`
   display: flex;
@@ -13,7 +16,6 @@ const Container = styled.section`
     /* display: none; */
   }
 `
-
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
@@ -31,13 +33,11 @@ const BoxFlex = styled.div`
   border-radius: 10px;
   padding: 20px;
 `
-
 const BoxVertical = styled.div`
   display: grid;
   align-content: flex-start;
   gap: 20px;
 `
-
 const Title = styled.input`
   fontWeight: 500px;
   font-size: 20px;
@@ -51,7 +51,6 @@ const Title = styled.input`
     outline: none;
   }
 `
-
 const Description = styled.textarea`
   resize: vertical;
   font-size: 16px;
@@ -66,59 +65,6 @@ const Description = styled.textarea`
     outline: none;
   }
 `
-const VideoInput = styled.input`
-  padding: 10px 5px;
-  position: relative;
-  /* background-color: ${({ theme }) => theme.soft}; */
-
-  &::-webkit-file-upload-button {
-    visibility: hidden;
-  }
-
-  &:before {
-    cursor: pointer;
-    content: 'Upload Video';
-    font-size: 18px;
-    color: ${({ theme }) => theme.textContrast};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: ${({ theme }) => theme.soft};
-  }
-`
-const ImageInput = styled.input`
-  padding: 10px 5px;
-  position: relative;
-  /* background-color: ${({ theme }) => theme.soft}; */
-
-  &::-webkit-file-upload-button {
-    visibility: hidden;
-  }
-
-  &:before {
-    cursor: pointer;
-    content: 'Upload Image';
-    font-size: 18px;
-    color: ${({ theme }) => theme.textContrast};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: ${({ theme }) => theme.soft};
-  }
-`
-
 const Img = styled.div`
   width: 400px;
   height: 225px;
@@ -129,8 +75,6 @@ const Img = styled.div`
   align-items: flex-end;
   justify-content: center;
 `
-
-
 const SpecifiedTag = styled.div`
   cursor: pointer;
   border-radius: 50px;
@@ -146,7 +90,6 @@ const SpecifiedTag = styled.div`
     color: ${({ theme }) => theme.textContrast};
   }
 `
-
 const Tags = styled.form`
   display: flex;
   justify-content: flex-start;
@@ -155,7 +98,6 @@ const Tags = styled.form`
   width: 100%;
   padding: 20px;
 `
-
 const TagsField = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -169,7 +111,6 @@ const TagsField = styled.div`
   gap: 10px;
   padding: 10px;
 `
-
 const Hash = styled.div`
   position: absolute;
   top: 50%;
@@ -197,7 +138,6 @@ const Input = styled.input`
     outline: none;
   }
 `
-
 const Tip = styled.span`
   display: flex;
   gap: 5px;
@@ -205,7 +145,6 @@ const Tip = styled.span`
   font-family: "Poppins";
   color: ${({ theme }) => theme.textSoft};
 `
-
 const Tooltip = styled.span`
   position: relative;
   display: inline-block;
@@ -241,12 +180,10 @@ const Tooltiptext = styled.span`
   border-color: transparent transparent black transparent;
 }
 `
-
 const TagInput = styled.div`
   position: relative;
   display: block;
 `
-
 const SubmitBtn = styled.button`
   /* align-self: flex-end; */
   padding: 10px 20px;
@@ -282,6 +219,54 @@ const CancelBtn = styled.button`
   border: 2px solid ${({ theme }) => theme.textSoft};
 `
 
+const VideoInput = styled.input`
+padding: 10px 5px;
+position: relative;
+&::-webkit-file-upload-button {
+  visibility: hidden;
+}
+
+&:before {
+  cursor: pointer;
+  content: 'Upload Video';
+  font-size: 18px;
+  color: ${({ theme }) => theme.textContrast};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: ${({ theme }) => theme.soft};
+}
+`
+const ImageInput = styled.input`
+padding: 10px 5px;
+position: relative;
+&::-webkit-file-upload-button {
+  visibility: hidden;
+}
+
+&:before {
+  cursor: pointer;
+  content: 'Upload Image';
+  font-size: 18px;
+  color: ${({ theme }) => theme.textContrast};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: ${({ theme }) => theme.soft};
+}
+`
 const sTags: string[] = [
   'Music',
   'Sports',
@@ -289,16 +274,36 @@ const sTags: string[] = [
   'News'
 ]
 
+type InputsType = {
+  title: string;
+  desc: string;
+  tags: string[];
+  imgUrl: string;
+  videoUrl: string;
+}
+
 const AddVideo: React.FC = () => {
 
   const navigate = useNavigate();
-  const [tags, setTags] = useState<string[]>(["Music"]);
+
+  const [img, setImg] = useState(null);
+  const [video, setVideo] = useState(null);
+  const [imgPerc, setImgPerc] = useState(0);
+  const [videoPerc, setVideoPerc] = useState(0);
+  const [inputs, setInputs] = useState<InputsType>({
+    title: '', desc: '', tags: [], imgUrl: '', videoUrl: ''
+  });
   const [inputedTag, setInputedTag] = useState<string>("");
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
   const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+  }
+
+  const changeInputs = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setInputs(prev => (
+      { ...prev, [event?.target.name]: event.target.value }
+    ))
   }
 
   const addTag = (event: React.FormEvent<HTMLFormElement>) => {
@@ -306,26 +311,85 @@ const AddVideo: React.FC = () => {
     let operatedTag = inputedTag.replace(/[^a-zа-яё0-9\s]/gi, '');
     operatedTag = operatedTag[0].toLowerCase() + operatedTag.slice(1);
 
-    if (!tags?.includes?.(operatedTag) && operatedTag) {
-      tags.push(operatedTag);
-      setTags(tags);
-      console.log(tags)
+    if (!inputs.tags?.includes?.(operatedTag) && operatedTag) {
+      const updTags = [...inputs.tags, operatedTag];
+      setInputs(prev => (
+        { ...prev, tags: updTags }
+      ))
     }
     setInputedTag('');
   }
 
   const deleteTag = (text: string) => {
-    setTags(tags.filter(tag => tag !== text));
+    const updTags = inputs.tags.filter(tag => tag !== text);
+    setInputs(prev => (
+      { ...prev, tags: updTags }
+    ))
   }
 
   const addSTag = (newTag: string) => {
-    let updTags = tags;
+    let updTags = inputs.tags;
     sTags.map(sTag => {
       updTags = updTags.filter(tag => tag !== sTag);
     })
     updTags.push(newTag);
-    setTags(updTags);
+    setInputs(prev => (
+      { ...prev, tags: updTags }
+    ))
   }
+
+  const uploadFile = (file: any, urlType: string) => {
+    const storage = getStorage(app);
+    const fileName = new Date().getTime() + file.name;
+    const storageRef = ref(storage, fileName);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on('state_changed',
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        urlType === 'imgUrl' ? setImgPerc(Math.round(progress)) : setVideoPerc(Math.round(progress));
+        switch (snapshot.state) {
+          case 'paused':
+            console.log('Upload is paused');
+            break;
+          case 'running':
+            console.log('Upload is running');
+            break;
+          default:
+            break;
+        }
+      },
+      (error) => {
+        console.log("error", error)
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log('File available at', downloadURL);
+          setInputs((prev) => ({ ...prev, [urlType]: downloadURL }))
+        });
+      }
+    );
+  }
+
+  const handleUpload = async () => {
+    const res = await axios.post('/videos', inputs)
+    res.status === 200 &&
+      navigate(`/video/${res.data._id}`);
+
+  }
+  useEffect(() => {
+    img && uploadFile(img, "imgUrl");
+  }, [img]);
+  useEffect(() => {
+    video && uploadFile(video, "videoUrl");
+  }, [video]);
+
+  useEffect(() => {
+    if (inputs.desc && inputs.title && inputs.imgUrl && inputs.videoUrl) {
+      setIsDisabled(false)
+    } else setIsDisabled(true);
+    console.log(inputs)
+  }, [inputs]);
 
   return (
     <Container>
@@ -333,21 +397,37 @@ const AddVideo: React.FC = () => {
         <h1>New Video</h1>
         <BoxFlex>
           <BoxVertical>
-            <Title value={title} onChange={(event) => setTitle(event.target.value)} type="text" placeholder="Title" />
-            <Description wrap='on' placeholder="Description" />
+            <Title
+              value={inputs?.title} name='title'
+              onChange={(event) => changeInputs(event)}
+              type="text" placeholder="Title" />
+            <Description
+              name='desc' value={inputs.desc}
+              onChange={(event) => changeInputs(event)}
+              wrap='on' placeholder="Description" />
           </BoxVertical>
           <BoxVertical>
             <Img>
-              <VideoInput type="file" accept="video/*" />
+              <VideoInput type="file" accept="video/*" onChange={e => setVideo(e.target.files[0])} />
             </Img>
+            {videoPerc > 0 &&
+              <span>
+                Uploading: {videoPerc}%
+              </span>
+            }
             <Img>
-              <ImageInput type="file" accept="image/*" />
+              <ImageInput type="file" accept="image/*" onChange={e => setImg(e?.target?.files[0])} />
             </Img>
+            {imgPerc > 0 &&
+              <span>
+                Uploading: {imgPerc}%
+              </span>
+            }
           </BoxVertical>
         </BoxFlex>
         <BoxFlex style={{ justifyContent: "flex-start", alignItems: "center", gap: "10px" }}>
           {sTags.map((tag) => {
-            return <SpecifiedTag key={tag} onClick={() => addSTag(tag)} className={`${tags.includes(tag) && 'active'} `}>{tag}</SpecifiedTag>
+            return <SpecifiedTag key={tag} onClick={() => addSTag(tag)} className={`${inputs.tags.includes(tag) && 'active'} `}>{tag}</SpecifiedTag>
           })}
           <Tip style={{ fontSize: "16px" }}> <span style={{ color: "red" }}>*</span>specified tags
             <Tooltip>
@@ -367,7 +447,7 @@ const AddVideo: React.FC = () => {
             </Tip>
           </BoxVertical>
           <TagsField>
-            {tags.map((tag) => {
+            {inputs.tags.map((tag) => {
               return <Tag key={tag} deleteTag={deleteTag} text={tag} />
             })}
           </TagsField>
@@ -376,7 +456,7 @@ const AddVideo: React.FC = () => {
           <CancelBtn onClick={() => navigate('/')}>
             Cancel
           </CancelBtn>
-          <SubmitBtn disabled={true}>
+          <SubmitBtn onClick={handleUpload} disabled={isDisabled}>
             Submit
           </SubmitBtn>
         </BoxFlex>

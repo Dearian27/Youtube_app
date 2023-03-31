@@ -100,16 +100,28 @@ const videosSlice = createSlice({
   initialState,
   reducers: {
     setLike: (state, action: PayloadAction<string>) => {
-      state.currentVideo.likes.push(action.payload);
-      state.currentVideo.dislikes = state.currentVideo.dislikes.filter(
-        (userId: string) => userId !== action.payload
-      );
+      if (state.currentVideo.likes.includes(action.payload)) {
+        state.currentVideo.likes = state.currentVideo.likes.filter(
+          (userId: string) => userId !== action.payload
+        );
+      }else {
+        state.currentVideo.likes.push(action.payload);
+        state.currentVideo.dislikes = state.currentVideo.dislikes.filter(
+          (userId: string) => userId !== action.payload
+        );
+      }
     },
     setDislike: (state, action: PayloadAction<string>) => {
-      state.currentVideo.dislikes.push(action.payload);
-      state.currentVideo.likes = state.currentVideo.likes.filter(
-        (userId: string) => userId !== action.payload
-      );
+      if (state.currentVideo.dislikes.includes(action.payload)) {
+        state.currentVideo.dislikes = state.currentVideo.dislikes.filter(
+          (userId: string) => userId !== action.payload
+        );
+      }else {
+        state.currentVideo.dislikes.push(action.payload);
+        state.currentVideo.likes = state.currentVideo.likes.filter(
+          (userId: string) => userId !== action.payload
+        );
+      }
     },
     setSubscribers: (state, action: PayloadAction<number>) => {
       state.currentChannel.subscribers += action.payload;
