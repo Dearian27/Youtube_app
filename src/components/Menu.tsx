@@ -17,7 +17,7 @@ import VideoCallOutlinedIcon from '@mui/icons-material/VideoCallOutlined';
 import FlagIcon from '@mui/icons-material/Flag';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
+import { RootState, persistor } from '../redux/store';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { LogOut } from '../redux/slices/userSlice';
 
@@ -116,7 +116,18 @@ const Menu: React.FC<MenuProps> = ({ darkMode, setDarkMode }) => {
 
   const logOutHandler = () => {
     LogOut();
+    // document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i];
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+      document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;";
+    }
+    persistor.purge();
     navigate('/');
+    window.location.reload()
   }
 
   return (
@@ -152,7 +163,7 @@ const Menu: React.FC<MenuProps> = ({ darkMode, setDarkMode }) => {
         {
           !isAuth &&
           <><Hr />
-            <H4>Sign in to like, comment videos and subscribe.</H4>
+            <H4 style={{ maxWidth: "200px" }}>Sign in to like, comment videos and subscribe.</H4>
             <Link to="/signin" style={{ textDecoration: "none" }}>
               <Button>
                 <AccountCircleIcon />
