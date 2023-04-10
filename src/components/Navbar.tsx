@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Button } from './Menu'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -103,7 +103,9 @@ const Navbar: React.FC<NavBarProps> = ({ darkMode }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { isAuth, user } = useAppSelector(state => state.user);
+  let { isAuth, user } = useAppSelector(state => state.user);
+
+  console.log(user);
 
   return (
     <Container>

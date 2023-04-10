@@ -19,14 +19,10 @@ const initialState: userStateParams = {
 export const signInGoogle: any = createAsyncThunk("/auth/google", 
   async ({name, email}: {name: string; email: string}) => {
     try {
-      const { data } = await axios.post('/auth/google', { name, email});
-      console.log(data);
-      if (data.token) {
-        // window.localStorage.setItem('token', data.token)
+      const { data } = await axios.post('/auth/google', { name, email});     
+      if(data) {
+        setAuth(true);
       }
-      
-      setAuth(true);
-      console.log(data, "success")
       return data;
     }catch(error) {
       console.log(error)
@@ -56,9 +52,9 @@ export const signUp:any = createAsyncThunk ("/auth/signup",
     const { data } = await axios.post('/auth/signup', { name, email, password });
     // console.log(data);
 
-    if (data.token) {
-      window.localStorage.setItem('token', data.token)
-    }
+    // if (data.token) {
+    //   window.localStorage.setItem('token', data.token)
+    // }
 
     setAuth(true);
     return data;
@@ -85,11 +81,9 @@ const userSlice = createSlice({
     },
     LogOut: (state) => {
       state.user = null;
-      console.log(state.user, "user")
     },
     setSubscribe: (state, action: PayloadAction<string>) => {  // payload === currentChannel._id
-        state.user.subscribedUsers.push(action.payload);
-        console.log(state.user.subscribedUsers)
+        state.user?.subscribedUsers?.push(action.payload);
       },
     setUnsubscribe: (state, action: PayloadAction<string>) => {  
       state.user.subscribedUsers = state.user.subscribedUsers.filter(

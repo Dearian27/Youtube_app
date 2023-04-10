@@ -118,22 +118,24 @@ const Video: React.FC = () => {
   }
 
   const subscribeHandler = async () => {
-    if (!isAuth) {
+    if (!isAuth || !user) {
       navigate('/signin')
       return;
     };
-    if (user.subscribedUsers.includes(currentChannel._id)) {
-      dispatch(unsubscribeChannel(currentChannel._id))
-    } else {
-      dispatch(subscribeChannel(currentChannel._id))
-    }
-    if (user.subscribedUsers.includes(currentChannel._id)) {
-      dispatch(setUnsubscribe(currentChannel._id));
-      dispatch(setSubscribers(user._id));
-    }
-    else {
-      dispatch(setSubscribe(currentChannel._id));
-      dispatch(setSubscribers(user._id));
+    if (user && isAuth) {
+      if (user?.subscribedUsers?.includes(currentChannel._id)) {
+        dispatch(unsubscribeChannel(currentChannel._id))
+      } else {
+        dispatch(subscribeChannel(currentChannel._id))
+      }
+      if (user?.subscribedUsers?.includes(currentChannel._id)) {
+        dispatch(setUnsubscribe(currentChannel?._id));
+        dispatch(setSubscribers(user?._id));
+      }
+      else {
+        dispatch(setSubscribe(currentChannel?._id));
+        dispatch(setSubscribers(user?._id));
+      }
     }
   }
 
@@ -169,8 +171,8 @@ const Video: React.FC = () => {
   }, [id, dispatch])
 
   const Subscribe = styled.button`
-    background-color: ${user?.subscribedUsers?.includes(currentChannel._id) || user._id === currentChannel._id ? "#dfdfdf" : "#cc1a00"};
-    color: ${user?.subscribedUsers?.includes(currentChannel._id) || user._id === currentChannel._id ? "#a8a8a8" : "#fff"};
+    background-color: ${user?.subscribedUsers?.includes(currentChannel._id) || user?._id === currentChannel?._id ? "#dfdfdf" : "#cc1a00"};
+    color: ${user?.subscribedUsers?.includes(currentChannel._id) || user?._id === currentChannel?._id ? "#a8a8a8" : "#fff"};
     font-weight: 700;
     border: none;
     border-radius: 3px;
@@ -241,7 +243,7 @@ const Video: React.FC = () => {
             </ChannelDetail>
           </ChannelInfo>
           <Subscribe onClick={subscribeHandler}>
-            {user._id === currentChannel._id ? "Your" : user?.subscribedUsers?.includes(currentChannel._id) ? "Subscribed" : "Subscribe"}
+            {user?._id === currentChannel?._id ? "Your" : user?.subscribedUsers?.includes(currentChannel?._id) ? "Subscribed" : "Subscribe"}
           </Subscribe>
         </Channel>
         <Comments />
