@@ -23,7 +23,8 @@ const Main = styled.div`
   flex: 7;
   background-color: ${({ theme }) => theme.bg};
   transition: background-color 0.25s ease-in-out;
-  padding: 22px 76px;
+  padding: 22px 50px;
+  min-height: 100vh;
 `
 
 const App: React.FC = () => {

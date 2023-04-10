@@ -129,11 +129,11 @@ const Video: React.FC = () => {
     }
     if (user.subscribedUsers.includes(currentChannel._id)) {
       dispatch(setUnsubscribe(currentChannel._id));
-      dispatch(setSubscribers(-1));
+      dispatch(setSubscribers(user._id));
     }
     else {
       dispatch(setSubscribe(currentChannel._id));
-      dispatch(setSubscribers(1));
+      dispatch(setSubscribers(user._id));
     }
   }
 
@@ -168,10 +168,9 @@ const Video: React.FC = () => {
     // addView();
   }, [id, dispatch])
 
-
   const Subscribe = styled.button`
-    background-color: ${user?.subscribedUsers?.includes(currentChannel._id) ? "#dfdfdf" : "#cc1a00"};
-    color: ${user?.subscribedUsers?.includes(currentChannel._id) ? "#a8a8a8" : "#fff"};
+    background-color: ${user?.subscribedUsers?.includes(currentChannel._id) || user._id === currentChannel._id ? "#dfdfdf" : "#cc1a00"};
+    color: ${user?.subscribedUsers?.includes(currentChannel._id) || user._id === currentChannel._id ? "#a8a8a8" : "#fff"};
     font-weight: 700;
     border: none;
     border-radius: 3px;
@@ -179,7 +178,6 @@ const Video: React.FC = () => {
     font-size: 16px;
     padding: 10px 20px;
     cursor: pointer;
-    
   `
 
   return (
@@ -238,12 +236,12 @@ const Video: React.FC = () => {
             <ImageIcon src="https://yt3.ggpht.com/FfMduny7Y5_hyUl-GrXLNsTF_hTckVTU-PCXo6_WJEjuZw6FhwhaVb4BJ0WWntRtGQyu8-6ZBA=s48-c-k-c0x00ffffff-no-rj" />
             <ChannelDetail>
               <ChannelName>{currentChannel?.name || "loading..."}</ChannelName>
-              <ChannelCounter> {currentChannel?.subscribers} {currentChannel?.subscribers === 1 ? "subscriber" : "subscribers"}</ChannelCounter>
+              <ChannelCounter> {currentChannel?.subscribers.length} {currentChannel?.subscribers.length === 1 ? "subscriber" : "subscribers"}</ChannelCounter>
               <Description>{currentVideo?.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
           <Subscribe onClick={subscribeHandler}>
-            {user?.subscribedUsers?.includes(currentChannel._id) ? "Subscribed" : "Subscribe"}
+            {user._id === currentChannel._id ? "Your" : user?.subscribedUsers?.includes(currentChannel._id) ? "Subscribed" : "Subscribe"}
           </Subscribe>
         </Channel>
         <Comments />

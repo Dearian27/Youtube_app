@@ -9,7 +9,6 @@ import { useAppDispatch, useAppSelector } from '../hooks';
 import LogoFile from '../assets/logo.png';
 
 const Metube = styled.div`
-  background-color: ${({ theme }) => theme.bgLighter};
   z-index: 6;
   height: 100%;
   display: flex;
@@ -35,11 +34,16 @@ const Img = styled.img`
 const Container = styled.div`
   z-index: 10;
   position: sticky;
-  top: 0;
-  background-color: ${({ theme }) => theme.bgLighter};
-  transition: background-color 0.25s ease-in-out;
   height: 56px;
 `
+const Fixed = styled.div`
+  position: fixed;
+  height: inherit;
+  width: 100%;
+  background-color: ${({ theme }) => theme.bgLighter};
+  transition: background-color 0.25s ease-in-out;
+`
+
 const Wrapper = styled.div`
   box-sizing: border-box;
   position: relative;
@@ -103,31 +107,33 @@ const Navbar: React.FC<NavBarProps> = ({ darkMode }) => {
 
   return (
     <Container>
-      <Wrapper>
-        <Metube>
-          <Link to="/" style={{ textDecoration: "none" }}>
-            <Logo>
-              <Img src={LogoFile} />
-              Metube
-            </Logo>
-          </Link>
-        </Metube>
-        <Search>
-          <Input type="text" placeholder="Search" />
-          <SearchIcon style={{ cursor: 'pointer', fill: `${darkMode ? "white" : "black"}` }} />
-        </Search>
-        {isAuth !== true ?
-          <Button onClick={() => navigate('/signin')}>
-            <AccountCircleIcon />
-            Sign in
-          </Button>
-          :
-          <User>
-            <UserName>{user?.name}</UserName>
-            <Avatar />
-          </User>
-        }
-      </Wrapper>
+      <Fixed>
+        <Wrapper>
+          <Metube>
+            <Link to="/" style={{ textDecoration: "none" }}>
+              <Logo>
+                <Img src={LogoFile} />
+                Metube
+              </Logo>
+            </Link>
+          </Metube>
+          <Search>
+            <Input type="text" placeholder="Search" />
+            <SearchIcon style={{ cursor: 'pointer', fill: `${darkMode ? "white" : "black"}` }} />
+          </Search>
+          {isAuth !== true ?
+            <Button onClick={() => navigate('/signin')}>
+              <AccountCircleIcon />
+              Sign in
+            </Button>
+            :
+            <User>
+              <UserName>{user?.name}</UserName>
+              <Avatar />
+            </User>
+          }
+        </Wrapper>
+      </Fixed>
     </Container>
   )
 }

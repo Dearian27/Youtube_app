@@ -6,9 +6,11 @@ import axios from "../utils/axios";
 const Container = styled.div`
   display: flex;
   /* justify-content: space-between; */
+  background-color: ${({ theme }) => theme.bg};
+  transition: background-color 0.25s ease-in-out;
   flex-wrap: wrap;
   column-gap: 20px;
-  position: absolute;
+  /* position: absolute; */
 `
 
 export interface videoI {

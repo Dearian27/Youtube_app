@@ -15,9 +15,11 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import SettingsBrightnessIcon from '@mui/icons-material/SettingsBrightness';
 import VideoCallOutlinedIcon from '@mui/icons-material/VideoCallOutlined';
 import FlagIcon from '@mui/icons-material/Flag';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { LogOut } from '../redux/slices/userSlice';
 
 const Container = styled.div`
   flex: 1;
@@ -25,16 +27,22 @@ const Container = styled.div`
   background-color: ${({ theme }) => theme.bgLighter};
   transition: background-color 0.25s ease-in-out;
   font-size: 14px;
-  z-index: 5;
+  z-index: 9;
+  position: sticky;
+  /* top: 56px; */
 `
 
 const Wrapper = styled.div`
-  position: sticky;
-  top: 56px;
-  z-index: 5;
+  position: fixed;
+  background: inherit;
+  z-index: 9;
+  background-color: ${({ theme }) => theme.bgLighter};
+  transition: background-color 0.25s ease-in-out;
 `
 
 const Item = styled.div`
+background-color: inherit;
+  z-index: 9;
   font-family: 'Poppins';
   color: ${({ theme }) => theme.text};
   display: flex;
@@ -103,6 +111,13 @@ interface MenuProps {
 const Menu: React.FC<MenuProps> = ({ darkMode, setDarkMode }) => {
 
   const { isAuth } = useSelector((state: RootState) => state.user)
+  const navigate = useNavigate();
+
+
+  const logOutHandler = () => {
+    LogOut();
+    navigate('/');
+  }
 
   return (
     <Container>
@@ -171,6 +186,11 @@ const Menu: React.FC<MenuProps> = ({ darkMode, setDarkMode }) => {
         <Item onClick={() => setDarkMode(!darkMode)}>
           <SettingsBrightnessIcon />{darkMode ? "Light" : "Dark"} Mode
         </Item>
+        {isAuth &&
+          <Item onClick={logOutHandler}>
+            <LogoutIcon />Log out
+          </Item>
+        }
       </Wrapper>
     </Container>
   )

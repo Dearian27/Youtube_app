@@ -123,8 +123,14 @@ const videosSlice = createSlice({
         );
       }
     },
-    setSubscribers: (state, action: PayloadAction<number>) => {
-      state.currentChannel.subscribers += action.payload;
+    setSubscribers: (state, action: PayloadAction<string>) => {
+      if (state.currentChannel.subscribers.includes(action.payload)) {
+        state.currentChannel.subscribers = state.currentChannel.subscribers.filter(
+          (userId: string) => userId !== action.payload
+        );
+      }else {
+        state.currentChannel.subscribers.push(action.payload);
+      }
     }
   },
   extraReducers: {
