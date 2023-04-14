@@ -13,6 +13,12 @@ const Container = styled.div`
   column-gap: 20px;
   /* position: absolute; */
 `
+const Text = styled.div`
+  font-size: 25px;
+  color: ${({ theme }) => theme.soft};
+  margin: 25% 0 0 50%;
+  transform: translate(-50%, -50%);
+`
 
 export interface videoI {
   createdAt: string;
@@ -41,8 +47,7 @@ const Home: React.FC<HomePropsI> = ({ type }) => {
 
   const fetchVideos = async () => {
     if (type === "special") {
-      console.log("dsda");
-      const { data } = await axios.post(`/videos/special`, specialTag);
+      const { data } = await axios.post(`/videos/special`, { specialTag });
       setVideos(data);
     } else {
       const { data } = await axios.get(`/videos/${type}`);
@@ -52,13 +57,23 @@ const Home: React.FC<HomePropsI> = ({ type }) => {
 
   useEffect(() => {
     fetchVideos();
-  }, [type])
+  }, [type, specialTag])
 
+  if (videos) {
+    console.log("videos true");
+  } else {
+    console.log("videos false");
+  }
+  console.log(videos, !!videos)
   return (
     <Container>
-      {videos.map((video) => {
-        return <Card key={video._id} video={video} type="lg" />
-      })}
+      {videos.length > 0 ?
+        videos.map((video) => {
+          return <Card key={video._id} video={video} type="lg" />
+        })
+        :
+        <Text>There are no videos.</Text>
+      }
     </Container>
   )
 }
