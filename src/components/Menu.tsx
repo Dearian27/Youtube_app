@@ -19,7 +19,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState, persistor } from '../redux/store';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { LogOut } from '../redux/slices/userSlice';
+import { LogOut, setSpecialTag } from '../redux/slices/userSlice';
+import { useAppDispatch } from '../hooks';
 
 const Container = styled.div`
   flex: 1;
@@ -111,6 +112,7 @@ interface MenuProps {
 const Menu: React.FC<MenuProps> = ({ darkMode, setDarkMode }) => {
 
   const { isAuth } = useSelector((state: RootState) => state.user)
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
 
@@ -175,16 +177,28 @@ const Menu: React.FC<MenuProps> = ({ darkMode, setDarkMode }) => {
 
         <Hr />
         <H3>Best of Metube</H3>
-        <Item>
+        <Item onClick={() => {
+          dispatch(setSpecialTag("Music"))
+          navigate("/special")
+        }}>
           <LibraryMusicIcon />Music
         </Item>
-        <Item>
+        <Item onClick={() => {
+          dispatch(setSpecialTag("Sports"))
+          navigate("/special")
+        }}>
           <SportsSoccerIcon />Sports
         </Item>
-        <Item>
+        <Item onClick={() => {
+          dispatch(setSpecialTag("Movie"))
+          navigate("/special")
+        }}>
           <TheatersIcon />Movie
         </Item>
-        <Item>
+        <Item onClick={() => {
+          dispatch(setSpecialTag("News"))
+          navigate("/special")
+        }}>
           <Newspaper />News
         </Item>
         <Hr />

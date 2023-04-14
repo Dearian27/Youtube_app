@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Card from "../components/Card";
 import { useEffect, useState } from "react";
 import axios from "../utils/axios";
+import { useAppSelector } from "../hooks";
 
 const Container = styled.div`
   display: flex;
@@ -35,12 +36,18 @@ interface HomePropsI {
 
 const Home: React.FC<HomePropsI> = ({ type }) => {
 
+  const { specialTag } = useAppSelector(state => state.user);
   const [videos, setVideos] = useState<videoI[]>([]);
 
   const fetchVideos = async () => {
-    const { data } = await axios.get(`/videos/${type}`);
-    // console.log(data);
-    setVideos(data);
+    if (type === "special") {
+      console.log("dsda");
+      const { data } = await axios.post(`/videos/special`, specialTag);
+      setVideos(data);
+    } else {
+      const { data } = await axios.get(`/videos/${type}`);
+      setVideos(data);
+    }
   }
 
   useEffect(() => {

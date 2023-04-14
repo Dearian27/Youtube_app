@@ -7,6 +7,7 @@ type userStateParams = {
   user: any;
   isError: boolean;
   isLoading: boolean;
+  specialTag: string | null;
 }
 
 const initialState: userStateParams = {
@@ -14,6 +15,7 @@ const initialState: userStateParams = {
   user: null,
   isError: false,
   isLoading: false,
+  specialTag: null
 }
 
 export const signInGoogle: any = createAsyncThunk("/auth/google", 
@@ -34,11 +36,6 @@ export const logIn: any = createAsyncThunk ("/auth/signin",
   try { 
     const { data } = await axios.post('/auth/signin', { email, password });
     console.log(data);
-    if (data.token) {
-      console.log(data.token, " token")
-      // window.localStorage.setItem('token', data.token)
-    }
-
     setAuth(true);
     return data;
   } catch (err) {
@@ -81,6 +78,9 @@ const userSlice = createSlice({
     },
     LogOut: (state) => {
       state.user = null;
+    },
+    setSpecialTag: (state, action: PayloadAction<string>) => {
+      state.specialTag = action.payload;
     },
     setSubscribe: (state, action: PayloadAction<string>) => {  // payload === currentChannel._id
         state.user?.subscribedUsers?.push(action.payload);
@@ -132,5 +132,5 @@ const userSlice = createSlice({
   }
 })
 
-export const { setAuth, setSubscribe, setUnsubscribe, LogOut } = userSlice.actions;
+export const { setAuth, setSubscribe, setUnsubscribe, LogOut, setSpecialTag } = userSlice.actions;
 export default userSlice.reducer;

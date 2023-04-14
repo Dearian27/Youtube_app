@@ -372,6 +372,7 @@ const AddVideo: React.FC = () => {
   }
 
   const handleUpload = async () => {
+    console.log(inputs?.tags)
     const res = await axios.post('/videos', inputs)
     res.status === 200 &&
       navigate(`/video/${res.data._id}`);
@@ -408,7 +409,7 @@ const AddVideo: React.FC = () => {
           </BoxVertical>
           <BoxVertical>
             <Img>
-              <VideoInput type="file" accept="video/*" onChange={e => setVideo(e.target.files[0])} />
+              <VideoInput type="file" accept="video/*" onChange={e => setVideo(e?.target?.files[0])} />
             </Img>
             {videoPerc > 0 &&
               <span>

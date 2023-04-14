@@ -171,8 +171,8 @@ const Video: React.FC = () => {
   }, [id, dispatch])
 
   const Subscribe = styled.button`
-    background-color: ${user?.subscribedUsers?.includes(currentChannel._id) || user?._id === currentChannel?._id ? "#dfdfdf" : "#cc1a00"};
-    color: ${user?.subscribedUsers?.includes(currentChannel._id) || user?._id === currentChannel?._id ? "#a8a8a8" : "#fff"};
+    background-color: ${user?.subscribedUsers?.includes(currentChannel?._id) || user?._id === currentChannel?._id ? "#dfdfdf" : "#cc1a00"};
+    color: ${user?.subscribedUsers?.includes(currentChannel?._id) || user?._id === currentChannel?._id ? "#a8a8a8" : "#fff"};
     font-weight: 700;
     border: none;
     border-radius: 3px;

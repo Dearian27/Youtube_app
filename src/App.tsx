@@ -10,6 +10,7 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import AddVideo from './pages/AddVideo';
 import './App.css';
+import { useAppSelector } from './hooks';
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.bg};
@@ -29,6 +30,7 @@ const Main = styled.div`
 
 const App: React.FC = () => {
   const [darkMode, setDarkMode] = useState<boolean>(false);
+  const { specialTag } = useAppSelector(state => state.user);
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
@@ -43,6 +45,7 @@ const App: React.FC = () => {
                 <Route index element={<Home type="random" />} />
                 <Route path='trends' element={<Home type="trend" />} />
                 <Route path='subscriptions' element={<Home type="sub" />} />
+                <Route path='special' element={<Home type="special" />} />
                 <Route path='upload' element={<AddVideo />} />
                 <Route path='signin' element={<SignIn />} />
                 <Route path='signup' element={<SignUp />} />
