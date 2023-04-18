@@ -1,7 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from '../../utils/axios';
 
-type videoType = any;
+export type videoType = any;
 type channelType = any;
 type commentType = any;
 

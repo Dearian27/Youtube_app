@@ -52,7 +52,6 @@ background-color: inherit;
   gap: 15px;
   padding: 10px 26px;
   user-select: none;
-  transition: background-color 0.25s ease-in-out;
   &:hover {
     background-color: ${({ theme }) => theme.hrColor};
   }

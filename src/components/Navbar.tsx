@@ -17,7 +17,6 @@ const Metube = styled.div`
     outline: none;
   }
 `
-
 const Logo = styled.div`
   color: ${({ theme }) => theme.text};
   display: flex;
@@ -30,7 +29,6 @@ const Logo = styled.div`
 const Img = styled.img`
   height: 32px;
 `
-
 const Container = styled.div`
   z-index: 10;
   position: sticky;
@@ -43,7 +41,6 @@ const Fixed = styled.div`
   background-color: ${({ theme }) => theme.bgLighter};
   transition: background-color 0.25s ease-in-out;
 `
-
 const Wrapper = styled.div`
   box-sizing: border-box;
   position: relative;
@@ -75,7 +72,6 @@ const Input = styled.input`
     outline: none;
   }
 `
-
 const User = styled.div`
   display: flex;
   align-items: center;
@@ -93,19 +89,14 @@ const UserName = styled.span`
   font-size: 18px;
 `
 
-
 type NavBarProps = {
   darkMode: boolean;
 }
 
 const Navbar: React.FC<NavBarProps> = ({ darkMode }) => {
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
   let { isAuth, user } = useAppSelector(state => state.user);
-
-  console.log(user);
 
   return (
     <Container>

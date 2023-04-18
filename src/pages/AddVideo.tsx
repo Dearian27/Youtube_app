@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Tag from '../components/Tag';
 import HelpIcon from '@mui/icons-material/Help';
 import { useNavigate } from 'react-router-dom';
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, uploadBytesResumable, deleteObject, getDownloadURL } from "firebase/storage";
 import app from '../firebase';
 import axios from '../utils/axios';
 
@@ -218,7 +218,6 @@ const CancelBtn = styled.button`
   transition: background-color 0.4s ease-in, color 0.3s ease-in;
   border: 2px solid ${({ theme }) => theme.textSoft};
 `
-
 const VideoInput = styled.input`
 padding: 10px 5px;
 position: relative;
@@ -290,6 +289,8 @@ const AddVideo: React.FC = () => {
   const [video, setVideo] = useState(null);
   const [imgPerc, setImgPerc] = useState(0);
   const [videoPerc, setVideoPerc] = useState(0);
+  const [imgRef, setImgRef] = useState<string | null>(null);
+  const [videoRef, setVideoRef] = useState<string | null>(null);
   const [inputs, setInputs] = useState<InputsType>({
     title: '', desc: '', tags: [], imgUrl: '', videoUrl: ''
   });
@@ -344,6 +345,22 @@ const AddVideo: React.FC = () => {
     const storageRef = ref(storage, fileName);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
+    if (urlType === "videoUrl" && videoRef) {
+      const video = ref(storage, videoRef);
+      deleteObject(video).then(() => {
+      }).catch((error) => {
+        console.log(error);
+      });
+      setVideoRef("");
+    } else if (imgRef) {
+      const img = ref(storage, imgRef);
+      deleteObject(img).then(() => {
+      }).catch((error) => {
+        console.log(error);
+      });
+      setVideoRef("");
+    }
+
     uploadTask.on('state_changed',
       (snapshot) => {
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -365,6 +382,9 @@ const AddVideo: React.FC = () => {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           console.log('File available at', downloadURL);
+          console.log(downloadURL)
+          if (urlType === "imgUrl") setImgRef(downloadURL);
+          else setVideoRef(downloadURL);
           setInputs((prev) => ({ ...prev, [urlType]: downloadURL }))
         });
       }
@@ -409,7 +429,7 @@ const AddVideo: React.FC = () => {
           </BoxVertical>
           <BoxVertical>
             <Img>
-              <VideoInput type="file" accept="video/*" onChange={e => setVideo(e?.target?.files[0])} />
+              <VideoInput type="file" accept="video/*" onChange={(e: any) => setVideo(e?.target?.files[0])} />
             </Img>
             {videoPerc > 0 &&
               <span>
@@ -417,7 +437,7 @@ const AddVideo: React.FC = () => {
               </span>
             }
             <Img>
-              <ImageInput type="file" accept="image/*" onChange={e => setImg(e?.target?.files[0])} />
+              <ImageInput type="file" accept="image/*" onChange={(e: any) => setImg(e?.target?.files[0])} />
             </Img>
             {imgPerc > 0 &&
               <span>

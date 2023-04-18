@@ -5,9 +5,8 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import { darkTheme } from "../utils/Theme";
 import Comments from "../components/Comments";
-import Card, { channelType } from "../components/Card";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from 'react';
 import axios from '../utils/axios';
 import { videoI } from "./Home";
 import { format } from 'timeago.js';
@@ -19,6 +18,7 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import { dislikeVideo, likeVideo, subscribeChannel, unsubscribeChannel } from "../redux/slices/videosSlice";
 import { setSubscribe, setUnsubscribe } from "../redux/slices/userSlice";
+import Recommendations from "../components/Recommendations";
 
 const Container = styled.div`
     display: flex;
@@ -27,19 +27,15 @@ const Container = styled.div`
 const Content = styled.div`
     flex: 5;
 `
-
 const VideoWrapper = styled.div`
-
 `
-
 const Title = styled.div`
   font-size: 18px;
   font-weight: 700;
   margin-top: 20px;
   margin-bottom: 10px;
   color: ${({ theme }) => theme.text};
-  `
-
+`
 const Details = styled.div`
   display: flex;
   align-items: center;
@@ -67,15 +63,10 @@ const Hr = styled.hr`
   margin: 15px 0;
   border: 0.5px solid ${({ theme }) => theme.hrColor};
 `
-
-const Recommendations = styled.div`
-  flex: 2;
-`
 const Channel = styled.div`
   display: flex;
   justify-content: space-between;
 `
-
 const ChannelInfo = styled.div`
   display: flex;
   gap: 20px;
@@ -102,7 +93,6 @@ const ChannelCounter = styled.span`
 `
 const Description = styled.p`
 `
-
 const Video: React.FC = () => {
 
   const navigate = useNavigate();
@@ -248,12 +238,7 @@ const Video: React.FC = () => {
         </Channel>
         <Comments />
       </Content>
-      <Recommendations>
-        {/* <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" />
-        <Card type="sm" /> */}
-      </Recommendations>
+      <Recommendations tags={currentVideo.tags} videoId={currentVideo._id} />
     </Container >
   )
 }

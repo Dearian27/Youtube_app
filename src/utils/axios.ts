@@ -6,7 +6,7 @@ const instance = axios.create({
   headers: {
     'Cache-Control': 'no-cache',
     'Pragma': 'no-cache',
-    'Access-Control-Allow-Origin': 'http://localhost:5173',
+    'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Content-Type': 'application/json',

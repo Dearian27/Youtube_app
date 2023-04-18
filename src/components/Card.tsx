@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { videoI } from "../pages/Home";
 import { format } from 'timeago.js';
 import axios from "../utils/axios";
+import notFoundImg from '/src/assets/blackScreen.png';
 
 interface layoutProps {
 	type: string;
@@ -32,18 +33,17 @@ const Details = styled.div<layoutProps>`
 const ChannelImage = styled.img<layoutProps>`
 	width: 40px;
 	height: 40px;
-	border-radius: 50%;
+	flex-shrink: 0;
+	border-radius: 50px;
 	background-color: #999;
 	display: ${({ type }) => type === "sm" && "none"};
 `
 const Texts = styled.div`
-
 `
 const Title = styled.h1`
   font-size: 17px;
   font-weight: 500;
   color: ${({ theme }) => theme.text};
-
 `
 const ChannelName = styled.h2`
 	font-size: 14px;
@@ -60,7 +60,6 @@ interface CardProps {
 	type: string;
 	video: videoI;
 }
-
 export type channelType = {
 	createdAt: string;
 	email: string;
@@ -76,11 +75,22 @@ export type channelType = {
 const Card: React.FC<CardProps> = ({ type, video }) => {
 
 	const [channel, setChannel] = useState<channelType>(null);
+	// const [img, setImg] = useState<string | null>(null);
 
 	const fetchChannel = async () => {
 		const { data } = await axios.get(`/users/${video.userId}`);
 		setChannel(data);
 	}
+
+	// useEffect(() => {
+	// 	const res = axios.get(video.imgUrl)
+	// 	console.log(res)
+	// 	if (!res.status === 200) {
+	// 		video.imgUrl = notFoundImg;
+	// 	}
+	// 	video.imgUrl = notFoundImg;
+
+	// }, [video.imgUrl]);
 
 	useEffect(() => {
 		fetchChannel();

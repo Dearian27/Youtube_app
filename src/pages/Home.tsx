@@ -59,12 +59,6 @@ const Home: React.FC<HomePropsI> = ({ type }) => {
     fetchVideos();
   }, [type, specialTag])
 
-  if (videos) {
-    console.log("videos true");
-  } else {
-    console.log("videos false");
-  }
-  console.log(videos, !!videos)
   return (
     <Container>
       {videos.length > 0 ?
