@@ -16,19 +16,31 @@ const Container = styled.div<layoutProps>`
   cursor: pointer;
 	display: ${({ type }) => type === "sm" && 'flex'};
 	gap: 10px;
+	@media (max-width: 1366px) {
+		gap: 5px;
+		width: ${({ type }) => type !== "sm" && '290px'};
+	}
 `
 const Image = styled.img<layoutProps>`
 	width: ${({ type }) => type === "sm" ? "220px" : "100%"};
 	height: ${({ type }) => type === "sm" ? '130px' : '202px'};
-	border-radius: ${({ type }) => type === "sm" && '10px'};
+	border-radius: ${({ type }) => type === "sm" && '8px'};
 	background-color: #999;
-
+	@media (max-width: 1366px) {
+		border-radius: ${({ type }) => type === "sm" && '5px'};
+		width: ${({ type }) => type === "sm" ? "160px" : "100%"};
+		height: ${({ type }) => type === "sm" ? '100px' : '160px'};
+	}
 `
 const Details = styled.div<layoutProps>`
 	display: flex;
 	margin-top: ${({ type }) => type !== "sm" && '16px'};
 	gap: 12px;
 	flex: 1;
+	@media (max-width: 1366px) {
+		margin-top: ${({ type }) => type !== "sm" && '8px'};
+		gap: 6px;
+	}
 `
 const ChannelImage = styled.img<layoutProps>`
 	width: 40px;
@@ -37,6 +49,10 @@ const ChannelImage = styled.img<layoutProps>`
 	border-radius: 50px;
 	background-color: #999;
 	display: ${({ type }) => type === "sm" && "none"};
+	@media (max-width: 1366px) {
+		width: 30px;
+		height: 30px;
+	}
 `
 const Texts = styled.div`
 `
@@ -44,16 +60,25 @@ const Title = styled.h1`
   font-size: 17px;
   font-weight: 500;
   color: ${({ theme }) => theme.text};
+	@media (max-width: 1366px) {
+		font-size: 13px;
+	}
 `
 const ChannelName = styled.h2`
 	font-size: 14px;
 	color: ${({ theme }) => theme.textSoft};
 	margin: 8px 0px 4px 0;
-
+	@media (max-width: 1366px) {
+		margin: 4px 0px 2px 0;
+		font-size: 12px;
+	}
 `
 const Info = styled.div`
 	font-size: 14px;
 	color: ${({ theme }) => theme.textSoft};
+	@media (max-width: 1366px) {
+		font-size: 12px;
+	}
 `
 
 interface CardProps {

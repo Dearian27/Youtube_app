@@ -16,9 +16,7 @@ const Container = styled.div`
   background-color: ${({ theme }) => theme.bg};
   background-color: #101010;
   display: flex;
-  /* height: calc(100vh - 54px); */
-  /* overflow: hidden; */
-`
+  `
 
 const Main = styled.div`
   flex: 7;
@@ -26,6 +24,9 @@ const Main = styled.div`
   transition: background-color 0.25s ease-in-out;
   padding: 22px 50px;
   min-height: 100vh;
+  @media (max-width: 1366px) {
+    padding: 22px 80px;
+  }
 `
 
 const App: React.FC = () => {

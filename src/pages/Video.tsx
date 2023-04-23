@@ -6,7 +6,7 @@ import AddTaskIcon from '@mui/icons-material/AddTask';
 import { darkTheme } from "../utils/Theme";
 import Comments from "../components/Comments";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from '../utils/axios';
 import { videoI } from "./Home";
 import { format } from 'timeago.js';
@@ -95,6 +95,7 @@ const Description = styled.p`
 `
 const Video: React.FC = () => {
 
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const navigate = useNavigate();
   const { user, isAuth } = useSelector((state: RootState) => state.user);
   const { currentVideo, currentChannel } = useSelector((state: RootState) => state.video);
@@ -156,6 +157,10 @@ const Video: React.FC = () => {
   };
 
   useEffect(() => {
+    setScreenWidth(window.innerWidth);
+  }, [window.innerWidth])
+
+  useEffect(() => {
     dispatch(fetchVideoData(id));
     // addView();
   }, [id, dispatch])
@@ -178,7 +183,10 @@ const Video: React.FC = () => {
         <VideoWrapper>
           <iframe
             width="100%"
-            height="555px"
+            height={
+              `${screenWidth <= 1400 ? '400px' : screenWidth <= 2048 ? '555px' : "600px"}`
+            }
+            // "555px"
             src={currentVideo?.videoUrl} //https://www.youtube.com/embed/yIaXoop8gl4
             title={currentVideo?.title}
             frameBorder="0"
