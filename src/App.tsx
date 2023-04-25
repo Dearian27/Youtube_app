@@ -3,7 +3,7 @@ import styled, { ThemeProvider } from "styled-components";
 import Menu from './components/Menu';
 import Navbar from './components/Navbar';
 import { darkTheme, lightTheme } from './utils/Theme';
-import { BrowserRouter, Routes, Route, HashRouter } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, HashRouter, Router } from 'react-router-dom';
 
 import Home from './pages/Home';
 import Video from './pages/Video';
@@ -35,7 +35,8 @@ const App: React.FC = () => {
   const { specialTag } = useAppSelector(state => state.user);
 
   return (
-    <HashRouter>
+    // <HashRouter>
+    <BrowserRouter basename="/Youtube_app">
       <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
         <Navbar darkMode={darkMode} />
         <Container>
@@ -60,7 +61,8 @@ const App: React.FC = () => {
           </ Main>
         </Container>
       </ThemeProvider>
-    </HashRouter>
+    </BrowserRouter>
+    // </HashRouter>
   )
 }
 
