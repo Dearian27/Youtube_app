@@ -25,7 +25,7 @@ import { useAppDispatch } from '../hooks';
 const Container = styled.div`
   flex: 1;
   color: ${({ theme }) => theme.text};
-  background-color: ${({ theme }) => theme.bgLighter};
+  background-color: ${({ theme }) => theme.bg};
   transition: background-color 0.25s ease-in-out;
   font-size: 14px;
   z-index: 9;
@@ -39,10 +39,23 @@ const Wrapper = styled.div`
   z-index: 9;
   background-color: ${({ theme }) => theme.bgLighter};
   transition: background-color 0.25s ease-in-out;
+  overflow-y: scroll;
+  height: calc(100vh - 60px);
+  flex: 1;
+  &::-webkit-scrollbar-thumb {
+    background-color: #dbdbdb;
+    border-radius: 50px;
+  }
+  &::-webkit-scrollbar {
+    background-color: #f0f0f0;
+    width: 6px;
+    padding: 5px;
+    border-radius: 50px;
+  }
 `
 
 const Item = styled.div`
-background-color: inherit;
+  background-color: inherit;
   z-index: 9;
   font-family: 'Poppins';
   color: ${({ theme }) => theme.text};
@@ -55,7 +68,10 @@ background-color: inherit;
   &:hover {
     background-color: ${({ theme }) => theme.hrColor};
   }
-  `
+  &:focus {
+    outline: none;
+  }
+`
 const Hr = styled.hr`
   border: 1px solid ${({ theme }) => theme.hrColor};
   transition:  0.25s ease-in-out;

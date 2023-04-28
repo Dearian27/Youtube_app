@@ -25,9 +25,15 @@ const Logo = styled.div`
   font-weight: bold;
   text-decoration: none;
   font-family: 'Poppins';
-  `
+  &:focus {
+    outline: none;
+  }
+`
 const Img = styled.img`
   height: 32px;
+  &:focus {
+    outline: none;
+  }
 `
 const Container = styled.div`
   z-index: 10;
