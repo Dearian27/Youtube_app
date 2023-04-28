@@ -35,8 +35,8 @@ const App: React.FC = () => {
   const { specialTag } = useAppSelector(state => state.user);
 
   return (
-    // <HashRouter>
-    <BrowserRouter basename="/Youtube_app">
+    <HashRouter>
+      {/* <BrowserRouter basename="/Youtube_app"> */}
       <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
         <Navbar darkMode={darkMode} />
         <Container>
@@ -61,8 +61,8 @@ const App: React.FC = () => {
           </ Main>
         </Container>
       </ThemeProvider>
-    </BrowserRouter>
-    // </HashRouter>
+      {/* </BrowserRouter> */}
+    </HashRouter>
   )
 }
 

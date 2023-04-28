@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: 'http://localhost:8800/api',
+  // baseURL: 'http://localhost:8800/api',
+  baseURL: 'https://youtube-server.cyclic.app/api',
   withCredentials: true,
   headers: {
     'Cache-Control': 'no-cache',
