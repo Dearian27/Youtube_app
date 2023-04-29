@@ -58,9 +58,6 @@ export const subscribeChannel: any = createAsyncThunk("/subscribe/channel",
     }catch(error) {
       console.log(error);
     }
-    finally {
-      console.log("Subscribed to channel")
-    }
   }
 )
 

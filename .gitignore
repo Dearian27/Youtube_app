@@ -1,4 +1,6 @@
 *.js
+*.css
+*.html
 # Logs
 logs
 *.log

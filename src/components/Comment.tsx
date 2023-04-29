@@ -29,10 +29,8 @@ const Date = styled.span`
   color: ${({ theme }) => theme.textSoft};
   margin-left: 5px;
 `
-const Text = styled.span`
-  
+const Text = styled.span` 
 `
-
 type CommentProps = { //!FIX ME
   comment: any;
 }
