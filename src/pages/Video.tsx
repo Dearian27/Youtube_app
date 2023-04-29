@@ -6,9 +6,8 @@ import AddTaskIcon from '@mui/icons-material/AddTask';
 import { darkTheme } from "../utils/Theme";
 import Comments from "../components/Comments";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import axios from '../utils/axios';
-import { videoI } from "./Home";
 import { format } from 'timeago.js';
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
@@ -94,6 +93,21 @@ const ChannelCounter = styled.span`
 `
 const Description = styled.p`
 `
+// background-color: "#dfdfdf";
+// color: "#bbbbbb";
+
+// background-color: "#cc1a00";
+// color: "#fff";
+const Subscribe = styled.button`
+  font-weight: 700;
+  border: none;
+  border-radius: 3px;
+  height: max-content;
+  font-size: 16px;
+  padding: 10px 20px;
+  cursor: pointer;
+`
+
 const Video: React.FC = () => {
 
   const [isPlayed, setIsPlayed] = useState(false);
@@ -106,9 +120,7 @@ const Video: React.FC = () => {
   const { id } = params;
 
   const handlePlayEvent = () => {
-    console.log("playing")
     if (!isPlayed) {
-      console.log("add view")
       addView();
     }
     setIsPlayed(true)
@@ -124,7 +136,7 @@ const Video: React.FC = () => {
       navigate('/signin')
       return;
     };
-    if (user && isAuth) {
+    if (user && isAuth && user?._id !== currentChannel?._id) {
       if (user?.subscribedUsers?.includes(currentChannel._id)) {
         dispatch(unsubscribeChannel(currentChannel._id))
       } else {
@@ -176,17 +188,7 @@ const Video: React.FC = () => {
     // addView();
   }, [id, dispatch])
 
-  const Subscribe = styled.button`
-    background-color: ${user?.subscribedUsers?.includes(currentChannel?._id) || user?._id === currentChannel?._id ? "#dfdfdf" : "#cc1a00"};
-    color: ${user?.subscribedUsers?.includes(currentChannel?._id) || user?._id === currentChannel?._id ? "#a8a8a8" : "#fff"};
-    font-weight: 700;
-    border: none;
-    border-radius: 3px;
-    height: max-content;
-    font-size: 16px;
-    padding: 10px 20px;
-    cursor: pointer;
-  `
+
 
   return (
     <Container>
@@ -259,13 +261,16 @@ const Video: React.FC = () => {
               <Description>{currentVideo?.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
-          <Subscribe onClick={subscribeHandler}>
+          <Subscribe style={{
+            backgroundColor: `${user?._id === currentChannel?._id || user?.subscribedUsers?.includes(currentChannel?._id) ? "#dfdfdf" : "#cc1a00"}`,
+            color: `${user?._id === currentChannel?._id || user?.subscribedUsers?.includes(currentChannel?._id) ? "#bbbbbb" : "#fff"}`,
+          }} onClick={subscribeHandler}>
             {user?._id === currentChannel?._id ? "Your" : user?.subscribedUsers?.includes(currentChannel?._id) ? "Subscribed" : "Subscribe"}
           </Subscribe>
         </Channel>
         <Comments />
       </Content>
-      <Recommendations tags={currentVideo.tags} videoId={currentVideo._id} />
+      <Recommendations tags={currentVideo?.tags} videoId={currentVideo?._id} />
     </Container >
   )
 }
