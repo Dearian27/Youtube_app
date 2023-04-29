@@ -6,7 +6,7 @@ import AddTaskIcon from '@mui/icons-material/AddTask';
 import { darkTheme } from "../utils/Theme";
 import Comments from "../components/Comments";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import axios from '../utils/axios';
 import { videoI } from "./Home";
 import { format } from 'timeago.js';
@@ -19,6 +19,7 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import { dislikeVideo, likeVideo, subscribeChannel, unsubscribeChannel } from "../redux/slices/videosSlice";
 import { setSubscribe, setUnsubscribe } from "../redux/slices/userSlice";
 import Recommendations from "../components/Recommendations";
+import ReactPlayer from 'react-player';
 
 const Container = styled.div`
     display: flex;
@@ -95,6 +96,7 @@ const Description = styled.p`
 `
 const Video: React.FC = () => {
 
+  const [isPlayed, setIsPlayed] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const navigate = useNavigate();
   const { user, isAuth } = useSelector((state: RootState) => state.user);
@@ -102,6 +104,15 @@ const Video: React.FC = () => {
   const dispatch = useAppDispatch();
   const params = useParams();
   const { id } = params;
+
+  const handlePlayEvent = () => {
+    console.log("playing")
+    if (!isPlayed) {
+      console.log("add view")
+      addView();
+    }
+    setIsPlayed(true)
+  }
 
   const addView = async () => {
     await axios.put(`/videos/view/${id}`);
@@ -181,19 +192,27 @@ const Video: React.FC = () => {
     <Container>
       <Content>
         <VideoWrapper>
-          <iframe
+          <ReactPlayer style={{ backgroundColor: "black" }}
+            url={currentVideo?.videoUrl}
             width="100%"
             height={
               `${screenWidth <= 1400 ? '400px' : screenWidth <= 2048 ? '555px' : "600px"}`
             }
-            // "555px"
-            src={currentVideo?.videoUrl} //https://www.youtube.com/embed/yIaXoop8gl4
-            title={currentVideo?.title}
-            frameBorder="0"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            scrolling="no"
-          ></iframe>
+            playing
+            onPlay={handlePlayEvent}
+            controls={true}
+            progressInterval={1000}
+            config={{
+              youtube: {
+                playerVars: {
+                  modestbranding: 1,
+                  rel: 0,
+                  controls: 0,
+                  disablekb: 1,
+                },
+              },
+            }}
+          />
           <Title>
             {currentVideo?.title}
           </Title>
@@ -233,7 +252,7 @@ const Video: React.FC = () => {
         <Hr />
         <Channel>
           <ChannelInfo>
-            <ImageIcon src="https://yt3.ggpht.com/FfMduny7Y5_hyUl-GrXLNsTF_hTckVTU-PCXo6_WJEjuZw6FhwhaVb4BJ0WWntRtGQyu8-6ZBA=s48-c-k-c0x00ffffff-no-rj" />
+            <ImageIcon src="/user.png" />
             <ChannelDetail>
               <ChannelName>{currentChannel?.name || "loading..."}</ChannelName>
               <ChannelCounter> {currentChannel?.subscribers.length} {currentChannel?.subscribers.length === 1 ? "subscriber" : "subscribers"}</ChannelCounter>

@@ -101,7 +101,7 @@ const Comments = () => {
   return (
     <Container>
       <NewComment>
-        <Avatar src="https://yt3.ggpht.com/ytc/AL5GRJUOhe9c1D67-yLQEkT2EqyRclI5V3EOTANZQXmt=s48-c-k-c0x00ffffff-no-rj" />
+        <Avatar src="/user.png" />
         <InputForm onSubmit={createComment}>
           <Input onChange={(event) => { setCommentText(event?.target?.value) }} value={commentText} ref={commentInput} placeholder="Add a comment..." />
           <Buttons>

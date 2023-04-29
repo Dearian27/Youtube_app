@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { videoI } from "../pages/Home";
 import { format } from 'timeago.js';
 import axios from "../utils/axios";
-import axiosDefault from "axios";
 import notFoundImg from '/src/assets/blackScreen.png';
 
 interface layoutProps {
