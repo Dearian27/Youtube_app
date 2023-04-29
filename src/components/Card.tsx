@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { videoI } from "../pages/Home";
 import { format } from 'timeago.js';
 import axios from "../utils/axios";
+import axiosDefault from "axios";
 import notFoundImg from '/src/assets/blackScreen.png';
 
 interface layoutProps {
@@ -21,7 +22,7 @@ const Container = styled.div<layoutProps>`
 		width: ${({ type }) => type !== "sm" && '290px'};
 	}
 `
-const Image = styled.img<layoutProps>`
+const Img = styled.img<layoutProps>`
 	width: ${({ type }) => type === "sm" ? "220px" : "100%"};
 	height: ${({ type }) => type === "sm" ? '130px' : '202px'};
 	border-radius: ${({ type }) => type === "sm" && '8px'};
@@ -100,22 +101,21 @@ export type channelType = {
 const Card: React.FC<CardProps> = ({ type, video }) => {
 
 	const [channel, setChannel] = useState<channelType>(null);
-	// const [img, setImg] = useState<string | null>(null);
+	const [img, setImg] = useState<string>(notFoundImg);
 
 	const fetchChannel = async () => {
 		const { data } = await axios.get(`/users/${video.userId}`);
 		setChannel(data);
 	}
 
-	// useEffect(() => {
-	// 	const res = axios.get(video.imgUrl)
-	// 	console.log(res)
-	// 	if (!res.status === 200) {
-	// 		video.imgUrl = notFoundImg;
-	// 	}
-	// 	video.imgUrl = notFoundImg;
+	useEffect(() => {
+		const img = new Image();
+		img.src = video.imgUrl;
 
-	// }, [video.imgUrl]);
+		img.onload = () => {
+			setImg(img.src);
+		};
+	}, []);
 
 	useEffect(() => {
 		fetchChannel();
@@ -124,9 +124,9 @@ const Card: React.FC<CardProps> = ({ type, video }) => {
 	return (
 		<Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
 			<Container type={type}>
-				<Image type={type} src={video?.imgUrl} />
+				<Img type={type} src={img} />
 				<Details type={type}>
-					<ChannelImage type={type} src={""} />
+					<ChannelImage type={type} src={"/user.png"} />
 					<Texts>
 						<Title>{video ? video?.title : "test video"}</Title>
 						<ChannelName>{channel?.name || "User"}</ChannelName>

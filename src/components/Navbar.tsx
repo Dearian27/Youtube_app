@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button } from './Menu'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SearchIcon from '@mui/icons-material/Search';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { RootState } from '../redux/store';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import LogoFile from '../assets/logo.png';
@@ -85,7 +85,7 @@ const User = styled.div`
   font-weight: 500;
   color: ${({ theme }) => theme.text};
 `
-const Avatar = styled.div`
+const Avatar = styled.img`
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -100,9 +100,24 @@ type NavBarProps = {
 }
 
 const Navbar: React.FC<NavBarProps> = ({ darkMode }) => {
+
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   let { isAuth, user } = useAppSelector(state => state.user);
+
+  const [q, setQ] = useState(searchParams.get('q') || '');
+
+  const searchHandler = () => {
+    navigate(`/search?q=${q}`)
+  }
+
+  function handleKeyDown(event: any) {
+    if (event.key === 'Enter') {
+      navigate(`/search?q=${q}`)
+    }
+  }
 
   return (
     <Container>
@@ -117,8 +132,10 @@ const Navbar: React.FC<NavBarProps> = ({ darkMode }) => {
             </Link>
           </Metube>
           <Search>
-            <Input type="text" placeholder="Search" />
-            <SearchIcon style={{ cursor: 'pointer', fill: `${darkMode ? "white" : "black"}` }} />
+            <Input
+              onKeyDown={handleKeyDown}
+              type="text" placeholder="Search" value={q} onChange={(event) => setQ(event.target.value)} />
+            <SearchIcon onClick={searchHandler} style={{ cursor: 'pointer', fill: `${darkMode ? "white" : "black"}` }} />
           </Search>
           {isAuth !== true ?
             <Button onClick={() => navigate('/signin')}>
@@ -128,7 +145,7 @@ const Navbar: React.FC<NavBarProps> = ({ darkMode }) => {
             :
             <User>
               <UserName>{user?.name}</UserName>
-              <Avatar />
+              <Avatar src={"/user.png"} />
             </User>
           }
         </Wrapper>

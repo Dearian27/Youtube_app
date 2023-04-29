@@ -1,0 +1,73 @@
+Date : 2023-04-29 20:13:50
+Directory : d:\games\not_games\Youtube_app
+Total : 33 files,  8036 codes, 106 comments, 198 blanks, all 8340 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JSON               |          3 |      5,730 |          0 |          3 |      5,733 |
+| TypeScript JSX     |         15 |      1,775 |         67 |        128 |      1,970 |
+| TypeScript         |         10 |        419 |         35 |         55 |        509 |
+| HTML               |          2 |         80 |          2 |          8 |         90 |
+| JSON with Comments |          1 |         22 |          0 |          1 |         23 |
+| CSS                |          2 |         10 |          2 |          3 |         15 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                              | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                 |         33 |      8,036 |        106 |        198 |      8,340 |
+| . (Files)                                                         |          6 |      5,801 |         14 |         12 |      5,827 |
+| public                                                            |          1 |         37 |          0 |          3 |         40 |
+| src                                                               |         26 |      2,198 |         92 |        183 |      2,473 |
+| src (Files)                                                       |          7 |        106 |         12 |         17 |        135 |
+| src\@types                                                        |          1 |         18 |          3 |          3 |         24 |
+| src\components                                                    |          7 |        746 |          2 |         56 |        804 |
+| src\pages                                                         |          6 |        954 |         61 |         64 |      1,079 |
+| src\redux                                                         |          3 |        325 |          5 |         32 |        362 |
+| src\redux (Files)                                                 |          1 |         38 |          1 |          9 |         48 |
+| src\redux\slices                                                  |          2 |        287 |          4 |         23 |        314 |
+| src\utils                                                         |          2 |         49 |          9 |         11 |         69 |
++-------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                          | language           | code       | comment    | blank      | total      |
++-------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| d:\games\not_games\Youtube_app\index.html                         | HTML               |         43 |          2 |          5 |         50 |
+| d:\games\not_games\Youtube_app\package-lock.json                  | JSON               |      5,684 |          0 |          1 |      5,685 |
+| d:\games\not_games\Youtube_app\package.json                       | JSON               |         37 |          0 |          1 |         38 |
+| d:\games\not_games\Youtube_app\public\404.html                    | HTML               |         37 |          0 |          3 |         40 |
+| d:\games\not_games\Youtube_app\src\@types\default.d.ts            | TypeScript         |         18 |          3 |          3 |         24 |
+| d:\games\not_games\Youtube_app\src\App.css                        | CSS                |          5 |          1 |          2 |          8 |
+| d:\games\not_games\Youtube_app\src\App.tsx                        | TypeScript JSX     |         61 |          4 |          6 |         71 |
+| d:\games\not_games\Youtube_app\src\components\Card.tsx            | TypeScript JSX     |        130 |          0 |         11 |        141 |
+| d:\games\not_games\Youtube_app\src\components\Comment.tsx         | TypeScript JSX     |         60 |          1 |          5 |         66 |
+| d:\games\not_games\Youtube_app\src\components\Comments.tsx        | TypeScript JSX     |        117 |          0 |          8 |        125 |
+| d:\games\not_games\Youtube_app\src\components\Menu.tsx            | TypeScript JSX     |        227 |          1 |         11 |        239 |
+| d:\games\not_games\Youtube_app\src\components\Navbar.tsx          | TypeScript JSX     |        148 |          0 |         10 |        158 |
+| d:\games\not_games\Youtube_app\src\components\Recommendations.tsx | TypeScript JSX     |         30 |          0 |          4 |         34 |
+| d:\games\not_games\Youtube_app\src\components\Tag.tsx             | TypeScript JSX     |         34 |          0 |          7 |         41 |
+| d:\games\not_games\Youtube_app\src\firebase.ts                    | TypeScript         |         17 |          5 |          4 |         26 |
+| d:\games\not_games\Youtube_app\src\hooks.ts                       | TypeScript         |          4 |          0 |          1 |          5 |
+| d:\games\not_games\Youtube_app\src\index.css                      | CSS                |          5 |          1 |          1 |          7 |
+| d:\games\not_games\Youtube_app\src\main.tsx                       | TypeScript JSX     |         14 |          0 |          2 |         16 |
+| d:\games\not_games\Youtube_app\src\pages\AddVideo.tsx             | TypeScript JSX     |        414 |         57 |         18 |        489 |
+| d:\games\not_games\Youtube_app\src\pages\Home.tsx                 | TypeScript JSX     |         66 |          0 |          9 |         75 |
+| d:\games\not_games\Youtube_app\src\pages\Search.tsx               | TypeScript JSX     |         34 |          0 |          5 |         39 |
+| d:\games\not_games\Youtube_app\src\pages\SignIn.tsx               | TypeScript JSX     |        100 |          0 |          9 |        109 |
+| d:\games\not_games\Youtube_app\src\pages\SignUp.tsx               | TypeScript JSX     |         99 |          2 |         12 |        113 |
+| d:\games\not_games\Youtube_app\src\pages\Video.tsx                | TypeScript JSX     |        241 |          2 |         11 |        254 |
+| d:\games\not_games\Youtube_app\src\redux\slices\userSlice.ts      | TypeScript         |        123 |          4 |          9 |        136 |
+| d:\games\not_games\Youtube_app\src\redux\slices\videosSlice.ts    | TypeScript         |        164 |          0 |         14 |        178 |
+| d:\games\not_games\Youtube_app\src\redux\store.ts                 | TypeScript         |         38 |          1 |          9 |         48 |
+| d:\games\not_games\Youtube_app\src\utils\Theme.ts                 | TypeScript         |         30 |          0 |          5 |         35 |
+| d:\games\not_games\Youtube_app\src\utils\axios.ts                 | TypeScript         |         19 |          9 |          6 |         34 |
+| d:\games\not_games\Youtube_app\src\vite-env.d.ts                  | TypeScript         |          0 |          1 |          1 |          2 |
+| d:\games\not_games\Youtube_app\tsconfig.json                      | JSON with Comments |         22 |          0 |          1 |         23 |
+| d:\games\not_games\Youtube_app\tsconfig.node.json                 | JSON               |          9 |          0 |          1 |         10 |
+| d:\games\not_games\Youtube_app\vite.config.ts                     | TypeScript         |          6 |         12 |          3 |         21 |
+| Total                                                             |                    |      8,036 |        106 |        198 |      8,340 |
++-------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

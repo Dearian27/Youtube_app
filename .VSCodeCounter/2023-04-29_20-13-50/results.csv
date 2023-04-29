@@ -1,0 +1,35 @@
+"filename", "language", "HTML", "TypeScript", "JSON", "JSON with Comments", "TypeScript JSX", "CSS", "comment", "blank", "total"
+"d:\games\not_games\Youtube_app\index.html", "HTML", 43, 0, 0, 0, 0, 0, 2, 5, 50
+"d:\games\not_games\Youtube_app\package-lock.json", "JSON", 0, 0, 5684, 0, 0, 0, 0, 1, 5685
+"d:\games\not_games\Youtube_app\package.json", "JSON", 0, 0, 37, 0, 0, 0, 0, 1, 38
+"d:\games\not_games\Youtube_app\public\404.html", "HTML", 37, 0, 0, 0, 0, 0, 0, 3, 40
+"d:\games\not_games\Youtube_app\src\@types\default.d.ts", "TypeScript", 0, 18, 0, 0, 0, 0, 3, 3, 24
+"d:\games\not_games\Youtube_app\src\App.css", "CSS", 0, 0, 0, 0, 0, 5, 1, 2, 8
+"d:\games\not_games\Youtube_app\src\App.tsx", "TypeScript JSX", 0, 0, 0, 0, 61, 0, 4, 6, 71
+"d:\games\not_games\Youtube_app\src\components\Card.tsx", "TypeScript JSX", 0, 0, 0, 0, 130, 0, 0, 11, 141
+"d:\games\not_games\Youtube_app\src\components\Comment.tsx", "TypeScript JSX", 0, 0, 0, 0, 60, 0, 1, 5, 66
+"d:\games\not_games\Youtube_app\src\components\Comments.tsx", "TypeScript JSX", 0, 0, 0, 0, 117, 0, 0, 8, 125
+"d:\games\not_games\Youtube_app\src\components\Menu.tsx", "TypeScript JSX", 0, 0, 0, 0, 227, 0, 1, 11, 239
+"d:\games\not_games\Youtube_app\src\components\Navbar.tsx", "TypeScript JSX", 0, 0, 0, 0, 148, 0, 0, 10, 158
+"d:\games\not_games\Youtube_app\src\components\Recommendations.tsx", "TypeScript JSX", 0, 0, 0, 0, 30, 0, 0, 4, 34
+"d:\games\not_games\Youtube_app\src\components\Tag.tsx", "TypeScript JSX", 0, 0, 0, 0, 34, 0, 0, 7, 41
+"d:\games\not_games\Youtube_app\src\firebase.ts", "TypeScript", 0, 17, 0, 0, 0, 0, 5, 4, 26
+"d:\games\not_games\Youtube_app\src\hooks.ts", "TypeScript", 0, 4, 0, 0, 0, 0, 0, 1, 5
+"d:\games\not_games\Youtube_app\src\index.css", "CSS", 0, 0, 0, 0, 0, 5, 1, 1, 7
+"d:\games\not_games\Youtube_app\src\main.tsx", "TypeScript JSX", 0, 0, 0, 0, 14, 0, 0, 2, 16
+"d:\games\not_games\Youtube_app\src\pages\AddVideo.tsx", "TypeScript JSX", 0, 0, 0, 0, 414, 0, 57, 18, 489
+"d:\games\not_games\Youtube_app\src\pages\Home.tsx", "TypeScript JSX", 0, 0, 0, 0, 66, 0, 0, 9, 75
+"d:\games\not_games\Youtube_app\src\pages\Search.tsx", "TypeScript JSX", 0, 0, 0, 0, 34, 0, 0, 5, 39
+"d:\games\not_games\Youtube_app\src\pages\SignIn.tsx", "TypeScript JSX", 0, 0, 0, 0, 100, 0, 0, 9, 109
+"d:\games\not_games\Youtube_app\src\pages\SignUp.tsx", "TypeScript JSX", 0, 0, 0, 0, 99, 0, 2, 12, 113
+"d:\games\not_games\Youtube_app\src\pages\Video.tsx", "TypeScript JSX", 0, 0, 0, 0, 241, 0, 2, 11, 254
+"d:\games\not_games\Youtube_app\src\redux\slices\userSlice.ts", "TypeScript", 0, 123, 0, 0, 0, 0, 4, 9, 136
+"d:\games\not_games\Youtube_app\src\redux\slices\videosSlice.ts", "TypeScript", 0, 164, 0, 0, 0, 0, 0, 14, 178
+"d:\games\not_games\Youtube_app\src\redux\store.ts", "TypeScript", 0, 38, 0, 0, 0, 0, 1, 9, 48
+"d:\games\not_games\Youtube_app\src\utils\Theme.ts", "TypeScript", 0, 30, 0, 0, 0, 0, 0, 5, 35
+"d:\games\not_games\Youtube_app\src\utils\axios.ts", "TypeScript", 0, 19, 0, 0, 0, 0, 9, 6, 34
+"d:\games\not_games\Youtube_app\src\vite-env.d.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 1, 1, 2
+"d:\games\not_games\Youtube_app\tsconfig.json", "JSON with Comments", 0, 0, 0, 22, 0, 0, 0, 1, 23
+"d:\games\not_games\Youtube_app\tsconfig.node.json", "JSON", 0, 0, 9, 0, 0, 0, 0, 1, 10
+"d:\games\not_games\Youtube_app\vite.config.ts", "TypeScript", 0, 6, 0, 0, 0, 0, 12, 3, 21
+"Total", "-", 80, 419, 5730, 22, 1775, 10, 106, 198, 8340

@@ -12,6 +12,7 @@ import SignUp from './pages/SignUp';
 import AddVideo from './pages/AddVideo';
 import './App.css';
 import { useAppSelector } from './hooks';
+import Search from './pages/Search';
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.bg};
@@ -52,6 +53,7 @@ const App: React.FC = () => {
                 <Route path='upload' element={<AddVideo />} />
                 <Route path='signin' element={<SignIn />} />
                 <Route path='signup' element={<SignUp />} />
+                <Route path='search' element={<Search />} />
                 <Route path="video">
                   <Route path=":id" element={<Video />} />
                 </Route>
