@@ -1,7 +1,7 @@
 import Card from "../components/Card";
 import axios from "../utils/axios";
 import { useEffect, useState } from "react"
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { videoType } from "../redux/slices/videosSlice";
 
@@ -13,17 +13,17 @@ const Container = styled.div`
 `
 
 const Search = () => {
+  const navigate = useNavigate();
   const query = useLocation().search;
   const [videos, setVideos] = useState([]);
-
+  if (query === '?q=') {
+    navigate("/");
+  }
   useEffect(() => {
     const fetchVideos = async () => {
       const res = await axios.get(`/videos/search${query}`);
       const data = res.data;
       setVideos(data);
-      console.log(res.status, "status");
-      console.log(data);
-      console.log(videos);
     }
     fetchVideos();
   }, [query])

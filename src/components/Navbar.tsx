@@ -4,7 +4,6 @@ import { Button } from './Menu'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SearchIcon from '@mui/icons-material/Search';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { RootState } from '../redux/store';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import LogoFile from '../assets/logo.png';
 
@@ -115,7 +114,9 @@ const Navbar: React.FC<NavBarProps> = ({ darkMode }) => {
 
   function handleKeyDown(event: any) {
     if (event.key === 'Enter') {
-      navigate(`/search?q=${q}`)
+      if (q !== "") {
+        navigate(`/search?q=${q}`)
+      }
     }
   }
 
