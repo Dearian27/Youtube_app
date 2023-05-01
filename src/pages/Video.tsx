@@ -139,11 +139,8 @@ const Video: React.FC = () => {
     if (user && isAuth && user?._id !== currentChannel?._id) {
       if (currentChannel.subscribers.includes(user._id)) {
         try {
-          console.log('subscribe client');
           const res = await axios.put(`/users/unsubscribe/${currentChannel._id}`);
-          console.log(res);
           if (res.status === 200) {
-            console.log('subscribe success');
             dispatch(setUnsubscribe(currentChannel._id));
             dispatch(setSubscribers(user._id));
           }
@@ -151,12 +148,9 @@ const Video: React.FC = () => {
           console.error(error);
         }
       } else {
-        console.log('unsubscribe client');
         try {
           const res = await axios.put(`/users/subscribe/${currentChannel._id}`);
-          console.log(res);
           if (res.status === 200) {
-            console.log('unsubscribe success');
             dispatch(setSubscribe(currentChannel._id));
             dispatch(setSubscribers(user._id));
           }
