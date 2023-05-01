@@ -82,14 +82,21 @@ const userSlice = createSlice({
     setSpecialTag: (state, action: PayloadAction<string>) => {
       state.specialTag = action.payload;
     },
-    setSubscribe: (state, action: PayloadAction<string>) => {  // payload === currentChannel._id
+    setSubscribe: (state, action: PayloadAction<string>) => {  //? payload === currentChannel._id
+      if (!state.user.subscribedUsers) {
+        state.user.subscribedUsers = [];
+        state.user.subscribedUsers.push(action.payload);
+      } else {
+        console.log("push")
         state.user?.subscribedUsers?.push(action.payload);
-      },
+      }
+      console.log(state.user.subscribedUsers)
+    },
     setUnsubscribe: (state, action: PayloadAction<string>) => {  
       state.user.subscribedUsers = state.user.subscribedUsers.filter(
         (userId: string) => userId !== action.payload
       );
-    console.log(state.user.subscribedUsers)
+      console.log(state.user.subscribedUsers)
     },
   },
   extraReducers: {

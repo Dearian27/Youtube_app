@@ -11,7 +11,7 @@ import axios from '../utils/axios';
 import { format } from 'timeago.js';
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { fetchVideoData, setDislike, setLike, setSubscribers } from "../redux/slices/videosSlice";
+import { fetchVideoData, setDislike, setError, setLike, setSubscribers } from "../redux/slices/videosSlice";
 import { useAppDispatch } from "../hooks";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
@@ -114,7 +114,7 @@ const Video: React.FC = () => {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const navigate = useNavigate();
   const { user, isAuth } = useSelector((state: RootState) => state.user);
-  const { currentVideo, currentChannel } = useSelector((state: RootState) => state.video);
+  const { currentVideo, currentChannel, isError } = useSelector((state: RootState) => state.video);
   const dispatch = useAppDispatch();
   const params = useParams();
   const { id } = params;
@@ -137,18 +137,32 @@ const Video: React.FC = () => {
       return;
     };
     if (user && isAuth && user?._id !== currentChannel?._id) {
-      if (user?.subscribedUsers?.includes(currentChannel._id)) {
-        dispatch(unsubscribeChannel(currentChannel._id))
+      if (currentChannel.subscribers.includes(user._id)) {
+        try {
+          console.log('subscribe client');
+          const res = await axios.put(`/users/unsubscribe/${currentChannel._id}`);
+          console.log(res);
+          if (res.status === 200) {
+            console.log('subscribe success');
+            dispatch(setUnsubscribe(currentChannel._id));
+            dispatch(setSubscribers(user._id));
+          }
+        } catch (error) {
+          console.error(error);
+        }
       } else {
-        dispatch(subscribeChannel(currentChannel._id))
-      }
-      if (user?.subscribedUsers?.includes(currentChannel._id)) {
-        dispatch(setUnsubscribe(currentChannel?._id));
-        dispatch(setSubscribers(user?._id));
-      }
-      else {
-        dispatch(setSubscribe(currentChannel?._id));
-        dispatch(setSubscribers(user?._id));
+        console.log('unsubscribe client');
+        try {
+          const res = await axios.put(`/users/subscribe/${currentChannel._id}`);
+          console.log(res);
+          if (res.status === 200) {
+            console.log('unsubscribe success');
+            dispatch(setSubscribe(currentChannel._id));
+            dispatch(setSubscribers(user._id));
+          }
+        } catch (error) {
+          console.error(error);
+        }
       }
     }
   }
@@ -185,8 +199,11 @@ const Video: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchVideoData(id));
-    // addView();
   }, [id, dispatch])
+
+  useEffect(() => {
+    console.log(currentChannel);
+  }, [currentChannel])
 
 
 
@@ -262,8 +279,8 @@ const Video: React.FC = () => {
             </ChannelDetail>
           </ChannelInfo>
           <Subscribe style={{
-            backgroundColor: `${user?._id === currentChannel?._id || user?.subscribedUsers?.includes(currentChannel?._id) ? "#dfdfdf" : "#cc1a00"}`,
-            color: `${user?._id === currentChannel?._id || user?.subscribedUsers?.includes(currentChannel?._id) ? "#bbbbbb" : "#fff"}`,
+            backgroundColor: `${user?._id === currentChannel?._id || currentChannel?.subscribers?.includes(user?._id) ? "#dfdfdf" : "#cc1a00"}`,
+            color: `${user?._id === currentChannel?._id || currentChannel?.subscribers?.includes(user?._id) ? "#bbbbbb" : "#fff"}`,
           }} onClick={subscribeHandler}>
             {user?._id === currentChannel?._id ? "Your" : user?.subscribedUsers?.includes(currentChannel?._id) ? "Subscribed" : "Subscribe"}
           </Subscribe>
