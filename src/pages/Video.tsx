@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
-import ReplyIcon from '@mui/icons-material/Reply';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import { darkTheme } from "../utils/Theme";
 import Comments from "../components/Comments";
@@ -19,6 +18,7 @@ import { dislikeVideo, likeVideo, subscribeChannel, unsubscribeChannel } from ".
 import { setSubscribe, setUnsubscribe } from "../redux/slices/userSlice";
 import Recommendations from "../components/Recommendations";
 import ReactPlayer from 'react-player';
+import ShareModal from "../components/ShareModal";
 
 const Container = styled.div`
     display: flex;
@@ -167,8 +167,12 @@ const Video: React.FC = () => {
       return;
     };
     try {
+      if (currentVideo.likes.includes(user._id)) {
+        await axios.put(`/users/clear/${id}`);
+      } else {
+        dispatch(likeVideo({ videoId: id }));
+      }
       dispatch(setLike(user._id));
-      dispatch(likeVideo({ videoId: id }))
     } catch (error) {
       console.log(error)
     }
@@ -180,8 +184,12 @@ const Video: React.FC = () => {
       return;
     };
     try {
+      if (currentVideo.dislikes.includes(user._id)) {
+        await axios.put(`/users/clear/${id}`);
+      } else {
+        dispatch(dislikeVideo({ videoId: id }))
+      }
       dispatch(setDislike(user._id));
-      dispatch(dislikeVideo({ videoId: id }))
     } catch (error) {
       console.log(error)
     }
@@ -257,7 +265,7 @@ const Video: React.FC = () => {
                   </>
                 }
               </Button>
-              <Button><ReplyIcon style={{ height: "30px", width: "30px", }} />Share</Button>
+              <ShareModal />
               <Button><AddTaskIcon />Save</Button>
             </Buttons>
           </Details>
