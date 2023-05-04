@@ -8,6 +8,7 @@ type userStateParams = {
   isError: boolean;
   isLoading: boolean;
   specialTag: string | null;
+  darkMode: boolean;
 }
 
 const initialState: userStateParams = {
@@ -15,7 +16,8 @@ const initialState: userStateParams = {
   user: null,
   isError: false,
   isLoading: false,
-  specialTag: null
+  specialTag: null,
+  darkMode: false
 }
 
 export const signInGoogle: any = createAsyncThunk("/auth/google", 
@@ -64,6 +66,9 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    setDarkMode: (state, action: PayloadAction<boolean>) => {
+      state.darkMode = action.payload
+    },
     setAuth: (state, action: PayloadAction<boolean>) => {
       state.isAuth = action.payload
     },
@@ -139,5 +144,5 @@ const userSlice = createSlice({
   }
 })
 
-export const { setAuth, setSubscribe, setUnsubscribe, LogOut, setSpecialTag } = userSlice.actions;
+export const { setAuth, setSubscribe, setUnsubscribe, LogOut, setSpecialTag, setDarkMode } = userSlice.actions;
 export default userSlice.reducer;

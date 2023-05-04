@@ -74,6 +74,7 @@ const Input = styled.input`
   border: none;
   background-color: transparent;
   width: 100%;
+  color: ${({ theme }) => theme.text};
   &:focus {
     outline: none;
   }

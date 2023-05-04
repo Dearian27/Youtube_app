@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styled, { ThemeProvider } from "styled-components";
 import Menu from './components/Menu';
 import Navbar from './components/Navbar';
@@ -32,18 +32,15 @@ const Main = styled.div`
 `
 
 const App: React.FC = () => {
-  const [darkMode, setDarkMode] = useState<boolean>(false);
-  const { specialTag } = useAppSelector(state => state.user);
+  const { darkMode } = useAppSelector(state => state.user);
 
   return (
     <HashRouter>
-      {/* <BrowserRouter basename="/Youtube_app"> */}
       <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
         <Navbar darkMode={darkMode} />
         <Container>
-          <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
+          <Menu darkMode={darkMode} />
           <Main>
-            {/* <Wrapper> */}
             <Routes>
               <Route path="/" >
                 <Route index element={<Home type="random" />} />
@@ -59,11 +56,9 @@ const App: React.FC = () => {
                 </Route>
               </Route>
             </Routes>
-            {/* </Wrapper> */}
           </ Main>
         </Container>
       </ThemeProvider>
-      {/* </BrowserRouter> */}
     </HashRouter>
   )
 }

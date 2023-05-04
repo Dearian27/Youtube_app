@@ -18,7 +18,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState, persistor } from '../redux/store';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { LogOut, setSpecialTag } from '../redux/slices/userSlice';
+import { LogOut, setDarkMode, setSpecialTag } from '../redux/slices/userSlice';
 import { useAppDispatch } from '../hooks';
 
 const Container = styled.div`
@@ -42,11 +42,11 @@ const Wrapper = styled.div`
   height: calc(100vh - 60px);
   flex: 1;
   &::-webkit-scrollbar-thumb {
-    background-color: #dbdbdb;
+    background-color: ${({ theme }) => theme.theme === "light" ? "#dadada" : "#363636"};
     border-radius: 50px;
   }
   &::-webkit-scrollbar {
-    background-color: #f0f0f0;
+    background-color: ${({ theme }) => theme.theme === "light" ? "#ffffff" : "#1f1f1f"};
     width: 6px;
     padding: 5px;
     border-radius: 50px;
@@ -119,11 +119,10 @@ export const Button = styled.button`
 `
 interface MenuProps {
   darkMode: boolean;
-  setDarkMode: (darkMode: boolean) => void;
 }
 
 
-const Menu: React.FC<MenuProps> = ({ darkMode, setDarkMode }) => {
+const Menu: React.FC<MenuProps> = ({ darkMode }) => {
 
   const { isAuth } = useSelector((state: RootState) => state.user)
   const dispatch = useAppDispatch();
@@ -221,7 +220,9 @@ const Menu: React.FC<MenuProps> = ({ darkMode, setDarkMode }) => {
         <Item>
           <FlagIcon />Report
         </Item>
-        <Item onClick={() => setDarkMode(!darkMode)}>
+        <Item onClick={() => {
+          dispatch(setDarkMode(!darkMode));
+        }}>
           <SettingsBrightnessIcon />{darkMode ? "Light" : "Dark"} Mode
         </Item>
         {isAuth &&
