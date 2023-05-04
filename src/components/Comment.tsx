@@ -20,11 +20,11 @@ const Details = styled.div`
   color: ${({ theme }) => theme.text};
 `
 const Name = styled.span`
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
 `
 const Date = styled.span`
-  font-weight: 12px;
+  font-weight: 14px;
   font-weight: 400;
   color: ${({ theme }) => theme.textSoft};
   margin-left: 5px;
