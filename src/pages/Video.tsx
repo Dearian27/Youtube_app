@@ -19,6 +19,7 @@ import { setSubscribe, setUnsubscribe } from "../redux/slices/userSlice";
 import Recommendations from "../components/Recommendations";
 import ReactPlayer from 'react-player';
 import ShareModal from "../components/ShareModal";
+import userIconImage from "/src/assets/user.png";
 
 const Container = styled.div`
     display: flex;
@@ -285,7 +286,7 @@ const Video: React.FC<VideoParams> = ({ darkMode }) => {
         <Hr />
         <Channel>
           <ChannelInfo>
-            <ImageIcon src="/user.png" />
+            <ImageIcon src={userIconImage} />
             <ChannelDetail>
               <ChannelName>{currentChannel?.name || "loading..."}</ChannelName>
               <ChannelCounter> {currentChannel?.subscribers.length} {currentChannel?.subscribers.length === 1 ? "subscriber" : "subscribers"}</ChannelCounter>

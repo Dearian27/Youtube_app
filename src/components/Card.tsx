@@ -5,6 +5,8 @@ import { videoI } from "../pages/Home";
 import { format } from 'timeago.js';
 import axios from "../utils/axios";
 import notFoundImg from '/src/assets/blackScreen.png';
+import userIconImage from "/src/assets/user.png";
+
 
 interface layoutProps {
 	type: string;
@@ -125,7 +127,7 @@ const Card: React.FC<CardProps> = ({ type, video }) => {
 			<Container type={type}>
 				<Img type={type} src={img} />
 				<Details type={type}>
-					<ChannelImage type={type} src={"/user.png"} />
+					<ChannelImage type={type} src={userIconImage} />
 					<Texts>
 						<Title>{video ? video?.title : "test video"}</Title>
 						<ChannelName>{channel?.name || "User"}</ChannelName>

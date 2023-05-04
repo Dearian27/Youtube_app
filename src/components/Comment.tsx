@@ -2,6 +2,8 @@ import axios from '../utils/axios';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { format } from 'timeago.js';
+import userIconImage from "/src/assets/user.png";
+
 
 const Container = styled.div`
   display: flex;
@@ -47,7 +49,7 @@ const Comment: React.FC<CommentProps> = ({ comment }) => {
 
   return (
     <Container>
-      <Avatar src="/user.png" />
+      <Avatar src={userIconImage} />
       <Details>
         <Name>{author}
           <Date>

@@ -6,6 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import LogoFile from '../assets/logo.png';
+import userIconImage from "/src/assets/user.png";
 
 const Metube = styled.div`
   z-index: 6;
@@ -146,7 +147,7 @@ const Navbar: React.FC<NavBarProps> = ({ darkMode }) => {
             :
             <User>
               <UserName>{user?.name}</UserName>
-              <Avatar src={"/user.png"} />
+              <Avatar src={userIconImage} />
             </User>
           }
         </Wrapper>

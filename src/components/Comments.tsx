@@ -6,6 +6,8 @@ import { addComment, fetchCommentsData } from "../redux/slices/videosSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import userIconImage from "/src/assets/user.png";
+
 
 const Container = styled.div`
 `
@@ -101,7 +103,7 @@ const Comments = () => {
   return (
     <Container>
       <NewComment>
-        <Avatar src="/user.png" />
+        <Avatar src={userIconImage} />
         <InputForm onSubmit={createComment}>
           <Input onChange={(event) => { setCommentText(event?.target?.value) }} value={commentText} ref={commentInput} placeholder="Add a comment..." />
           <Buttons>
