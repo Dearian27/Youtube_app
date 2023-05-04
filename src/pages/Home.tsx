@@ -3,6 +3,7 @@ import Card from "../components/Card";
 import { useEffect, useState } from "react";
 import axios from "../utils/axios";
 import { useAppSelector } from "../hooks";
+import { Triangle } from "react-loader-spinner";
 
 const Container = styled.div`
   display: flex;
@@ -44,29 +45,44 @@ const Home: React.FC<HomePropsI> = ({ type }) => {
 
   const { specialTag } = useAppSelector(state => state.user);
   const [videos, setVideos] = useState<videoI[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const fetchVideos = async () => {
     if (type === "special") {
       const { data } = await axios.post(`/videos/special`, { specialTag });
       setVideos(data);
+      setIsLoading(false);
     } else {
       const { data } = await axios.get(`/videos/${type}`);
       setVideos(data);
+      setIsLoading(false);
     }
   }
 
   useEffect(() => {
     fetchVideos();
+    setIsLoading(true);
   }, [type, specialTag])
 
   return (
     <Container>
-      {videos.length > 0 ?
-        videos.map((video) => {
-          return <Card key={video._id} video={video} type="lg" />
-        })
-        :
-        <Text>There are no videos.</Text>
+      {isLoading ?
+        <Text>
+          <Triangle
+            height="80"
+            width="80"
+            color="#F44336"
+            ariaLabel="triangle-loading"
+            wrapperStyle={{}}
+            visible={true}
+          />
+        </Text>
+        : videos.length > 0 ?
+          videos.map((video) => {
+            return <Card key={video._id} video={video} type="lg" />
+          })
+          :
+          <Text>There are no videos.</Text>
       }
     </Container>
   )
