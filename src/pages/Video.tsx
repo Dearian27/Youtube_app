@@ -51,6 +51,7 @@ const Buttons = styled.div`
 
 `
 const Button = styled.button`
+  color: ${({ theme }) => theme.text};
   display: flex;
   align-items: center;
   gap: 5px;
@@ -90,8 +91,22 @@ const ChannelCounter = styled.span`
   margin-bottom: 20px;
   color: ${({ theme }) => theme.text};
   font-size: 14px;
-`
-const Description = styled.p`
+  `
+const Description = styled.div`
+  color: ${({ theme }) => theme.theme === 'light' ? "#5e5e5e" : "#f0f0f0"};
+  font-size: 18px;
+  box-sizing: border-box;
+  background-color: ${({ theme }) => theme.theme === 'light' ? "#f0f0f0" : "#272727"};  
+  padding: 5px 10px;
+  border-radius: 5px;
+  width: 100%;
+  transition: background-color 0.25s ease-in-out;
+  &:hover {
+    background-color: ${({ theme }) => theme.theme === 'light' ? "#e5e5e5" : "#3F3F3F"};
+  }
+  @media (max-width: 1366px) {
+    font-size: 13px;
+	}
 `
 // background-color: "#dfdfdf";
 // color: "#bbbbbb";
@@ -107,8 +122,11 @@ const Subscribe = styled.button`
   padding: 10px 20px;
   cursor: pointer;
 `
+type VideoParams = {
+  darkMode: boolean
+}
 
-const Video: React.FC = () => {
+const Video: React.FC<VideoParams> = ({ darkMode }) => {
 
   const [isPlayed, setIsPlayed] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -203,12 +221,6 @@ const Video: React.FC = () => {
     dispatch(fetchVideoData(id));
   }, [id, dispatch])
 
-  useEffect(() => {
-    console.log(currentChannel);
-  }, [currentChannel])
-
-
-
   return (
     <Container>
       <Content>
@@ -245,28 +257,28 @@ const Video: React.FC = () => {
               <Button onClick={likeHandler}>
                 {currentVideo?.likes?.includes(user?._id) ?
                   <>
-                    <ThumbUpIcon /> {currentVideo?.likes?.length}
+                    <ThumbUpIcon style={{ fill: `${darkMode ? "white" : "black"}` }} /> {currentVideo?.likes?.length}
                   </>
                   :
                   <>
-                    <ThumbUpAltOutlinedIcon /> {currentVideo?.likes?.length}
+                    <ThumbUpAltOutlinedIcon style={{ fill: `${darkMode ? "white" : "black"}` }} /> {currentVideo?.likes?.length}
                   </>
                 }
               </Button>
               <Button onClick={dislikeHandler}>
                 {currentVideo?.dislikes?.includes(user?._id) ?
                   <>
-                    <ThumbDownIcon />{currentVideo?.dislikes?.length}
+                    <ThumbDownIcon style={{ fill: `${darkMode ? "white" : "black"}` }} />{currentVideo?.dislikes?.length}
                   </>
                   :
                   <>
-                    <ThumbDownAltOutlinedIcon style={{ fill: "black" }} />
+                    <ThumbDownAltOutlinedIcon style={{ fill: `${darkMode ? "white" : "black"}` }} />
                     {currentVideo?.dislikes?.length}
                   </>
                 }
               </Button>
               <ShareModal />
-              <Button><AddTaskIcon />Save</Button>
+              <Button><AddTaskIcon style={{ cursor: 'pointer', fill: `${darkMode ? "white" : "black"}` }} />Save</Button>
             </Buttons>
           </Details>
         </VideoWrapper>
@@ -277,7 +289,6 @@ const Video: React.FC = () => {
             <ChannelDetail>
               <ChannelName>{currentChannel?.name || "loading..."}</ChannelName>
               <ChannelCounter> {currentChannel?.subscribers.length} {currentChannel?.subscribers.length === 1 ? "subscriber" : "subscribers"}</ChannelCounter>
-              <Description>{currentVideo?.desc}</Description>
             </ChannelDetail>
           </ChannelInfo>
           <Subscribe style={{
@@ -287,6 +298,7 @@ const Video: React.FC = () => {
             {user?._id === currentChannel?._id ? "Your" : user?.subscribedUsers?.includes(currentChannel?._id) ? "Subscribed" : "Subscribe"}
           </Subscribe>
         </Channel>
+        <Description>{currentVideo?.desc}</Description>
         <Comments />
       </Content>
       <Recommendations tags={currentVideo?.tags} videoId={currentVideo?._id} />

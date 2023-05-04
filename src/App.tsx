@@ -55,7 +55,7 @@ const App: React.FC = () => {
                 <Route path='signup' element={<SignUp />} />
                 <Route path='search' element={<Search />} />
                 <Route path="video">
-                  <Route path=":id" element={<Video />} />
+                  <Route path=":id" element={<Video darkMode={darkMode} />} />
                 </Route>
               </Route>
             </Routes>

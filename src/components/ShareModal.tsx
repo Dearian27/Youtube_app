@@ -21,7 +21,7 @@ const ShareModal = () => {
 
   return (
     <>
-      <Button onClick={openModal}><ReplyIcon style={{ height: "30px", width: "30px", }} />Share</Button>
+      <Button onClick={openModal}><ReplyIcon style={{ height: "30px", width: "30px", fill: `${({ theme }: { theme: any }) => theme.theme === "light" ? "black" : "white"}` }} />Share</Button>
       {isOpen && (
         <ModalBackdrop onClick={closeModal}>
           <Modal onClick={(e) => e.stopPropagation()}>
@@ -56,6 +56,7 @@ const Button = styled.button`
   border: none;
   background: transparent;
   font-size: 15px;
+  color: ${({ theme }) => theme.text};
 `
 
 

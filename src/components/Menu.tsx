@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components';
-import LogoFile from '../assets/logo.png';
 import HomeIcon from '@mui/icons-material/Home';
 import ExploreIcon from '@mui/icons-material/Explore';
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
@@ -133,7 +132,6 @@ const Menu: React.FC<MenuProps> = ({ darkMode, setDarkMode }) => {
 
   const logOutHandler = () => {
     LogOut();
-    // document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     const cookies = document.cookie.split(";");
     for (let i = 0; i < cookies.length; i++) {

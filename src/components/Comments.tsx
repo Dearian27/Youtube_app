@@ -35,7 +35,7 @@ const Input = styled.input`
   font-size: 18px;
   padding: 5px;
   width: 100%;
-
+  color: ${({ theme }) => theme.text};
   &:focus {
     outline: none;
   }
@@ -53,16 +53,16 @@ const Button = styled.button`
   border: none;
   border-radius: 50px;
   background-color: transparent;
-  color: #2c2c2c;
+  color: ${({ theme }) => theme.theme === 'light' ? "#2c2c2c" : "#8d8d8d"};
   transition: background-color 0.4s ease-in, color 0.3s ease-in;
 
   &:disabled {
     cursor: unset;
-    background-color: #F2F2F2 !important;
-    color: #8d8d8d;
+    background-color: transparent !important;
+    color: ${({ theme }) => theme.theme === 'light' ? "#8d8d8d" : "#2c2c2c"};
 
     &:hover {
-      background-color: #F2F2F2!important;
+      background-color: #F2F2F2;
       color: #8d8d8d;
     }
   }
@@ -105,7 +105,7 @@ const Comments = () => {
         <InputForm onSubmit={createComment}>
           <Input onChange={(event) => { setCommentText(event?.target?.value) }} value={commentText} ref={commentInput} placeholder="Add a comment..." />
           <Buttons>
-            <Button type="button" onClick={() => { setCommentText('') }}>Cancel</Button>
+            <Button disabled={!commentText} type="button" onClick={() => { setCommentText('') }}>Cancel</Button>
             <Button style={{
               backgroundColor: `${commentText && "#7e90f5"}`,
               color: `${commentText && "white"}`,

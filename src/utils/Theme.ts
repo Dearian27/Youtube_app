@@ -1,4 +1,5 @@
 export const lightTheme: any = {
+  theme: "light",
   bg: "#f9f9f9",
   bgLighter: "white",
   text: "black",
@@ -17,6 +18,7 @@ export const lightTheme: any = {
 }
 
 export const darkTheme: any = {
+  theme: "dark",
   bg: "#181818",
   bgLighter: "#202020",
   text: "white",
