@@ -46,7 +46,6 @@ const Comment: React.FC<CommentProps> = ({ comment }) => {
     }
     fetchCommentAuthor();
   })
-
   return (
     <Container>
       <Avatar src={userIconImage} />
@@ -57,10 +56,8 @@ const Comment: React.FC<CommentProps> = ({ comment }) => {
           </Date>
         </Name>
         <Text>{comment?.text}</Text>
-        {/* //! ? */}
       </Details>
     </Container>
   )
 }
-
 export default Comment;

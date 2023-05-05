@@ -131,7 +131,7 @@ const Card: React.FC<CardProps> = ({ type, video }) => {
 					<Texts>
 						<Title>{video ? video?.title : "test video"}</Title>
 						<ChannelName>{channel?.name || "User"}</ChannelName>
-						<Info>{video.views} views • {format(video.createdAt, "")}</Info>  {/*1 day ago */}
+						<Info>{video.views} {video.views === 1 ? "view" : "views"} • {format(video.createdAt, "")}</Info>  {/*1 day ago */}
 					</Texts>
 				</Details>
 			</Container>

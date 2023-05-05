@@ -21,7 +21,6 @@ const initialState: videoStateParams = {
   isError: false,
 }
 
-
 export const fetchVideoData: any = createAsyncThunk("/video/fetch", async (id:number) => {
   try{
     const videoRes = await axios.get(`/videos/find/${id}/`);

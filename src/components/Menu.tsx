@@ -33,6 +33,7 @@ const Container = styled.div`
 `
 
 const Wrapper = styled.div`
+  max-width: 190px;
   position: fixed;
   background: inherit;
   z-index: 9;
@@ -123,12 +124,9 @@ interface MenuProps {
 
 
 const Menu: React.FC<MenuProps> = ({ darkMode }) => {
-
   const { isAuth } = useSelector((state: RootState) => state.user)
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-
   const logOutHandler = () => {
     LogOut();
     document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
@@ -143,7 +141,6 @@ const Menu: React.FC<MenuProps> = ({ darkMode }) => {
     navigate('/');
     window.location.reload()
   }
-
   return (
     <Container>
       <Wrapper>
@@ -177,7 +174,7 @@ const Menu: React.FC<MenuProps> = ({ darkMode }) => {
         {
           !isAuth &&
           <><Hr />
-            <H4 style={{ maxWidth: "200px" }}>Sign in to like, comment videos and subscribe.</H4>
+            <H4 >Sign in to like, comment videos and subscribe.</H4>
             <Link to="/signin" style={{ textDecoration: "none" }}>
               <Button>
                 <AccountCircleIcon />
@@ -186,7 +183,6 @@ const Menu: React.FC<MenuProps> = ({ darkMode }) => {
             </Link>
           </>
         }
-
         <Hr />
         <H3>Best of Metube</H3>
         <Item onClick={() => {
@@ -234,5 +230,4 @@ const Menu: React.FC<MenuProps> = ({ darkMode }) => {
     </Container>
   )
 }
-
 export default Menu

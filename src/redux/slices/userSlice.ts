@@ -20,6 +20,7 @@ const initialState: userStateParams = {
   darkMode: false
 }
 
+
 export const signInGoogle: any = createAsyncThunk("/auth/google", 
   async ({name, email}: {name: string; email: string}) => {
     try {
@@ -37,7 +38,6 @@ export const logIn: any = createAsyncThunk ("/auth/signin",
   async ({email, password}:{email: string; password: string;}) => {
   try { 
     const { data } = await axios.post('/auth/signin', { email, password });
-    console.log(data);
     setAuth(true);
     return data;
   } catch (err) {
@@ -49,12 +49,6 @@ export const signUp:any = createAsyncThunk ("/auth/signup",
   async ({name, email, password}:{name: string, email: string; password: string;}) => {
   try { 
     const { data } = await axios.post('/auth/signup', { name, email, password });
-    // console.log(data);
-
-    // if (data.token) {
-    //   window.localStorage.setItem('token', data.token)
-    // }
-
     setAuth(true);
     return data;
   } catch (err) {

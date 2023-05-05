@@ -74,7 +74,6 @@ const Button = styled.button`
   }
 `
 const Comments = () => {
-
   const { isAuth } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -85,7 +84,6 @@ const Comments = () => {
   const getComments = () => {
     dispatch(fetchCommentsData(params.id));
   }
-
   const createComment = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!isAuth) {
@@ -95,11 +93,9 @@ const Comments = () => {
     setCommentText('');
     dispatch(addComment({ videoId: params.id, text: commentText }));
   }
-
   useEffect(() => {
     getComments();
   }, [])
-
   return (
     <Container>
       <NewComment>
