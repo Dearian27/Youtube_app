@@ -39,7 +39,7 @@ const BoxVertical = styled.div`
   gap: 20px;
 `
 const Title = styled.input`
-  fontWeight: 500px;
+  font-weight: 500;
   font-size: 20px;
   font-family: 'Poppins';
   border: none;

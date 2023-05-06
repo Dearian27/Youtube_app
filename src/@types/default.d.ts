@@ -22,3 +22,8 @@ declare module "@mui/icons-material/*" {
   const content: any;
   export default content;
 }
+
+declare module 'numeraljs' {
+  const content: any;
+  export default content;
+}
