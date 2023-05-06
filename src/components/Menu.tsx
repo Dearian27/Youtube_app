@@ -20,7 +20,7 @@ import { RootState, persistor } from '../redux/store';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { LogOut, setDarkMode, setSpecialTag } from '../redux/slices/userSlice';
 import { useAppDispatch } from '../hooks';
-
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 const Container = styled.div`
   flex: 1;
   color: ${({ theme }) => theme.text};
@@ -29,9 +29,7 @@ const Container = styled.div`
   font-size: 14px;
   z-index: 9;
   position: sticky;
-  /* top: 56px; */
 `
-
 const Wrapper = styled.div`
   max-width: 190px;
   position: fixed;
@@ -53,7 +51,6 @@ const Wrapper = styled.div`
     border-radius: 50px;
   }
 `
-
 const Item = styled.div`
   background-color: inherit;
   z-index: 9;
@@ -76,7 +73,7 @@ const Hr = styled.hr`
   border: 1px solid ${({ theme }) => theme.hrColor};
   transition:  0.25s ease-in-out;
   margin: 10px 26px;
-  `
+`
 const H3 = styled.h3`
   margin: 0px 26px;
   font-weight: 700;
@@ -96,7 +93,6 @@ const H4 = styled.h4`
 `
 export const Button = styled.button`
   margin: 0px 26px;
-  
   border: 1px solid ${({ theme }) => theme.blueShade};
   border-radius: 5px;
   background-color: transparent;
@@ -121,10 +117,8 @@ export const Button = styled.button`
 interface MenuProps {
   darkMode: boolean;
 }
-
-
 const Menu: React.FC<MenuProps> = ({ darkMode }) => {
-  const { isAuth } = useSelector((state: RootState) => state.user)
+  const { isAuth, user } = useSelector((state: RootState) => state.user)
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const logOutHandler = () => {
@@ -154,11 +148,13 @@ const Menu: React.FC<MenuProps> = ({ darkMode }) => {
             <ExploreIcon />Explore
           </Item>
         </Link>
-        <Link to="subscriptions" style={{ textDecoration: "none" }}>
-          <Item>
-            <SubscriptionsIcon />Subscriptions
-          </Item>
-        </Link>
+        {isAuth &&
+          <Link to="subscriptions" style={{ textDecoration: "none" }}>
+            <Item>
+              <SubscriptionsIcon />Subscriptions
+            </Item>
+          </Link>
+        }
         <Hr />
         <Item>
           <LibraryAddIcon />Library
@@ -213,6 +209,13 @@ const Menu: React.FC<MenuProps> = ({ darkMode }) => {
         <Item>
           <SettingsIcon />Settings
         </Item>
+        {user?.isAdmin &&
+          <Link to="admin" style={{ textDecoration: "none" }}>
+            <Item>
+              <AdminPanelSettingsIcon />Admin
+            </Item>
+          </Link>
+        }
         <Item>
           <FlagIcon />Report
         </Item>

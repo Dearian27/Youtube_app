@@ -360,7 +360,6 @@ const AddVideo: React.FC = () => {
       });
       setVideoRef("");
     }
-
     uploadTask.on('state_changed',
       (snapshot) => {
         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -381,8 +380,6 @@ const AddVideo: React.FC = () => {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log('File available at', downloadURL);
-          console.log(downloadURL)
           if (urlType === "imgUrl") setImgRef(downloadURL);
           else setVideoRef(downloadURL);
           setInputs((prev) => ({ ...prev, [urlType]: downloadURL }))

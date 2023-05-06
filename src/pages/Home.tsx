@@ -20,7 +20,6 @@ const Text = styled.div`
   margin: 25% 0 0 50%;
   transform: translate(-50%, -50%);
 `
-
 export interface videoI {
   createdAt: string;
   desc: string;

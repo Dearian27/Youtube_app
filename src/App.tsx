@@ -13,6 +13,7 @@ import AddVideo from './pages/AddVideo';
 import './App.css';
 import { useAppSelector } from './hooks';
 import Search from './pages/Search';
+import AdminPage from './pages/AdminPage';
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.bg};
@@ -51,6 +52,7 @@ const App: React.FC = () => {
                 <Route path='signin' element={<SignIn />} />
                 <Route path='signup' element={<SignUp />} />
                 <Route path='search' element={<Search />} />
+                <Route path='admin' element={<AdminPage />} />
                 <Route path="video">
                   <Route path=":id" element={<Video darkMode={darkMode} />} />
                 </Route>

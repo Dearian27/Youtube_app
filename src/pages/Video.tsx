@@ -20,7 +20,7 @@ import Recommendations from "../components/Recommendations";
 import ReactPlayer from 'react-player';
 import ShareModal from "../components/ShareModal";
 import userIconImage from "/src/assets/user.png";
-
+import numeral from 'numeraljs';
 const Container = styled.div`
     display: flex;
     gap: 24px;    
@@ -252,29 +252,30 @@ const Video: React.FC<VideoParams> = ({ darkMode }) => {
           </Title>
           <Details>
             <Info>
-              {currentVideo?.views} views • {currentVideo?.createdAt && format(currentVideo?.createdAt)}
+              {numeral(currentVideo?.views).format('0a')} views • {currentVideo?.createdAt && format(currentVideo?.createdAt)}
             </Info>
             <Buttons>
               <Button onClick={likeHandler}>
                 {currentVideo?.likes?.includes(user?._id) ?
                   <>
-                    <ThumbUpIcon style={{ fill: `${darkMode ? "white" : "black"}` }} /> {currentVideo?.likes?.length}
+                    <ThumbUpIcon style={{ fill: `${darkMode ? "white" : "black"}` }} /> {numeral(currentVideo?.likes?.length).format('0a')}
                   </>
                   :
                   <>
-                    <ThumbUpAltOutlinedIcon style={{ fill: `${darkMode ? "white" : "black"}` }} /> {currentVideo?.likes?.length}
+                    <ThumbUpAltOutlinedIcon style={{ fill: `${darkMode ? "white" : "black"}` }} /> {numeral(currentVideo?.likes?.length).format('0a')}
                   </>
                 }
               </Button>
               <Button onClick={dislikeHandler}>
                 {currentVideo?.dislikes?.includes(user?._id) ?
                   <>
-                    <ThumbDownIcon style={{ fill: `${darkMode ? "white" : "black"}` }} />{currentVideo?.dislikes?.length}
+                    <ThumbDownIcon style={{ fill: `${darkMode ? "white" : "black"}` }} />
+                    {numeral(currentVideo?.dislikes?.length).format('0a')}
                   </>
                   :
                   <>
                     <ThumbDownAltOutlinedIcon style={{ fill: `${darkMode ? "white" : "black"}` }} />
-                    {currentVideo?.dislikes?.length}
+                    {numeral(currentVideo?.dislikes?.length).format('0a')}
                   </>
                 }
               </Button>
@@ -289,7 +290,7 @@ const Video: React.FC<VideoParams> = ({ darkMode }) => {
             <ImageIcon src={userIconImage} />
             <ChannelDetail>
               <ChannelName>{currentChannel?.name || "loading..."}</ChannelName>
-              <ChannelCounter> {currentChannel?.subscribers.length} {currentChannel?.subscribers.length === 1 ? "subscriber" : "subscribers"}</ChannelCounter>
+              <ChannelCounter> {numeral(currentChannel?.subscribers.length).format('0a')} {currentChannel?.subscribers.length === 1 ? "subscriber" : "subscribers"}</ChannelCounter>
             </ChannelDetail>
           </ChannelInfo>
           <Subscribe style={{

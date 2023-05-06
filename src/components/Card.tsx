@@ -6,12 +6,11 @@ import { format } from 'timeago.js';
 import axios from "../utils/axios";
 import notFoundImg from '/src/assets/blackScreen.png';
 import userIconImage from "/src/assets/user.png";
-
+import numeral from 'numeraljs';
 
 interface layoutProps {
 	type: string;
 }
-
 const Container = styled.div<layoutProps>`
   width: ${({ type }) => type !== "sm" && '360px'};
 	margin-bottom: ${({ type }) => type === "sm" ? '10px' : '45px'};
@@ -82,7 +81,6 @@ const Info = styled.div`
 		font-size: 12px;
 	}
 `
-
 interface CardProps {
 	type: string;
 	video: videoI;
@@ -98,30 +96,23 @@ export type channelType = {
 	__v: number;
 	_id: string;
 } | null;
-
 const Card: React.FC<CardProps> = ({ type, video }) => {
-
 	const [channel, setChannel] = useState<channelType>(null);
 	const [img, setImg] = useState<string>(notFoundImg);
-
 	const fetchChannel = async () => {
 		const { data } = await axios.get(`/users/${video.userId}`);
 		setChannel(data);
 	}
-
 	useEffect(() => {
 		const img = new Image();
 		img.src = video.imgUrl;
-
 		img.onload = () => {
 			setImg(img.src);
 		};
 	}, []);
-
 	useEffect(() => {
 		fetchChannel();
 	}, [video])
-
 	return (
 		<Link to={`/video/${video._id}`} style={{ textDecoration: "none" }}>
 			<Container type={type}>
@@ -131,12 +122,15 @@ const Card: React.FC<CardProps> = ({ type, video }) => {
 					<Texts>
 						<Title>{video ? video?.title : "test video"}</Title>
 						<ChannelName>{channel?.name || "User"}</ChannelName>
-						<Info>{video.views} {video.views === 1 ? "view" : "views"} • {format(video.createdAt, "")}</Info>  {/*1 day ago */}
+						<Info>{numeral(video.views).format('0a')} {video.views === 1 ? "view" : "views"} • {format(video.createdAt, "")}</Info>  {/*1 day ago */}
 					</Texts>
 				</Details>
 			</Container>
 		</Link>
+		// var numeral = require('numeral');
+		// var num = 100000;
+		// var formattedNum = numeral(num).format('0.0a');
+		// console.log(formattedNum); // '100.0k'
 	)
 }
-
 export default Card;
