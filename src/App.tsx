@@ -14,6 +14,7 @@ import './App.css';
 import { useAppSelector } from './hooks';
 import Search from './pages/Search';
 import AdminPage from './pages/AdminPage';
+import NotFoundPage from './pages/notFoundPage';
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.bg};
@@ -56,6 +57,7 @@ const App: React.FC = () => {
                 <Route path="video">
                   <Route path=":id" element={<Video darkMode={darkMode} />} />
                 </Route>
+                <Route path='*' element={<NotFoundPage />} />
               </Route>
             </Routes>
           </ Main>
