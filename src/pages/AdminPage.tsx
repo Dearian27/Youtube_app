@@ -59,7 +59,7 @@ const AdminPage = () => {
     });
   }
   useEffect(() => {
-    if (!isAuth && user?.isAdmin) {
+    if (!isAuth || !user?.isAdmin) {
       navigate("/");
     }
     const fetchVideos = async () => {
@@ -85,16 +85,18 @@ const AdminPage = () => {
             visible={true}
           />
         </Text>
-        :
-        videos.map((video: videoType) => (
-          <CardContainer key={video?._id}>
-            <Card type="sm" key={video?._id + "0"} video={video} />
-            <Buttons>
-              <ControlPointIcon key={video?._id + "1"} onClick={() => approveVideo(video._id)} style={{ cursor: "pointer" }} />
-              <DeleteOutlineIcon key={video?._id + "2"} onClick={() => deleteVideo(video._id)} style={{ cursor: "pointer" }} />
-            </Buttons>
-          </CardContainer>
-        ))
+        : videos.length > 0 ?
+          videos.map((video: videoType) => (
+            <CardContainer key={video?._id}>
+              <Card type="sm" key={video?._id + "0"} video={video} />
+              <Buttons>
+                <ControlPointIcon key={video?._id + "1"} onClick={() => approveVideo(video._id)} style={{ cursor: "pointer" }} />
+                <DeleteOutlineIcon key={video?._id + "2"} onClick={() => deleteVideo(video._id)} style={{ cursor: "pointer" }} />
+              </Buttons>
+            </CardContainer>
+          ))
+          :
+          <Text>There are no videos to moderate.</Text>
       }
     </Container>
   )
