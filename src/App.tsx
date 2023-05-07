@@ -15,6 +15,7 @@ import { useAppSelector } from './hooks';
 import Search from './pages/Search';
 import AdminPage from './pages/AdminPage';
 import NotFoundPage from './pages/notFoundPage';
+import Library from './pages/Library';
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.bg};
@@ -52,8 +53,9 @@ const App: React.FC = () => {
                 <Route path='upload' element={<AddVideo />} />
                 <Route path='signin' element={<SignIn />} />
                 <Route path='signup' element={<SignUp />} />
-                <Route path='search' element={<Search />} />
+                <Route path='library' element={<Library />} />
                 <Route path='admin' element={<AdminPage />} />
+                <Route path='search' element={<Search />} />
                 <Route path="video">
                   <Route path=":id" element={<Video darkMode={darkMode} />} />
                 </Route>

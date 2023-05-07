@@ -6,6 +6,8 @@ import { logIn, setAuth, signInGoogle } from '../redux/slices/userSlice'
 import { useDispatch } from 'react-redux/es/exports'
 import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth'
+import { useAppSelector } from '../hooks'
+import { setError } from '../redux/slices/videosSlice'
 
 const Container = styled.div`
   display: flex;
@@ -58,7 +60,7 @@ const More = styled.div`
 
 
 const SignIn: React.FC = () => {
-
+  const { isError } = useAppSelector(state => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = React.useState<string>('');
@@ -72,7 +74,12 @@ const SignIn: React.FC = () => {
           name: result.user.displayName,
           img: result.user.photoURL
         }))
-        navigate('/');
+        if (!isError) {
+          navigate('/');
+        } else {
+          alert('Please enter a valid email and password');
+          setError(false);
+        }
       }).catch((error) => {
         console.log(error);
       })
@@ -80,16 +87,22 @@ const SignIn: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!email || !password) {
+      alert('Please enter a valid email and password');
+      return;
+    }
     try {
       dispatch(logIn({ email, password }));
-      navigate('/');
+      if (!isError) {
+        navigate('/');
+      } else {
+        alert('Please enter a valid email and password');
+        setError(false);
+      }
     } catch (error) {
       console.log(error);
-    } finally {
-      console.log('Success');
     }
   }
-
   return (
     <Container>
       <Wrapper onSubmit={handleSubmit}>

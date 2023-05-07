@@ -43,12 +43,14 @@ const Wrapper = styled.div`
   &::-webkit-scrollbar-thumb {
     background-color: ${({ theme }) => theme.theme === "light" ? "#dadada" : "#363636"};
     border-radius: 50px;
+    transition:  0.25s ease-in-out;
   }
   &::-webkit-scrollbar {
     background-color: ${({ theme }) => theme.theme === "light" ? "#ffffff" : "#1f1f1f"};
     width: 6px;
     padding: 5px;
     border-radius: 50px;
+    transition:  0.25s ease-in-out;
   }
 `
 const Item = styled.div`
@@ -75,6 +77,7 @@ const Hr = styled.hr`
   margin: 10px 26px;
 `
 const H3 = styled.h3`
+  font-size: 15px;
   margin: 0px 26px;
   font-weight: 700;
   color: ${({ theme }) => theme.textSoft};
@@ -87,7 +90,7 @@ const H4 = styled.h4`
   margin: 0px 26px;
   font-weight: 500;
   color: ${({ theme }) => theme.textSoft};
-  transition:  2s ease-in-out;
+  transition:  0.25s ease-in-out;
   margin-bottom: 10px;
   font-family: 'Poppins';
 `
@@ -155,18 +158,24 @@ const Menu: React.FC<MenuProps> = ({ darkMode }) => {
             </Item>
           </Link>
         }
-        <Hr />
-        <Item>
-          <LibraryAddIcon />Library
-        </Item>
-        <Link to="upload" style={{ textDecoration: "none" }}>
-          <Item>
-            <VideoCallOutlinedIcon />Add video
-          </Item>
-        </Link>
-        <Item>
-          <HistoryIcon />History
-        </Item>
+        {isAuth &&
+          <>
+            <Hr />
+            <Link to="library" style={{ textDecoration: "none" }}>
+              <Item>
+                <LibraryAddIcon />Library
+              </Item>
+            </Link>
+            <Link to="upload" style={{ textDecoration: "none" }}>
+              <Item>
+                <VideoCallOutlinedIcon />Add video
+              </Item>
+            </Link>
+            <Item>
+              <HistoryIcon />History
+            </Item>
+          </>
+        }
         {
           !isAuth &&
           <><Hr />
