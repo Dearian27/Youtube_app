@@ -300,18 +300,15 @@ const AddVideo: React.FC = () => {
   const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   }
-
   const changeInputs = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setInputs(prev => (
       { ...prev, [event?.target.name]: event.target.value }
     ))
   }
-
   const addTag = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     let operatedTag = inputedTag.replace(/[^a-zа-яё0-9\s]/gi, '');
     operatedTag = operatedTag[0].toLowerCase() + operatedTag.slice(1);
-
     if (!inputs.tags?.includes?.(operatedTag) && operatedTag) {
       const updTags = [...inputs.tags, operatedTag];
       setInputs(prev => (
@@ -320,14 +317,12 @@ const AddVideo: React.FC = () => {
     }
     setInputedTag('');
   }
-
   const deleteTag = (text: string) => {
     const updTags = inputs.tags.filter(tag => tag !== text);
     setInputs(prev => (
       { ...prev, tags: updTags }
     ))
   }
-
   const addSTag = (newTag: string) => {
     let updTags = inputs.tags;
     sTags.map(sTag => {
@@ -338,13 +333,11 @@ const AddVideo: React.FC = () => {
       { ...prev, tags: updTags }
     ))
   }
-
   const uploadFile = (file: any, urlType: string) => {
     const storage = getStorage(app);
     const fileName = new Date().getTime() + file.name;
     const storageRef = ref(storage, fileName);
     const uploadTask = uploadBytesResumable(storageRef, file);
-
     if (urlType === "videoUrl" && videoRef) {
       const video = ref(storage, videoRef);
       deleteObject(video).then(() => {
@@ -387,12 +380,14 @@ const AddVideo: React.FC = () => {
       }
     );
   }
-
   const handleUpload = async () => {
-    console.log(inputs?.tags)
     const res = await axios.post('/videos', inputs)
-    res.status === 200 &&
-      navigate(`/video/${res.data._id}`);
+    if (res.status === 200) {
+      alert("The video is processing.")
+      navigate("/");
+    }
+
+
 
   }
   useEffect(() => {
