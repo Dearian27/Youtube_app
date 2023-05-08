@@ -51,8 +51,8 @@ const App: React.FC = () => {
                 <Route path='subscriptions' element={<Home type="sub" />} />
                 <Route path='special' element={<Home type="special" />} />
                 <Route path='upload' element={<AddVideo />} />
-                <Route path='signin' element={<SignIn />} />
-                <Route path='signup' element={<SignUp />} />
+                <Route path='signin' element={<SignIn darkMode={darkMode} />} />
+                <Route path='signup' element={<SignUp darkMode={darkMode} />} />
                 <Route path='library' element={<Library />} />
                 <Route path='admin' element={<AdminPage />} />
                 <Route path='search' element={<Search />} />

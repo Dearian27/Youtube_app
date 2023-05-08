@@ -1,14 +1,16 @@
 import axios from '../utils/axios'
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { logIn, setAuth, signInGoogle } from '../redux/slices/userSlice'
+import { setDefaultAuth, signInGoogle } from '../redux/slices/userSlice'
 import { useDispatch } from 'react-redux/es/exports'
 import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth'
 import { useAppSelector } from '../hooks'
-import { setError } from '../redux/slices/videosSlice'
-
+import googleIcon from '../assets/google.png';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+import { Triangle } from 'react-loader-spinner'
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -36,11 +38,23 @@ const Subtitle = styled.h3`
 `
 const Input = styled.input`
   border: 1px solid ${({ theme }) => theme.hrColor};
+  color: ${({ theme }) => theme.text};
   border-radius: 3px;
   padding: 10px;
   background-color: transparent;
   width: 100%;
   font-size: 15px;
+  &.red {
+    border-color: #ff6262;
+  }
+  &:focus {
+    outline: none;
+  }
+`
+const Buttons = styled.div`
+  display: flex;
+  gap: 20px;
+  align-items: center;
 `
 const Button = styled.button`
   border-radius: 3px;
@@ -51,21 +65,39 @@ const Button = styled.button`
   cursor: pointer;
   background-color: ${({ theme }) => theme.hrColor};
   color: ${({ theme }) => theme.textSoft};
-
+  &.white {
+    background-color: inherit;
+    border: 1px solid ${({ theme }) => theme.hrColor};
+    border-radius: 50px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`
+const Icon = styled.img`
+  height: 28px;
 `
 const More = styled.div`
   align-self: start;
   color: ${({ theme }) => theme.text};
 `
-
-
-const SignIn: React.FC = () => {
-  const { isError } = useAppSelector(state => state.user);
+const AbsoluteLoader = styled.div`
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+`
+type signInParams = {
+  darkMode: boolean;
+}
+const SignIn: React.FC<signInParams> = ({ darkMode }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
-
+  const pswdRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
   const signInWithGoogle = async () => {
     signInWithPopup(auth, provider)
       .then(async (result: any) => {
@@ -74,12 +106,7 @@ const SignIn: React.FC = () => {
           name: result.user.displayName,
           img: result.user.photoURL
         }))
-        if (!isError) {
-          navigate('/');
-        } else {
-          alert('Please enter a valid email and password');
-          setError(false);
-        }
+        navigate('/');
       }).catch((error) => {
         console.log(error);
       })
@@ -88,33 +115,58 @@ const SignIn: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!email || !password) {
-      alert('Please enter a valid email and password');
+      toast.error("Please enter an email and password.");
       return;
     }
     try {
-      dispatch(logIn({ email, password }));
-      if (!isError) {
-        navigate('/');
-      } else {
-        alert('Please enter a valid email and password');
-        setError(false);
+      setIsLoading(true);
+      const res = await axios.post('/auth/signin', { email, password });
+      setIsLoading(false);
+      setDefaultAuth(res.data);
+      navigate('/');
+    } catch (error: any) {
+      setIsLoading(false);
+      if (error?.response?.data?.reason === 'email') {
+        toast.error("User not found!");
+        pswdRef.current!.classList.remove("red");
+        emailRef.current!.classList.add("red");
+        emailRef.current!.focus();
       }
-    } catch (error) {
-      console.log(error);
+      if (error?.response?.data?.reason === 'password') {
+        toast.error("Wrong password!");
+        emailRef.current!.classList.remove("red");
+        pswdRef.current!.classList.add("red");
+        pswdRef.current!.focus();
+      }
     }
   }
   return (
     <Container>
       <Wrapper onSubmit={handleSubmit}>
         <Title>Sign In</Title>
-        <Subtitle>Wellcome to Metube!</Subtitle>
-        <Input value={email} onChange={(event) => setEmail(event.target.value)} type='email' placeholder='email' />
-        <Input value={password} onChange={(event) => setPassword(event.target.value)} type='password' placeholder='password' />
+        <Subtitle>We are really happy to see you again!</Subtitle>
+        <Input ref={emailRef} value={email} onChange={(event) => setEmail(event.target.value)} type='email' placeholder='email' />
+        <Input ref={pswdRef} value={password} onChange={(event) => setPassword(event.target.value)} type='password' placeholder='password' />
         <Subtitle>Have no <Link style={{ color: "lightblue" }} to="/signup">account</Link>?</Subtitle>
-        <Button type='submit'>Sign in</Button>
-        <Button type='button' onClick={signInWithGoogle}>Sign in with Google</Button>
+        <Buttons>
+          <Button type='submit'>Sign in</Button>
+          <Button className="white" type='button' onClick={signInWithGoogle}><Icon src={googleIcon} alt="googleauth" /></Button>
+        </Buttons>
         <More>English(USA)</More>
       </Wrapper>
+      <ToastContainer theme={darkMode ? "dark" : "light"} position="bottom-center" />
+      {isLoading &&
+        <AbsoluteLoader>
+          <Triangle
+            height="50"
+            width="50"
+            color="#F44336"
+            ariaLabel="triangle-loading"
+            wrapperStyle={{ justifyContent: "center" }}
+            visible={true}
+          />
+        </AbsoluteLoader>
+      }
     </Container>
   )
 }

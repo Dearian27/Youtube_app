@@ -60,6 +60,11 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    setDefaultAuth: (state, action: PayloadAction<boolean>) => {
+      state.user = action.payload;
+      state.isAuth = true;
+      state.isLoading = false;
+    },
     setDarkMode: (state, action: PayloadAction<boolean>) => {
       state.darkMode = action.payload
     },
@@ -86,10 +91,8 @@ const userSlice = createSlice({
         state.user.subscribedUsers = [];
         state.user.subscribedUsers.push(action.payload);
       } else {
-        console.log("push")
         state.user?.subscribedUsers?.push(action.payload);
       }
-      console.log(state.user.subscribedUsers)
     },
     setUnsubscribe: (state, action: PayloadAction<string>) => {  
       state.user.subscribedUsers = state.user.subscribedUsers.filter(
@@ -138,5 +141,5 @@ const userSlice = createSlice({
   }
 })
 
-export const { setAuth, setSubscribe, setUnsubscribe, LogOut, setSpecialTag, setDarkMode } = userSlice.actions;
+export const { setAuth, setSubscribe, setUnsubscribe, LogOut, setSpecialTag, setDarkMode, setDefaultAuth } = userSlice.actions;
 export default userSlice.reducer;

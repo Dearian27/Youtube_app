@@ -109,11 +109,6 @@ const Description = styled.div`
     font-size: 13px;
 	}
 `
-// background-color: "#dfdfdf";
-// color: "#bbbbbb";
-
-// background-color: "#cc1a00";
-// color: "#fff";
 const Subscribe = styled.button`
   font-weight: 700;
   border: none;
@@ -155,7 +150,7 @@ const Video: React.FC<VideoParams> = ({ darkMode }) => {
       navigate('/signin')
       return;
     };
-    if (user && isAuth && user?._id !== currentChannel?._id) {
+    if (user?._id !== currentChannel?._id) {
       if (currentChannel.subscribers.includes(user._id)) {
         try {
           const res = await axios.put(`/users/unsubscribe/${currentChannel._id}`);
@@ -220,7 +215,7 @@ const Video: React.FC<VideoParams> = ({ darkMode }) => {
 
   useEffect(() => {
     dispatch(fetchVideoData(id));
-  }, [id, dispatch])
+  }, [id])
 
   return (
     <Container>
@@ -294,8 +289,8 @@ const Video: React.FC<VideoParams> = ({ darkMode }) => {
             </ChannelDetail>
           </ChannelInfo>
           <Subscribe style={{
-            backgroundColor: `${user?._id === currentChannel?._id || currentChannel?.subscribers?.includes(user?._id) ? "#dfdfdf" : "#cc1a00"}`,
-            color: `${user?._id === currentChannel?._id || currentChannel?.subscribers?.includes(user?._id) ? "#bbbbbb" : "#fff"}`,
+            backgroundColor: `${user?._id === currentChannel?._id || user?.subscribedUsers?.includes(currentChannel?._id) ? "#dfdfdf" : "#cc1a00"}`,
+            color: `${user?._id === currentChannel?._id || currentChannel?.subscribers?.includes(user?._id) ? "#727272" : "#fff"}`,
           }} onClick={subscribeHandler}>
             {user?._id === currentChannel?._id ? "Your" : user?.subscribedUsers?.includes(currentChannel?._id) ? "Subscribed" : "Subscribe"}
           </Subscribe>
