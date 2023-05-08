@@ -2494,6 +2494,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
   border-radius: 3px;
   padding: 10px;
   background-color: transparent;
+  transition: border 0.25s ease-in-out;
   width: 100%;
   font-size: 15px;
   &.red {
@@ -2517,15 +2518,18 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
   color: ${({theme:e})=>e.textSoft};
   &.white {
     background-color: inherit;
-    border: 1px solid ${({theme:e})=>e.hrColor};
     border-radius: 50px;
     padding: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: 0.35s ease-in-out;
+    &:hover {
+      transform: scale(110%, 110%);
+    }
   }
 `,b9=V.img`
-  height: 28px;
+  height: 36px;
 `,S9=V.div`
   align-self: start;
   color: ${({theme:e})=>e.text};
@@ -2556,6 +2560,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
 `,nl=V.input`
   border: 1px solid ${({theme:e})=>e.hrColor};
   color: ${({theme:e})=>e.text};
+  transition: border 0.25s ease-in-out;
   border-radius: 3px;
   padding: 10px;
   background-color: transparent;
