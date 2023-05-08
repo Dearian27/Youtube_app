@@ -34,6 +34,7 @@ const Subtitle = styled.h3`
 const Input = styled.input`
   border: 1px solid ${({ theme }) => theme.hrColor};
   color: ${({ theme }) => theme.text};
+  transition: border 0.25s ease-in-out;
   border-radius: 3px;
   padding: 10px;
   background-color: transparent;

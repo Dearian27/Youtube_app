@@ -42,6 +42,7 @@ const Input = styled.input`
   border-radius: 3px;
   padding: 10px;
   background-color: transparent;
+  transition: border 0.25s ease-in-out;
   width: 100%;
   font-size: 15px;
   &.red {
@@ -67,16 +68,19 @@ const Button = styled.button`
   color: ${({ theme }) => theme.textSoft};
   &.white {
     background-color: inherit;
-    border: 1px solid ${({ theme }) => theme.hrColor};
     border-radius: 50px;
     padding: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: 0.35s ease-in-out;
+    &:hover {
+      transform: scale(110%, 110%);
+    }
   }
 `
 const Icon = styled.img`
-  height: 28px;
+  height: 36px;
 `
 const More = styled.div`
   align-self: start;
