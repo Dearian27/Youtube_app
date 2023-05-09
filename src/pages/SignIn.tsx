@@ -126,7 +126,7 @@ const SignIn: React.FC<signInParams> = ({ darkMode }) => {
       setIsLoading(true);
       const res = await axios.post('/auth/signin', { email, password });
       setIsLoading(false);
-      setDefaultAuth(res.data);
+      dispatch(setDefaultAuth(res.data));
       navigate('/');
     } catch (error: any) {
       setIsLoading(false);
