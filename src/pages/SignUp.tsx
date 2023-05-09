@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { setDefaultAuth, signUp } from '../redux/slices/userSlice'
+import { setDefaultAuth, setSignUp } from '../redux/slices/userSlice'
 import 'react-toastify/dist/ReactToastify.min.css';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from '../utils/axios';
@@ -83,7 +83,6 @@ const SignUp: React.FC<signUpParams> = ({ darkMode }) => {
   const pswdRef = useRef<HTMLInputElement>(null);
   const confPswdRef = useRef<HTMLInputElement>(null);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    console.log("Sign")
     event.preventDefault();
     if (!email || !password || !name || !confirmP) {
       toast.error("Please enter all fields.");
@@ -100,9 +99,12 @@ const SignUp: React.FC<signUpParams> = ({ darkMode }) => {
     try {
       setIsLoading(true);
       const res = await axios.post('/auth/signup', { name, email, password });
+      console.log(res.status);
+      // console.log(res.data);
       setIsLoading(false);
       if (res.status === 200) {
-        setDefaultAuth(res.data.newUser);
+        // console.log(res.data.newUser);
+        dispatch(setSignUp(res.data.newUser));
         navigate('/');
       }
     } catch (error: any) {
