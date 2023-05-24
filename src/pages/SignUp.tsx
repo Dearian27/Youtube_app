@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { setDefaultAuth, setSignUp } from '../redux/slices/userSlice'
+import { setAuth } from '../redux/slices/userSlice'
 import 'react-toastify/dist/ReactToastify.min.css';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from '../utils/axios';
@@ -99,14 +99,10 @@ const SignUp: React.FC<signUpParams> = ({ darkMode }) => {
     try {
       setIsLoading(true);
       const res = await axios.post('/auth/signup', { name, email, password });
-      console.log(res.status);
-      // console.log(res.data);
       setIsLoading(false);
-      if (res.status === 200) {
-        // console.log(res.data.newUser);
-        dispatch(setSignUp(res.data.newUser));
-        navigate('/');
-      }
+      window.localStorage.setItem('token', res.data.token);
+      dispatch(setAuth(res.data.user));
+      navigate('/');
     } catch (error: any) {
       setIsLoading(false);
       if (error?.response?.data?.reason === 'user') {

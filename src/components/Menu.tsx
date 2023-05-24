@@ -46,7 +46,9 @@ const Wrapper = styled.div`
     transition:  0.25s ease-in-out;
   }
   &::-webkit-scrollbar {
-    background-color: ${({ theme }) => theme.theme === "light" ? "#ffffff" : "#1f1f1f"};
+    background-color: inherit;
+    background-color: none;
+    /* background-color: ${({ theme }) => theme.theme === "light" ? "#ffffff" : "#1f1f1f"}; */
     width: 6px;
     padding: 5px;
     border-radius: 50px;
@@ -126,10 +128,7 @@ const Menu: React.FC<MenuProps> = ({ darkMode }) => {
   const navigate = useNavigate();
   const logOutHandler = () => {
     LogOut();
-    // Видаляємо cookies за допомогою document.cookie
-    document.cookie.split(';').forEach((c) => {
-      document.cookie = c.replace(/^ +/, '').replace(/=.*/, `=;expires=${new Date(0).toUTCString()};path=/`);
-    });
+    window.localStorage.removeItem('token');
     persistor.purge();
     navigate('/');
     window.location.reload()

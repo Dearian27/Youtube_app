@@ -180,7 +180,7 @@ const videosSlice = createSlice({
       state.isError = true;
     },
     [addComment.fulfilled]: (state:any, action:PayloadAction<any>) => {
-      state.comments.unshift(action.payload);
+      state.comments?.unshift(action.payload);
     },
     [addComment.rejected]: (state: any, action:PayloadAction<any>) => {
       state.isError = true;

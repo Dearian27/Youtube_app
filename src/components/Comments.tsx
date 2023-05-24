@@ -82,7 +82,7 @@ const Comments = () => {
   const [commentText, setCommentText] = useState("");
   const { comments } = useSelector((state: RootState) => state.video)
   const getComments = () => {
-    dispatch(fetchCommentsData(params.id));
+    dispatch(fetchCommentsData(params?.id));
   }
   const createComment = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

@@ -6,8 +6,6 @@ import ReplyIcon from '@mui/icons-material/Reply';
 
 const ShareModal = () => {
   const [isOpen, setIsOpen] = useState(false);
-  // const location = useLocation();
-  // const url = location.pathname;
   const url = window.location.href;
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);

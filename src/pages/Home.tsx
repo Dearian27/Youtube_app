@@ -7,12 +7,10 @@ import { Triangle } from "react-loader-spinner";
 
 const Container = styled.div`
   display: flex;
-  /* justify-content: space-between; */
   background-color: ${({ theme }) => theme.bg};
   transition: background-color 0.25s ease-in-out;
   flex-wrap: wrap;
   column-gap: 20px;
-  /* position: absolute; */
 `
 const Text = styled.div`
   font-size: 25px;
@@ -62,14 +60,16 @@ const Home: React.FC<HomePropsI> = ({ type }) => {
     fetchVideos();
     setIsLoading(true);
   }, [type, specialTag])
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <Container>
       {isLoading ?
         <Text>
           <Triangle
-            height="80"
-            width="80"
+            height="70"
+            width="70"
             color="#F44336"
             ariaLabel="triangle-loading"
             wrapperStyle={{}}

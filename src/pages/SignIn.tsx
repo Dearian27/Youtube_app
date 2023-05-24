@@ -2,7 +2,7 @@ import axios from '../utils/axios'
 import React, { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { setDefaultAuth, signInGoogle } from '../redux/slices/userSlice'
+import { setAuth, signInGoogle } from '../redux/slices/userSlice'
 import { useDispatch } from 'react-redux/es/exports'
 import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth'
@@ -11,6 +11,7 @@ import googleIcon from '../assets/google.png';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { Triangle } from 'react-loader-spinner'
+
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -27,7 +28,6 @@ const Wrapper = styled.form`
   gap: 10px; 
   width: 350px;
 `
-
 const Title = styled.h1`
   font-size: 30px;
   font-weight: 900;
@@ -91,6 +91,7 @@ const AbsoluteLoader = styled.div`
   bottom: 50px;
   right: 50px;
 `
+
 type signInParams = {
   darkMode: boolean;
 }
@@ -102,6 +103,7 @@ const SignIn: React.FC<signInParams> = ({ darkMode }) => {
   const [password, setPassword] = React.useState<string>('');
   const pswdRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
+
   const signInWithGoogle = async () => {
     signInWithPopup(auth, provider)
       .then(async (result: any) => {
@@ -111,6 +113,7 @@ const SignIn: React.FC<signInParams> = ({ darkMode }) => {
           img: result.user.photoURL
         }))
         navigate('/');
+        window.localStorage.setItem('token', result.token);
       }).catch((error) => {
         console.log(error);
       })
@@ -125,8 +128,9 @@ const SignIn: React.FC<signInParams> = ({ darkMode }) => {
     try {
       setIsLoading(true);
       const res = await axios.post('/auth/signin', { email, password });
+      window.localStorage.setItem('token', res.data.token);
       setIsLoading(false);
-      dispatch(setDefaultAuth(res.data));
+      dispatch(setAuth(res.data.user));
       navigate('/');
     } catch (error: any) {
       setIsLoading(false);
@@ -142,8 +146,10 @@ const SignIn: React.FC<signInParams> = ({ darkMode }) => {
         pswdRef.current!.classList.add("red");
         pswdRef.current!.focus();
       }
+      toast.error("Something went wrong.");
     }
   }
+
   return (
     <Container>
       <Wrapper onSubmit={handleSubmit}>

@@ -21,8 +21,7 @@ const Container = styled.div`
   background-color: ${({ theme }) => theme.bg};
   background-color: #101010;
   display: flex;
-  `
-
+`
 const Main = styled.div`
   flex: 7;
   background-color: ${({ theme }) => theme.bg};
