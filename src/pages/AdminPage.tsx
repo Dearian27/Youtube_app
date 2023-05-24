@@ -33,7 +33,11 @@ const Text = styled.div`
   margin: 25% 0 0 50%;
   transform: translate(-50%, -50%);
 `
-const AdminPage = () => {
+type adminPageParams = {
+  darkMode: boolean
+}
+
+const AdminPage: React.FC<adminPageParams> = ({ darkMode }) => {
   const storage = getStorage(app);
   const { isAuth, user } = useAppSelector(state => state.user);
   const navigate = useNavigate();
@@ -90,8 +94,20 @@ const AdminPage = () => {
             <CardContainer key={video?._id}>
               <Card type="sm" key={video?._id + "0"} video={video} />
               <Buttons>
-                <ControlPointIcon key={video?._id + "1"} onClick={() => approveVideo(video._id)} style={{ cursor: "pointer" }} />
-                <DeleteOutlineIcon key={video?._id + "2"} onClick={() => deleteVideo(video._id)} style={{ cursor: "pointer" }} />
+                <ControlPointIcon
+                  key={video?._id + "1"} onClick={() => approveVideo(video._id)}
+                  style={{
+                    cursor: "pointer",
+                    fill: `${darkMode ? "white" : "black"}`
+                  }}
+                />
+                <DeleteOutlineIcon
+                  key={video?._id + "2"} onClick={() => deleteVideo(video._id)}
+                  style={{
+                    cursor: "pointer",
+                    fill: `${darkMode ? "white" : "black"}`
+                  }}
+                />
               </Buttons>
             </CardContainer>
           ))

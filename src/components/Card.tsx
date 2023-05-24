@@ -127,10 +127,6 @@ const Card: React.FC<CardProps> = ({ type, video }) => {
 				</Details>
 			</Container>
 		</Link>
-		// var numeral = require('numeral');
-		// var num = 100000;
-		// var formattedNum = numeral(num).format('0.0a');
-		// console.log(formattedNum); // '100.0k'
 	)
 }
 export default Card;
