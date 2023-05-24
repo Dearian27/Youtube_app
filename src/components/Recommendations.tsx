@@ -15,7 +15,7 @@ type RecommendationsParams = {
 const Recommendations: React.FC<RecommendationsParams> = ({ tags, videoId }) => {
   const [videos, setVideos] = useState([]);
   const fetchVideos = async () => {
-    const res = await axios.post(`/videos/tags?tags=${tags}`, { videoId });
+    const res = await axios.post(`/videos/tags?tags=${tags ? tags : ""}`, { videoId });
     if (res.status === 200) setVideos(res.data)
   }
   useEffect(() => {

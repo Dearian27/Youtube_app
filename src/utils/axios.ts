@@ -7,18 +7,16 @@ const instance = axios.create({
   headers: {
     'Cache-Control': 'no-cache',
     'Pragma': 'no-cache',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Content-Type': 'application/json',
   },
 })
 
 instance.interceptors.request.use((config) => {
-  config.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+  config.headers['Authorization'] = `Bearer ${window.localStorage.getItem('token')}`;
   return config;
 },
   error => {
+    console.log("ERROr", error)
     return Promise.reject(error);
   }
 );

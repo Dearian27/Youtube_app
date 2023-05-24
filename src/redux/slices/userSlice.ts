@@ -28,7 +28,8 @@ export const signInGoogle: any = createAsyncThunk("/auth/google",
       if(data) {
         setAuth(true);
       }
-      return data;
+      window.localStorage.setItem('token', data.token);
+      return data.user;
     }catch(error) {
       console.log(error)
     }
@@ -130,7 +131,7 @@ const userSlice = createSlice({
       state.isLoading = true;
     },
     [signInGoogle.fulfilled]: (state:any, action:PayloadAction<any>) => {
-      state.user = action.payload.user;
+      state.user = action.payload;
       state.isAuth = true;
       state.isLoading = false;
     },

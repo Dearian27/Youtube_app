@@ -107,13 +107,14 @@ const SignIn: React.FC<signInParams> = ({ darkMode }) => {
   const signInWithGoogle = async () => {
     signInWithPopup(auth, provider)
       .then(async (result: any) => {
+        console.log(result);
+
         dispatch(signInGoogle({
           email: result.user.email,
           name: result.user.displayName,
           img: result.user.photoURL
         }))
         navigate('/');
-        window.localStorage.setItem('token', result.token);
       }).catch((error) => {
         console.log(error);
       })
